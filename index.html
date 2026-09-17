@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Matylda House - Welcome Screen</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-dark: #0d120d;
+            --card-bg: rgba(22, 32, 23, 0.75);
+            --card-border: rgba(74, 222, 128, 0.18);
+            --primary-green: #34d399;
+            --accent-green: #10b981;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --radius: 24px;
+            --shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-user-select: none;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background: radial-gradient(circle at 50% 20%, #172618 0%, #080c08 100%);
+            color: var(--text-main);
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 36px;
+        }
+
+        /* HEADER */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .weather-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            backdrop-filter: blur(12px);
+            padding: 12px 24px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            box-shadow: var(--shadow);
+        }
+
+        .weather-icon {
+            font-size: 1.8rem;
+        }
+
+        .weather-temp {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary-green);
+        }
+
+        .weather-loc {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .clock-card {
+            text-align: right;
+        }
+
+        .clock-time {
+            font-size: 3.2rem;
+            font-weight: 800;
+            color: var(--text-main);
+            letter-spacing: -1px;
+            line-height: 1;
+        }
+
+        .clock-date {
+            font-size: 0.9rem;
+            color: var(--primary-green);
+            font-weight: 500;
+            margin-top: 4px;
+            text-transform: capitalize;
+        }
+
+        /* HERO LOGO AREA */
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            margin-top: -10px;
+        }
+
+        .logo-img {
+            height: 180px;
+            width: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.6));
+            transition: transform 0.2s ease;
+            cursor: pointer;
+        }
+
+        .logo-img:active {
+            transform: scale(0.96);
+        }
+
+        .welcome-title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffffff 0%, #a7f3d0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-top: 12px;
+            margin-bottom: 6px;
+        }
+
+        .welcome-sub {
+            font-size: 1.05rem;
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        /* GRID MENU */
+        .grid-menu {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            width: 100%;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            backdrop-filter: blur(16px);
+            border-radius: var(--radius);
+            padding: 22px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .card:active {
+            transform: translateY(3px) scale(0.98);
+            background: rgba(30, 48, 32, 0.9);
+            border-color: var(--primary-green);
+        }
+
+        .card-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 16px;
+            background: rgba(52, 211, 153, 0.12);
+            color: var(--primary-green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .card-icon svg {
+            width: 26px;
+            height: 26px;
+            fill: currentColor;
+        }
+
+        .card-info h3 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 3px;
+        }
+
+        .card-info p {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+        }
+
+        /* MODAL */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(10px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        .modal-box {
+            background: #141d14;
+            border: 1px solid var(--card-border);
+            width: 90%;
+            max-width: 560px;
+            border-radius: 28px;
+            padding: 32px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+            animation: modalIn 0.2s ease-out;
+            color: var(--text-main);
+        }
+
+        @keyframes modalIn {
+            from { transform: scale(0.92); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 14px;
+        }
+
+        .modal-header h2 {
+            font-size: 1.4rem;
+            color: var(--primary-green);
+        }
+
+        .close-btn {
+            background: rgba(255,255,255,0.1);
+            border: none;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            color: var(--text-main);
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        .pill-info {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255,255,255,0.08);
+            padding: 14px 18px;
+            border-radius: 14px;
+            margin-top: 10px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .btn-action {
+            background: var(--accent-green);
+            color: #ffffff;
+            border: none;
+            width: 100%;
+            padding: 14px;
+            border-radius: 14px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            margin-top: 16px;
+            cursor: pointer;
+        }
+
+        .btn-action:active {
+            opacity: 0.85;
+        }
+
+        /* TOAST */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--accent-green);
+            color: white;
+            padding: 12px 28px;
+            border-radius: 30px;
+            font-weight: 600;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 200;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- PASEK GÓRNY -->
+    <header>
+        <div class="weather-card">
+            <span class="weather-icon" id="w-icon">🌤️</span>
+            <div>
+                <div class="weather-temp" id="w-temp">--°C</div>
+                <div class="weather-loc">Kraków • Swoszowice</div>
+            </div>
+        </div>
+
+        <div class="clock-card">
+            <div class="clock-time" id="clock">00:00</div>
+            <div class="clock-date" id="date">Ładowanie...</div>
+        </div>
+    </header>
+
+    <!-- LOGO ORAZ POWITANIE -->
+    <div class="hero">
+        <!-- Obraz Logo z pliku logo.png -->
+        <img src="logo.png" alt="Matylda House Logo" class="logo-img" onclick="openModal('modal-about')" onerror="this.style.display='none'; document.getElementById('alt-logo').style.display='block';">
+        
+        <!-- Fallback jeśli obraz jeszcze nie został wgrany -->
+        <div id="alt-logo" style="display:none; font-size:2rem; font-weight:800; color:var(--primary-green); margin-bottom:10px;">
+            MATYLDA HOUSE
+        </div>
+
+        <h1 class="welcome-title" id="greeting">Witamy w Matylda House</h1>
+        <p class="welcome-subtitle">Życzymy udanego i wypoczynkowego pobytu</p>
+    </div>
+
+    <!-- KAFELKI INTERAKTYWNE -->
+    <div class="grid-menu">
+        
+        <!-- Kafel 1: Wi-Fi -->
+        <div class="card" onclick="openModal('modal-wifi')">
+            <div class="card-icon">
+                <svg viewBox="0 0 24 24"><path d="M12 3C7.95 3 4.21 4.34 1.2 6.6L3 9C5.5 7.12 8.62 6 12 6C15.38 6 18.5 7.12 21 9L22.8 6.6C19.79 4.34 16.05 3 12 3M12 9C9.3 9 6.81 9.89 4.8 11.4L6.6 13.8C8.1 12.67 9.97 12 12 12C14.03 12 15.9 12.67 17.4 13.8L19.2 11.4C17.19 9.89 14.7 9 12 9M12 15C10.65 15 9.4 15.45 8.4 16.2L12 21L15.6 16.2C14.6 15.45 13.35 15 12 15Z"/></svg>
+            </div>
+            <div class="card-info">
+                <h3>Wi-Fi</h3>
+                <p>Szybki internet</p>
+            </div>
+        </div>
+
+        <!-- Kafel 2: Adres i Dostawa -->
+        <div class="card" onclick="openModal('modal-food')">
+            <div class="card-icon">
+                <svg viewBox="0 0 24 24"><path d="M12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12C20,14.82 18.5,17.28 16.27,18.59 C15.61,17.5 14.39,16.78 13,16.78H11C9.61,16.78 8.39,17.5 7.73,18.59C5.5,17.28 4,14.82 4,12A8,8 0 0,1 12,4Z"/></svg>
+            </div>
+            <div class="card-info">
+                <h3>Zamów Jedzenie</h3>
+                <p>Adres dostawy</p>
+            </div>
+        </div>
+
+        <!-- Kafel 3: Informacje / Regulamin -->
+        <div class="card" onclick="openModal('modal-rules')">
+            <div class="card-icon">
+                <svg viewBox="0 0 24 24"><path d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11V17Z"/></svg>
+            </div>
+            <div class="card-info">
+                <h3>Regulamin</h3>
+                <p>Zasady i doba</p>
+            </div>
+        </div>
+
+        <!-- Kafel 4: Przewodnik -->
+        <div class="card" onclick="openModal('modal-guide')">
+            <div class="card-icon">
+                <svg viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4M11,7V13H17V11.5H12.5V7H11Z"/></svg>
+            </div>
+            <div class="card-info">
+                <h3>Odkryj Kraków</h3>
+                <p>Atrakcje w okolicy</p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- MODALE -->
+
+    <!-- Modal Wi-Fi -->
+    <div id="modal-wifi" class="modal-overlay" onclick="closeModalOnBg(event, 'modal-wifi')">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h2>Sieć Wi-Fi</h2>
+                <button class="close-btn" onclick="closeModal('modal-wifi')">&times;</button>
+            </div>
+            <div class="pill-info">📶 <b>Nazwa sieci:</b> MatyldaHouse_WiFi</div>
+            <div class="pill-info">🔑 <b>Hasło:</b> Matylda2026</div>
+            <button class="btn-action" onclick="copyText('Matylda2026', 'Skopiowano hasło Wi-Fi!')">Kopiuj Hasło</button>
+        </div>
+    </div>
+
+    <!-- Modal Dostawa -->
+    <div id="modal-food" class="modal-overlay" onclick="closeModalOnBg(event, 'modal-food')">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h2>Zamów Jedzenie do Apartamentu</h2>
+                <button class="close-btn" onclick="closeModal('modal-food')">&times;</button>
+            </div>
+            <p style="color: var(--text-muted); margin-bottom: 10px;">Podaj ten adres podczas zamawiania na Pyszne.pl lub UberEats:</p>
+            <div class="pill-info">📍 <b>Adres dostawy:</b><br>ul. Landaua 12, Kraków</div>
+            <button class="btn-action" onclick="copyText('ul. Landaua 12, Kraków', 'Skopiowano adres do schowka!')">Kopiuj Adres Dostawy</button>
+        </div>
+    </div>
+
+    <!-- Modal Regulamin -->
+    <div id="modal-rules" class="modal-overlay" onclick="closeModalOnBg(event, 'modal-rules')">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h2>Wskazówki dla Gości</h2>
+                <button class="close-btn" onclick="closeModal('modal-rules')">&times;</button>
+            </div>
+            <div class="pill-info">⏰ <b>Wymeldowanie:</b> Do godziny 11:00</div>
+            <div class="pill-info">🌙 <b>Cisza nocna:</b> 22:00 – 06:00</div>
+            <div class="pill-info">🚭 <b>Zakaz palenia:</b> Palenie wewnątrz jest zabronione.</div>
+            <div class="pill-info">♻️ <b>Segregacja:</b> Pojemniki na śmieci znajdują się przy bramie wyjazdowej.</div>
+        </div>
+    </div>
+
+    <!-- Modal Przewodnik -->
+    <div id="modal-guide" class="modal-overlay" onclick="closeModalOnBg(event, 'modal-guide')">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h2>Rekomendacje</h2>
+                <button class="close-btn" onclick="closeModal('modal-guide')">&times;</button>
+            </div>
+            <div class="pill-info">🌳 <b>Park Zdrojowy w Swoszowicach:</b> Kameralne miejsce na spacer tuż obok.</div>
+            <div class="pill-info">🏰 <b>Rynek Główny & Wawel:</b> Ok. 20 minut jazdy samochodem lub autobusem.</div>
+            <div class="pill-info">⛏️ <b>Kopalnia Soli Wieliczka:</b> Ok. 15 minut trasą obwodową.</div>
+        </div>
+    </div>
+
+    <!-- Modal O Obiekcie -->
+    <div id="modal-about" class="modal-overlay" onclick="closeModalOnBg(event, 'modal-about')">
+        <div class="modal-box" style="text-align: center;">
+            <div class="modal-header">
+                <h2>Matylda House</h2>
+                <button class="close-btn" onclick="closeModal('modal-about')">&times;</button>
+            </div>
+            <p style="margin-top:10px; line-height:1.6; color:var(--text-muted);">
+                Witaj w naszym apartamencie! Zrobiliśmy wszystko, aby Twój pobyt w Krakowie był wyjątkowy i komfortowy.<br><br>
+                <i>"You are welcome"</i>
+            </p>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">Komunikat</div>
+
+    <script>
+        // ZEGAR REAL-TIME
+        function updateClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            document.getElementById('clock').textContent = `${hours}:${minutes}`;
+
+            const options = { weekday: 'long', day: 'numeric', month: 'long' };
+            document.getElementById('date').textContent = now.toLocaleDateString('pl-PL', options);
+
+            const h = now.getHours();
+            const greetingEl = document.getElementById('greeting');
+            if (h >= 5 && h < 12) greetingEl.textContent = "Dzień dobry! Witamy w Matylda House";
+            else if (h >= 12 && h < 18) greetingEl.textContent = "Witamy w Matylda House";
+            else greetingEl.textContent = "Dobry wieczór! Witamy w Matylda House";
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // POGODA Z OPEN-METEO
+        async function fetchWeather() {
+            try {
+                const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=50.0035&longitude=19.9405&current_weather=true');
+                const data = await res.json();
+                const temp = Math.round(data.current_weather.temperature);
+                const code = data.current_weather.weathercode;
+
+                document.getElementById('w-temp').textContent = `${temp}°C`;
+                let icon = "🌤️";
+                if (code === 0) icon = "☀️";
+                else if (code >= 1 && code <= 3) icon = "⛅";
+                else if (code >= 45 && code <= 48) icon = "🌫️";
+                else if (code >= 51 && code <= 67) icon = "🌧️";
+                else if (code >= 71) icon = "❄️";
+                document.getElementById('w-icon').textContent = icon;
+            } catch (e) {
+                document.getElementById('w-temp').textContent = "18°C";
+            }
+        }
+        fetchWeather();
+        setInterval(fetchWeather, 600000);
+
+        // MODALE
+        function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+        function closeModalOnBg(event, id) {
+            if (event.target.classList.contains('modal-overlay')) closeModal(id);
+        }
+
+        // KOPIOWANIE I TOAST
+        function copyText(text, msg) {
+            navigator.clipboard.writeText(text).then(() => showToast(msg)).catch(() => {
+                const ta = document.createElement('textarea');
+                ta.value = text;
+                document.body.appendChild(ta);
+                ta.select();
+                document.execCommand('copy');
+                document.body.removeChild(ta);
+                showToast(msg);
+            });
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+    </script>
+</body>
+</html>
