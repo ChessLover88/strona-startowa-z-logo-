@@ -11,14 +11,14 @@
     <style>
         :root {
             --bg-dark: #0d120d;
-            --card-bg: rgba(22, 32, 23, 0.75);
-            --card-border: rgba(74, 222, 128, 0.18);
+            --card-bg: rgba(22, 32, 23, 0.78);
+            --card-border: rgba(74, 222, 128, 0.22);
             --primary-green: #34d399;
             --accent-green: #10b981;
             --text-main: #f3f4f6;
             --text-muted: #9ca3af;
-            --radius: 24px;
-            --shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            --radius: 20px;
+            --shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
         }
 
         * {
@@ -39,57 +39,128 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            padding: 16px 32px 28px 32px;
+            padding: 16px 28px 20px 28px;
         }
 
-        /* HEADER */
+        /* EKRAN WYBORU JĘZYKA (SPLASH) */
+        .lang-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(8, 12, 8, 0.94);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .lang-box {
+            text-align: center;
+            max-width: 720px;
+            width: 90%;
+        }
+
+        .lang-title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--primary-green);
+            margin-bottom: 8px;
+        }
+
+        .lang-sub {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-bottom: 30px;
+        }
+
+        .lang-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .lang-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 18px 12px;
+            border-radius: var(--radius);
+            color: var(--text-main);
+            font-size: 1.15rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            transition: all 0.2s ease;
+        }
+
+        .lang-btn:active {
+            transform: scale(0.96);
+            background: rgba(52, 211, 153, 0.2);
+            border-color: var(--primary-green);
+        }
+
+        .flag {
+            font-size: 1.8rem;
+        }
+
+        /* PASEK GÓRNY */
         header {
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
+            align-items: center;
             width: 100%;
             z-index: 10;
         }
 
-        .weather-card {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            backdrop-filter: blur(12px);
-            padding: 10px 20px;
-            border-radius: 50px;
+        .top-left-group {
             display: flex;
             align-items: center;
             gap: 12px;
+        }
+
+        .weather-card, .lang-switch-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            backdrop-filter: blur(12px);
+            padding: 8px 18px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
             box-shadow: var(--shadow);
         }
 
-        .weather-icon {
-            font-size: 1.6rem;
-        }
-
-        .weather-temp {
-            font-size: 1.3rem;
-            font-weight: 700;
+        .lang-switch-btn {
+            cursor: pointer;
             color: var(--primary-green);
+            font-weight: 700;
+            font-size: 0.9rem;
         }
 
-        .weather-loc {
-            font-size: 0.75rem;
-            color: var(--text-muted);
+        .lang-switch-btn:active {
+            transform: scale(0.95);
         }
 
-        .clock-card {
-            text-align: right;
-        }
+        .weather-icon { font-size: 1.4rem; }
+        .weather-temp { font-size: 1.2rem; font-weight: 700; color: var(--primary-green); }
+        .weather-loc { font-size: 0.75rem; color: var(--text-muted); }
 
+        .clock-card { text-align: right; }
         .clock-time {
-            font-size: 3rem;
+            font-size: 2.8rem;
             font-weight: 800;
             color: var(--text-main);
             letter-spacing: -1px;
             line-height: 1;
         }
-
         .clock-date {
             font-size: 0.85rem;
             color: var(--primary-green);
@@ -105,13 +176,13 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            margin-top: -65px;
+            margin-top: -15px;
             flex: 1;
         }
 
         .logo-img {
-            height: 320px;
-            max-height: 42vh;
+            height: 240px;
+            max-height: 32vh;
             width: auto;
             object-fit: contain;
             filter: drop-shadow(0 15px 30px rgba(0,0,0,0.7));
@@ -119,61 +190,43 @@
             cursor: pointer;
         }
 
-        .logo-img:active {
-            transform: scale(0.97);
-        }
+        .logo-img:active { transform: scale(0.97); }
 
-        /* ANIMACJA PULSOWANIA NAPISÓW */
         .welcome-title {
-            font-size: 1.8rem;
+            font-size: 1.7rem;
             font-weight: 800;
             background: linear-gradient(135deg, #ffffff 0%, #a7f3d0 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-top: 6px;
-            margin-bottom: 4px;
+            margin-top: 4px;
+            margin-bottom: 2px;
             display: inline-block;
             animation: pulseTitle 4s ease-in-out infinite;
         }
 
         .welcome-sub {
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             color: var(--text-muted);
             font-weight: 400;
             animation: pulseSub 4s ease-in-out infinite;
-            animation-delay: 0.5s; /* Opóźnienie dla bardziej organicznego efektu */
+            animation-delay: 0.5s;
         }
 
-        /* DEFINICJA KADRÓW ANIMACJI */
         @keyframes pulseTitle {
-            0%, 100% {
-                transform: scale(1);
-                filter: drop-shadow(0 0 0px rgba(52, 211, 153, 0));
-                opacity: 0.88;
-            }
-            50% {
-                transform: scale(1.03);
-                filter: drop-shadow(0 0 12px rgba(52, 211, 153, 0.45));
-                opacity: 1;
-            }
+            0%, 100% { transform: scale(1); opacity: 0.88; }
+            50% { transform: scale(1.02); filter: drop-shadow(0 0 10px rgba(52, 211, 153, 0.45)); opacity: 1; }
         }
 
         @keyframes pulseSub {
-            0%, 100% {
-                opacity: 0.55;
-                transform: translateY(0);
-            }
-            50% {
-                opacity: 0.95;
-                transform: translateY(-1px);
-            }
+            0%, 100% { opacity: 0.6; transform: translateY(0); }
+            50% { opacity: 0.95; transform: translateY(-1px); }
         }
 
-        /* GRID MENU */
+        /* GRID MENU (6 KAFELKÓW) */
         .grid-menu {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 16px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
             width: 100%;
         }
 
@@ -182,10 +235,10 @@
             border: 1px solid var(--card-border);
             backdrop-filter: blur(16px);
             border-radius: var(--radius);
-            padding: 20px;
+            padding: 14px 18px;
             display: flex;
             align-items: center;
-            gap: 14px;
+            gap: 12px;
             box-shadow: var(--shadow);
             cursor: pointer;
             transition: all 0.2s ease;
@@ -198,9 +251,9 @@
         }
 
         .card-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 14px;
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
             background: rgba(52, 211, 153, 0.12);
             color: var(--primary-green);
             display: flex;
@@ -210,45 +263,49 @@
         }
 
         .card-icon svg {
-            width: 24px;
-            height: 24px;
+            width: 22px;
+            height: 22px;
             fill: currentColor;
         }
 
         .card-info h3 {
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: 700;
             color: var(--text-main);
             margin-bottom: 2px;
         }
 
         .card-info p {
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             color: var(--text-muted);
+            line-height: 1.2;
         }
 
-        /* MODAL */
+        /* MODALE */
         .modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: rgba(0, 0, 0, 0.75);
-            backdrop-filter: blur(10px);
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(12px);
             display: none;
             align-items: center;
             justify-content: center;
             z-index: 100;
+            padding: 20px;
         }
 
         .modal-box {
-            background: #141d14;
+            background: #121912;
             border: 1px solid var(--card-border);
-            width: 90%;
-            max-width: 560px;
-            border-radius: 28px;
-            padding: 32px;
+            width: 100%;
+            max-width: 620px;
+            max-height: 85vh;
+            overflow-y: auto;
+            border-radius: 24px;
+            padding: 26px;
             box-shadow: 0 30px 60px rgba(0,0,0,0.8);
             animation: modalIn 0.2s ease-out;
             color: var(--text-main);
@@ -263,21 +320,21 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
             border-bottom: 1px solid rgba(255,255,255,0.1);
-            padding-bottom: 14px;
+            padding-bottom: 12px;
         }
 
         .modal-header h2 {
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             color: var(--primary-green);
         }
 
         .close-btn {
             background: rgba(255,255,255,0.1);
             border: none;
-            width: 38px;
-            height: 38px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             color: var(--text-main);
             font-size: 1.2rem;
@@ -285,13 +342,13 @@
         }
 
         .pill-info {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.04);
             border: 1px solid rgba(255,255,255,0.08);
-            padding: 14px 18px;
+            padding: 12px 16px;
             border-radius: 14px;
             margin-top: 10px;
-            font-size: 0.95rem;
-            line-height: 1.5;
+            font-size: 0.9rem;
+            line-height: 1.45;
         }
 
         .btn-action {
@@ -299,29 +356,28 @@
             color: #ffffff;
             border: none;
             width: 100%;
-            padding: 14px;
-            border-radius: 14px;
+            padding: 12px;
+            border-radius: 12px;
             font-weight: 700;
-            font-size: 0.95rem;
-            margin-top: 16px;
+            font-size: 0.9rem;
+            margin-top: 14px;
             cursor: pointer;
         }
 
-        .btn-action:active {
-            opacity: 0.85;
-        }
+        .btn-action:active { opacity: 0.85; }
 
         /* TOAST */
         .toast {
             position: fixed;
-            bottom: 30px;
+            bottom: 25px;
             left: 50%;
             transform: translateX(-50%) translateY(100px);
             background: var(--accent-green);
             color: white;
-            padding: 12px 28px;
+            padding: 10px 24px;
             border-radius: 30px;
             font-weight: 600;
+            font-size: 0.9rem;
             box-shadow: 0 10px 25px rgba(0,0,0,0.5);
             opacity: 0;
             transition: all 0.3s ease;
@@ -336,14 +392,35 @@
 </head>
 <body>
 
+    <!-- EKRAN WYBORU JĘZYKA -->
+    <div id="lang-select-screen" class="lang-overlay">
+        <div class="lang-box">
+            <h1 class="lang-title">Matylda House</h1>
+            <p class="lang-sub">Select your language / Wybierz swój język</p>
+            <div class="lang-grid">
+                <button class="lang-btn" onclick="setLanguage('pl')"><span class="flag">🇵🇱</span> Polski</button>
+                <button class="lang-btn" onclick="setLanguage('en')"><span class="flag">🇬🇧</span> English</button>
+                <button class="lang-btn" onclick="setLanguage('uk')"><span class="flag">🇺🇦</span> Українська</button>
+                <button class="lang-btn" onclick="setLanguage('de')"><span class="flag">🇩🇪</span> Deutsch</button>
+                <button class="lang-btn" onclick="setLanguage('it')"><span class="flag">🇮🇹</span> Italiano</button>
+                <button class="lang-btn" onclick="setLanguage('es')"><span class="flag">🇪🇸</span> Español</button>
+            </div>
+        </div>
+    </div>
+
     <!-- PASEK GÓRNY -->
     <header>
-        <div class="weather-card">
-            <span class="weather-icon" id="w-icon">🌤️</span>
-            <div>
-                <div class="weather-temp" id="w-temp">--°C</div>
-                <div class="weather-loc">Kraków • Swoszowice</div>
+        <div class="top-left-group">
+            <div class="weather-card">
+                <span class="weather-icon" id="w-icon">🌤️</span>
+                <div>
+                    <div class="weather-temp" id="w-temp">--°C</div>
+                    <div class="weather-loc">Kraków • Swoszowice</div>
+                </div>
             </div>
+            <button class="lang-switch-btn" onclick="showLanguageSelect()">
+                🌐 <span id="current-lang-code">PL</span>
+            </button>
         </div>
 
         <div class="clock-card">
@@ -356,15 +433,15 @@
     <div class="hero">
         <img src="logo.png" alt="Matylda House Logo" class="logo-img" onclick="openModal('modal-about')" onerror="this.style.display='none'; document.getElementById('alt-logo').style.display='block';">
         
-        <div id="alt-logo" style="display:none; font-size:2rem; font-weight:800; color:var(--primary-green); margin-bottom:10px;">
+        <div id="alt-logo" style="display:none; font-size:1.8rem; font-weight:800; color:var(--primary-green); margin-bottom:8px;">
             MATYLDA HOUSE
         </div>
 
         <h1 class="welcome-title" id="greeting">Witamy w Matylda House</h1>
-        <p class="welcome-sub">Życzymy udanego i wypoczynkowego pobytu</p>
+        <p class="welcome-sub" id="welcome-sub-text">Życzymy udanego i wypoczynkowego pobytu</p>
     </div>
 
-    <!-- KAFELKI INTERAKTYWNE -->
+    <!-- KAFELKI INTERAKTYWNE (6 KAFELKÓW) -->
     <div class="grid-menu">
         
         <!-- Kafel 1: Wi-Fi -->
@@ -373,41 +450,63 @@
                 <svg viewBox="0 0 24 24"><path d="M12 3C7.95 3 4.21 4.34 1.2 6.6L3 9C5.5 7.12 8.62 6 12 6C15.38 6 18.5 7.12 21 9L22.8 6.6C19.79 4.34 16.05 3 12 3M12 9C9.3 9 6.81 9.89 4.8 11.4L6.6 13.8C8.1 12.67 9.97 12 12 12C14.03 12 15.9 12.67 17.4 13.8L19.2 11.4C17.19 9.89 14.7 9 12 9M12 15C10.65 15 9.4 15.45 8.4 16.2L12 21L15.6 16.2C14.6 15.45 13.35 15 12 15Z"/></svg>
             </div>
             <div class="card-info">
-                <h3>Wi-Fi</h3>
-                <p>Szybki internet</p>
+                <h3 id="card-wifi-title">Wi-Fi</h3>
+                <p id="card-wifi-sub">Szybki internet</p>
             </div>
         </div>
 
-        <!-- Kafel 2: Adres i Dostawa -->
+        <!-- Kafel 2: Brama i Parking -->
+        <div class="card" onclick="openModal('modal-gate')">
+            <div class="card-icon">
+                <svg viewBox="0 0 24 24"><path d="M19 13H5V19H19V13M19 11C20.1 11 21 11.9 21 13V19C21 20.1 20.1 21 19 21H5C3.9 21 3 20.1 3 19V13C3 11.9 3.9 11 5 11H19M12 2C13.1 2 14 2.9 14 4V7H10V4C10 2.9 10.9 2 12 2Z"/></svg>
+            </div>
+            <div class="card-info">
+                <h3 id="card-gate-title">Parking i Brama</h3>
+                <p id="card-gate-sub">Pilot, wjazd i przycisk</p>
+            </div>
+        </div>
+
+        <!-- Kafel 3: Zamów Jedzenie -->
         <div class="card" onclick="openModal('modal-food')">
             <div class="card-icon">
                 <svg viewBox="0 0 24 24"><path d="M12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12C20,14.82 18.5,17.28 16.27,18.59 C15.61,17.5 14.39,16.78 13,16.78H11C9.61,16.78 8.39,17.5 7.73,18.59C5.5,17.28 4,14.82 4,12A8,8 0 0,1 12,4Z"/></svg>
             </div>
             <div class="card-info">
-                <h3>Zamów Jedzenie</h3>
-                <p>Adres dostawy</p>
+                <h3 id="card-food-title">Zamów Jedzenie</h3>
+                <p id="card-food-sub">Adres dostawy</p>
             </div>
         </div>
 
-        <!-- Kafel 3: Informacje / Regulamin -->
+        <!-- Kafel 4: Wskazówki i Ogrzewanie -->
         <div class="card" onclick="openModal('modal-rules')">
             <div class="card-icon">
                 <svg viewBox="0 0 24 24"><path d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11V17Z"/></svg>
             </div>
             <div class="card-info">
-                <h3>Regulamin</h3>
-                <p>Zasady i doba</p>
+                <h3 id="card-rules-title">Wskazówki i Zasady</h3>
+                <p id="card-rules-sub">Ogrzewanie, śmieci, opłaty</p>
             </div>
         </div>
 
-        <!-- Kafel 4: Przewodnik -->
+        <!-- Kafel 5: Przewodnik -->
         <div class="card" onclick="openModal('modal-guide')">
             <div class="card-icon">
                 <svg viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4M11,7V13H17V11.5H12.5V7H11Z"/></svg>
             </div>
             <div class="card-info">
-                <h3>Odkryj Kraków</h3>
-                <p>Atrakcje w okolicy</p>
+                <h3 id="card-guide-title">Odkryj Kraków</h3>
+                <p id="card-guide-sub">Atrakcje w okolicy</p>
+            </div>
+        </div>
+
+        <!-- Kafel 6: Kontakt -->
+        <div class="card" onclick="openModal('modal-contact')">
+            <div class="card-icon">
+                <svg viewBox="0 0 24 24"><path d="M6.62,10.79C8.06,13.62 10.38,15.94 13.21,17.38L15.41,15.18C15.69,14.9 16.08,14.82 16.43,14.93C17.55,15.3 18.75,15.5 20,15.5A1,1 0 0,1 21,16.5V20A1,1 0 0,1 20,21A17,17 0 0,1 3,4A1,1 0 0,1 4,3H7.5A1,1 0 0,1 8.5,4C8.5,5.25 8.7,6.45 9.07,7.57C9.18,7.92 9.1,8.31 8.82,8.59L6.62,10.79Z"/></svg>
+            </div>
+            <div class="card-info">
+                <h3 id="card-contact-title">Kontakt</h3>
+                <p id="card-contact-sub">Właściciel obiektu</p>
             </div>
         </div>
 
@@ -419,12 +518,26 @@
     <div id="modal-wifi" class="modal-overlay" onclick="closeModalOnBg(event, 'modal-wifi')">
         <div class="modal-box">
             <div class="modal-header">
-                <h2>Sieć Wi-Fi</h2>
+                <h2 id="m-wifi-h">Sieć Wi-Fi</h2>
                 <button class="close-btn" onclick="closeModal('modal-wifi')">&times;</button>
             </div>
-            <div class="pill-info">📶 <b>Nazwa sieci:</b> MatyldaHouse_WiFi</div>
-            <div class="pill-info">🔑 <b>Hasło:</b> Matylda2026</div>
-            <button class="btn-action" onclick="copyText('Matylda2026', 'Skopiowano hasło Wi-Fi!')">Kopiuj Hasło</button>
+            <div class="pill-info" id="m-wifi-ssid">📶 <b>Nazwa sieci:</b> Matylda_House</div>
+            <div class="pill-info" id="m-wifi-pass">🔑 <b>Hasło:</b> Domowe_WIFI</div>
+            <button class="btn-action" id="m-wifi-btn" onclick="copyText('Domowe_WIFI', 'copied-wifi')">Kopiuj Hasło</button>
+        </div>
+    </div>
+
+    <!-- Modal Brama i Parking -->
+    <div id="modal-gate" class="modal-overlay" onclick="closeModalOnBg(event, 'modal-gate')">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h2 id="m-gate-h">Parking i Brama Wjazdowa</h2>
+                <button class="close-btn" onclick="closeModal('modal-gate')">&times;</button>
+            </div>
+            <div class="pill-info" id="m-gate-p1">🅿️ <b>Parking:</b> Miejsce parkingowe jest oznaczone przed wejściem do budynku, na wprost wjazdu (po lewej stronie od wejścia do apartamentu).</div>
+            <div class="pill-info" id="m-gate-p2">🔑 <b>Pilot do bramy:</b> Na wieszaku obok w korytarzu znajduje się pilot do Państwa dyspozycji. <b>Lewy przycisk</b> służy do otwierania, zatrzymywania i zamykania bramy.</div>
+            <div class="pill-info" id="m-gate-p3">🔘 <b>Przycisk przy drzwiach:</b> Bramę wjazdową można otworzyć również przyciskiem znajdującym się na zewnątrz obok drzwi wejściowych do apartamentu. Brama zamyka się dopiero po 2 minutach od otwarcia, aby zapewnić czas na spokojny wyjazd.</div>
+            <div class="pill-info" id="m-gate-p4">🚪 <b>Wymeldowanie:</b> Przy wymeldowaniu prosimy o pozostawienie pilota na wieszaku w korytarzu.</div>
         </div>
     </div>
 
@@ -432,26 +545,27 @@
     <div id="modal-food" class="modal-overlay" onclick="closeModalOnBg(event, 'modal-food')">
         <div class="modal-box">
             <div class="modal-header">
-                <h2>Zamów Jedzenie do Apartamentu</h2>
+                <h2 id="m-food-h">Zamów Jedzenie do Apartamentu</h2>
                 <button class="close-btn" onclick="closeModal('modal-food')">&times;</button>
             </div>
-            <p style="color: var(--text-muted); margin-bottom: 10px;">Podaj ten adres podczas zamawiania na Pyszne.pl lub UberEats:</p>
-            <div class="pill-info">📍 <b>Adres dostawy:</b><br>ul. Landaua 12, Kraków</div>
-            <button class="btn-action" onclick="copyText('ul. Landaua 12, Kraków', 'Skopiowano adres do schowka!')">Kopiuj Adres Dostawy</button>
+            <p style="color: var(--text-muted); margin-bottom: 10px;" id="m-food-sub">Podaj ten adres podczas zamawiania na Pyszne.pl, UberEats lub Bolt Food:</p>
+            <div class="pill-info" id="m-food-addr">📍 <b>Adres dostawy:</b><br>ul. Landaua 12, Kraków</div>
+            <button class="btn-action" id="m-food-btn" onclick="copyText('ul. Landaua 12, Kraków', 'copied-addr')">Kopiuj Adres Dostawy</button>
         </div>
     </div>
 
-    <!-- Modal Regulamin -->
+    <!-- Modal Zasady, Ogrzewanie, Śmieci, Opłaty -->
     <div id="modal-rules" class="modal-overlay" onclick="closeModalOnBg(event, 'modal-rules')">
         <div class="modal-box">
             <div class="modal-header">
-                <h2>Wskazówki dla Gości</h2>
+                <h2 id="m-rules-h">Wskazówki dla Gości</h2>
                 <button class="close-btn" onclick="closeModal('modal-rules')">&times;</button>
             </div>
-            <div class="pill-info">⏰ <b>Wymeldowanie:</b> Do godziny 11:00</div>
-            <div class="pill-info">🌙 <b>Cisza nocna:</b> 22:00 – 06:00</div>
-            <div class="pill-info">🚭 <b>Zakaz palenia:</b> Palenie wewnątrz jest zabronione.</div>
-            <div class="pill-info">♻️ <b>Segregacja:</b> Pojemniki na śmieci znajdują się przy bramie wyjazdowej.</div>
+            <div class="pill-info" id="m-rules-time">⏰ <b>Wymeldowanie:</b> Do 11:00 | 🌙 <b>Cisza nocna:</b> 22:00 – 06:00</div>
+            <div class="pill-info" id="m-rules-heat">🔥 <b>Ogrzewanie:</b> Prosimy o nieotwieranie okien i drzwi na dłużej niż w celach przewietrzenia pomieszczeń. W apartamencie działa ogrzewanie, które wyłącza się automatycznie, jeśli okna lub drzwi są uchylone/otwarte przez dłuższy czas.</div>
+            <div class="pill-info" id="m-rules-trash">♻️ <b>Śmieci:</b> Pojemniki na śmieci znajdują się od południowej strony budynku. Wychodząc z apartamentu należy pójść w prawo i za rogiem znajdują się pojemniki.</div>
+            <div class="pill-info" id="m-rules-fees">💳 <b>Opłaty dodatkowe:</b> Dokwaterowanie dodatkowej osoby (ponad ujęte w rezerwacji): 150 zł / dobę.<br>Pobyt zwierzęcia: 50 zł / dobę za zwierzę.</div>
+            <div class="pill-info" id="m-rules-smoke">🚭 <b>Zakaz palenia:</b> Palenie wewnątrz apartamentu jest całkowicie zabronione.</div>
         </div>
     </div>
 
@@ -459,12 +573,25 @@
     <div id="modal-guide" class="modal-overlay" onclick="closeModalOnBg(event, 'modal-guide')">
         <div class="modal-box">
             <div class="modal-header">
-                <h2>Rekomendacje</h2>
+                <h2 id="m-guide-h">Rekomendacje i Okolica</h2>
                 <button class="close-btn" onclick="closeModal('modal-guide')">&times;</button>
             </div>
-            <div class="pill-info">🌳 <b>Park Zdrojowy w Swoszowicach:</b> Kameralne miejsce na spacer tuż obok.</div>
-            <div class="pill-info">🏰 <b>Rynek Główny & Wawel:</b> Ok. 20 minut jazdy samochodem lub autobusem.</div>
-            <div class="pill-info">⛏️ <b>Kopalnia Soli Wieliczka:</b> Ok. 15 minut trasą obwodową.</div>
+            <div class="pill-info" id="m-guide-1">🌳 <b>Park Zdrojowy w Swoszowicach:</b> Urokliwe, zielone miejsce na spacer tuż obok apartamentu.</div>
+            <div class="pill-info" id="m-guide-2">🏰 <b>Rynek Główny & Wawel:</b> Ok. 20 minut jazdy samochodem lub autobusem.</div>
+            <div class="pill-info" id="m-guide-3">⛏️ <b>Kopalnia Soli Wieliczka:</b> Ok. 15 minut trasą obwodową.</div>
+        </div>
+    </div>
+
+    <!-- Modal Kontakt -->
+    <div id="modal-contact" class="modal-overlay" onclick="closeModalOnBg(event, 'modal-contact')">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h2 id="m-contact-h">Kontakt do Właściciela</h2>
+                <button class="close-btn" onclick="closeModal('modal-contact')">&times;</button>
+            </div>
+            <div class="pill-info" id="m-contact-p1">📞 <b>Telefon do właściciela:</b><br><span style="font-size:1.3rem; font-weight:800; color:var(--primary-green);">+48 508 048 886</span></div>
+            <div class="pill-info" id="m-contact-p2">💬 Jesteśmy do Państwa dyspozycji w razie pytań lub wątpliwości podczas pobytu!</div>
+            <button class="btn-action" id="m-contact-btn" onclick="copyText('508048886', 'copied-phone')">Kopiuj Numer Telefonu</button>
         </div>
     </div>
 
@@ -475,7 +602,7 @@
                 <h2>Matylda House</h2>
                 <button class="close-btn" onclick="closeModal('modal-about')">&times;</button>
             </div>
-            <p style="margin-top:10px; line-height:1.6; color:var(--text-muted);">
+            <p style="margin-top:10px; line-height:1.6; color:var(--text-muted);" id="m-about-text">
                 Witaj w naszym apartamencie! Zrobiliśmy wszystko, aby Twój pobyt w Krakowie był wyjątkowy i komfortowy.<br><br>
                 <i>"You are welcome"</i>
             </p>
@@ -485,7 +612,357 @@
     <div id="toast" class="toast">Komunikat</div>
 
     <script>
-        // ZEGAR REAL-TIME
+        let currentLang = 'pl';
+
+        // TŁUMACZENIA MULTI-LANGUAGE
+        const dict = {
+            pl: {
+                code: "PL",
+                greetings: {
+                    morning: "Dzień dobry! Witamy w Matylda House",
+                    day: "Witamy w Matylda House",
+                    night: "Dobry wieczór! Witamy w Matylda House"
+                },
+                welcomeSub: "Życzymy udanego i wypoczynkowego pobytu",
+                cards: {
+                    wifiTitle: "Wi-Fi", wifiSub: "Szybki internet",
+                    gateTitle: "Parking i Brama", gateSub: "Pilot, wjazd i przycisk",
+                    foodTitle: "Zamów Jedzenie", foodSub: "Adres dostawy",
+                    rulesTitle: "Wskazówki i Zasady", rulesSub: "Ogrzewanie, śmieci, opłaty",
+                    guideTitle: "Odkryj Kraków", guideSub: "Atrakcje w okolicy",
+                    contactTitle: "Kontakt", contactSub: "Właściciel obiektu"
+                },
+                modals: {
+                    wifiH: "Sieć Wi-Fi", wifiSsid: "📶 <b>Nazwa sieci:</b> Matylda_House", wifiPass: "🔑 <b>Hasło:</b> Domowe_WIFI", wifiBtn: "Kopiuj Hasło",
+                    gateH: "Parking i Brama Wjazdowa",
+                    gateP1: "🅿️ <b>Parking:</b> Miejsce parkingowe jest oznaczone przed wejściem do budynku, na wprost wjazdu (po lewej stronie od wejścia do apartamentu).",
+                    gateP2: "🔑 <b>Pilot do bramy:</b> Na wieszaku obok w korytarzu znajduje się pilot do Państwa dyspozycji. <b>Lewy przycisk</b> służy do otwierania, zatrzymywania i zamykania bramy.",
+                    gateP3: "🔘 <b>Przycisk przy drzwiach:</b> Bramę wjazdową można otworzyć również przyciskiem znajdującym się na zewnątrz obok drzwi wejściowych do apartamentu. Brama zamyka się dopiero po 2 minutach od otwarcia, aby zapewnić czas na spokojny wyjazd.",
+                    gateP4: "🚪 <b>Wymeldowanie:</b> Przy wymeldowaniu prosimy o pozostawienie pilota na wieszaku w korytarzu.",
+                    foodH: "Zamów Jedzenie do Apartamentu", foodSubText: "Podaj ten adres podczas zamawiania na Pyszne.pl, UberEats lub Bolt Food:", foodAddr: "📍 <b>Adres dostawy:</b><br>ul. Landaua 12, Kraków", foodBtn: "Kopiuj Adres Dostawy",
+                    rulesH: "Wskazówki dla Gości",
+                    rulesTime: "⏰ <b>Wymeldowanie:</b> Do 11:00 | 🌙 <b>Cisza nocna:</b> 22:00 – 06:00",
+                    rulesHeat: "🔥 <b>Ogrzewanie:</b> Prosimy o nieotwieranie okien i drzwi na dłużej niż w celach przewietrzenia pomieszczeń. W apartamencie działa ogrzewanie, które wyłącza się automatycznie, jeśli okna lub drzwi są uchylone/otwarte przez dłuższy czas.",
+                    rulesTrash: "♻️ <b>Śmieci:</b> Pojemniki na śmieci znajdują się od południowej strony budynku. Wychodząc z apartamentu należy pójść w prawo i za rogiem znajdują się pojemniki.",
+                    rulesFees: "💳 <b>Opłaty dodatkowe:</b> Dokwaterowanie dodatkowej osoby (ponad ujęte w rezerwacji): 150 zł / dobę.<br>Pobyt zwierzęcia: 50 zł / dobę za zwierzę.",
+                    rulesSmoke: "🚭 <b>Zakaz palenia:</b> Palenie wewnątrz apartamentu jest całkowicie zabronione.",
+                    guideH: "Rekomendacje i Okolica",
+                    guide1: "🌳 <b>Park Zdrojowy w Swoszowicach:</b> Urokliwe, zielone miejsce na spacer tuż obok apartamentu.",
+                    guide2: "🏰 <b>Rynek Główny & Wawel:</b> Ok. 20 minut jazdy samochodem lub autobusem.",
+                    guide3: "⛏️ <b>Kopalnia Soli Wieliczka:</b> Ok. 15 minut trasą obwodową.",
+                    contactH: "Kontakt do Właściciela",
+                    contactP1: "📞 <b>Telefon do właściciela:</b><br><span style='font-size:1.3rem; font-weight:800; color:var(--primary-green);'>+48 508 048 886</span>",
+                    contactP2: "💬 Jesteśmy do Państwa dyspozycji w razie pytań lub wątpliwości podczas pobytu!",
+                    contactBtn: "Kopiuj Numer Telefonu",
+                    aboutText: "Witaj w naszym apartamencie! Zrobiliśmy wszystko, aby Twój pobyt w Krakowie był wyjątkowy i komfortowy.<br><br><i>\"You are welcome\"</i>"
+                },
+                toasts: {
+                    wifi: "Skopiowano hasło Wi-Fi!",
+                    addr: "Skopiowano adres do schowka!",
+                    phone: "Skopiowano numer telefonu!"
+                }
+            },
+            en: {
+                code: "EN",
+                greetings: {
+                    morning: "Good morning! Welcome to Matylda House",
+                    day: "Welcome to Matylda House",
+                    night: "Good evening! Welcome to Matylda House"
+                },
+                welcomeSub: "We wish you a pleasant and relaxing stay",
+                cards: {
+                    wifiTitle: "Wi-Fi", wifiSub: "Fast Internet",
+                    gateTitle: "Parking & Gate", gateSub: "Remote, driveway & button",
+                    foodTitle: "Order Food", foodSub: "Delivery address",
+                    rulesTitle: "House Rules & Info", rulesSub: "Heating, trash, fees",
+                    guideTitle: "Discover Kraków", guideSub: "Nearby attractions",
+                    contactTitle: "Contact", contactSub: "Property Owner"
+                },
+                modals: {
+                    wifiH: "Wi-Fi Network", wifiSsid: "📶 <b>Network Name:</b> Matylda_House", wifiPass: "🔑 <b>Password:</b> Domowe_WIFI", wifiBtn: "Copy Password",
+                    gateH: "Parking & Entrance Gate",
+                    gateP1: "🅿️ <b>Parking:</b> Marked parking space is located in front of the building entrance, straight ahead from the driveway (to the left of the apartment entrance).",
+                    gateP2: "🔑 <b>Gate Remote:</b> On the rack in the hallway there is a remote control. The <b>left button</b> opens, stops, and closes the gate.",
+                    gateP3: "🔘 <b>Door Button:</b> The gate can also be opened using the button outside next to the apartment entrance. The gate closes automatically after 2 minutes to allow a stress-free exit.",
+                    gateP4: "🚪 <b>Check-out:</b> Please leave the gate remote back on the hallway rack upon check-out.",
+                    foodH: "Order Food to Apartment", foodSubText: "Provide this address when ordering on UberEats, Bolt Food, or local apps:", foodAddr: "📍 <b>Delivery address:</b><br>ul. Landaua 12, Kraków", foodBtn: "Copy Delivery Address",
+                    rulesH: "Guest Guidelines",
+                    rulesTime: "⏰ <b>Check-out:</b> By 11:00 AM | 🌙 <b>Quiet hours:</b> 10:00 PM – 06:00 AM",
+                    rulesHeat: "🔥 <b>Heating:</b> Please do not leave windows or doors open longer than needed for airing out. The heating turns off automatically if windows/doors remain open for a prolonged time.",
+                    rulesTrash: "♻️ <b>Trash:</b> Waste containers are located on the south side of the building. Exit the apartment, turn right, and they are around the corner.",
+                    rulesFees: "💳 <b>Extra Fees:</b> Additional guest (beyond reservation): 150 PLN / night.<br>Pet stay: 50 PLN / night per pet.",
+                    rulesSmoke: "🚭 <b>No Smoking:</b> Smoking inside the apartment is strictly prohibited.",
+                    guideH: "Recommendations & Area",
+                    guide1: "🌳 <b>Swoszowice Spa Park:</b> Charming green park for a relaxing walk right next door.",
+                    guide2: "🏰 <b>Main Market Square & Wawel:</b> Approx. 20 minutes by car or bus.",
+                    guide3: "⛏️ <b>Wieliczka Salt Mine:</b> Approx. 15 minutes via the ring road.",
+                    contactH: "Contact Owner",
+                    contactP1: "📞 <b>Owner Phone:</b><br><span style='font-size:1.3rem; font-weight:800; color:var(--primary-green);'>+48 508 048 886</span>",
+                    contactP2: "💬 We are at your service if you have any questions during your stay!",
+                    contactBtn: "Copy Phone Number",
+                    aboutText: "Welcome to our apartment! We made every effort to make your stay in Kraków comfortable.<br><br><i>\"You are welcome\"</i>"
+                },
+                toasts: {
+                    wifi: "Wi-Fi password copied!",
+                    addr: "Delivery address copied!",
+                    phone: "Phone number copied!"
+                }
+            },
+            uk: {
+                code: "UK",
+                greetings: {
+                    morning: "Доброго ранку! Ласкаво просимо до Matylda House",
+                    day: "Ласкаво просимо до Matylda House",
+                    night: "Доброго вечора! Ласкаво просимо до Matylda House"
+                },
+                welcomeSub: "Бажаємо вам приємного та комфортного відпочинку",
+                cards: {
+                    wifiTitle: "Wi-Fi", wifiSub: "Швидкий інтернет",
+                    gateTitle: "Паркінг та Брама", gateSub: "Пульт, заїзд та кнопка",
+                    foodTitle: "Замовити Їжу", foodSub: "Адреса доставки",
+                    rulesTitle: "Правила та Інфо", rulesSub: "Опалення, сміття, збори",
+                    guideTitle: "Відкрийте Краків", guideSub: "Цікаві місця поруч",
+                    contactTitle: "Контакти", contactSub: "Власник апартаментів"
+                },
+                modals: {
+                    wifiH: "Мережа Wi-Fi", wifiSsid: "📶 <b>Назва мережі:</b> Matylda_House", wifiPass: "🔑 <b>Пароль:</b> Domowe_WIFI", wifiBtn: "Копіювати Пароль",
+                    gateH: "Паркінг та В'їзні Ворота",
+                    gateP1: "🅿️ <b>Паркінг:</b> Позначене паркувальне місце знаходиться перед входом у будівлю, прямо від заїзду (ліворуч від входу).",
+                    gateP2: "🔑 <b>Пульт від брами:</b> На вішалці у коридорі є пульт. <b>Ліва кнопка</b> відкриває, зупиняє та закриває браму.",
+                    gateP3: "🔘 <b>Кнопка біля дверей:</b> Браму можна відкрити кнопкою зовні біля входу. Вона закривається автоматично через 2 хвилини, щоб ви спокійно виїхали.",
+                    gateP4: "🚪 <b>Виїзд:</b> При виїзді просимо залишити пульт на вішалці у коридорі.",
+                    foodH: "Замовити Їжу в Апартаменти", foodSubText: "Вкажіть цю адресу при замовленні у службах доставки:", foodAddr: "📍 <b>Адреса доставки:</b><br>ul. Landaua 12, Kraków", foodBtn: "Копіювати Адресу",
+                    rulesH: "Інформація для Гостей",
+                    rulesTime: "⏰ <b>Виїзд:</b> До 11:00 | 🌙 <b>Тихі години:</b> 22:00 – 06:00",
+                    rulesHeat: "🔥 <b>Опалення:</b> Просимо не залишати вікна та двері відчиненими довше, ніж для короткого провітрювання. Опалення вимикається автоматично при тривалому відкритті.",
+                    rulesTrash: "♻️ <b>Сміття:</b> Сміттєві контейнери розташовані з південного боку будівлі. Вийшовши з апартаментів, поверніть праворуч за ріг.",
+                    rulesFees: "💳 <b>Додаткові збори:</b> Додатковий гість (понад бронювання): 150 PLN / добу.<br>Проживання тварин: 50 PLN / добу за тварину.",
+                    rulesSmoke: "🚭 <b>Заборона куріння:</b> Куріння всередині апартаментів суворо заборонено.",
+                    guideH: "Рекомендації",
+                    guide1: "🌳 <b>Парк Свошовіце:</b> Затишний зелений парк для прогулянок поруч.",
+                    guide2: "🏰 <b>Площа Ринок та Вавель:</b> Близько 20 хвилин на авто чи автобусі.",
+                    guide3: "⛏️ <b>Соляна копальня Величка:</b> Близько 15 хвилин по об'їзній.",
+                    contactH: "Контакт з Власником",
+                    contactP1: "📞 <b>Телефон власника:</b><br><span style='font-size:1.3rem; font-weight:800; color:var(--primary-green);'>+48 508 048 886</span>",
+                    contactP2: "💬 Ми завжди раді допомогти вам під час вашого перебування!",
+                    contactBtn: "Копіювати Номер",
+                    aboutText: "Ласкаво просимо! Ми зробили все, щоб ваше перебування у Кракові було комфортним.<br><br><i>\"You are welcome\"</i>"
+                },
+                toasts: {
+                    wifi: "Пароль Wi-Fi скопійовано!",
+                    addr: "Адресу скопійовано!",
+                    phone: "Номер скопійовано!"
+                }
+            },
+            de: {
+                code: "DE",
+                greetings: {
+                    morning: "Guten Morgen! Willkommen im Matylda House",
+                    day: "Willkommen im Matylda House",
+                    night: "Guten Abend! Willkommen im Matylda House"
+                },
+                welcomeSub: "Wir wünschen Ihnen einen angenehmen Aufenthalt",
+                cards: {
+                    wifiTitle: "WLAN", wifiSub: "Schnelles Internet",
+                    gateTitle: "Parkplatz & Tor", gateSub: "Fernbedienung & Einfahrt",
+                    foodTitle: "Essen Bestellen", foodSub: "Lieferadresse",
+                    rulesTitle: "Hausordnung & Info", rulesSub: "Heizung, Müll, Gebühren",
+                    guideTitle: "Entdecke Krakau", guideSub: "Sehenswürdigkeiten",
+                    contactTitle: "Kontakt", contactSub: "Eigentümer"
+                },
+                modals: {
+                    wifiH: "WLAN-Netzwerk", wifiSsid: "📶 <b>Netzwerk:</b> Matylda_House", wifiPass: "🔑 <b>Passwort:</b> Domowe_WIFI", wifiBtn: "Passwort Kopieren",
+                    gateH: "Parkplatz & Einfahrtstor",
+                    gateP1: "🅿️ <b>Parkplatz:</b> Der Parkplatz befindet sich direkt vor dem Eingang (links vom Eingang zur Ferienwohnung).",
+                    gateP2: "🔑 <b>Tor-Fernbedienung:</b> Im Flur am Haken befindet sich die Fernbedienung. Die <b>linke Taste</b> öffnet, stoppt und schließt das Tor.",
+                    gateP3: "🔘 <b>Taster an der Tür:</b> Das Tor kann auch mit dem Taster außen neben der Tür geöffnet werden. Es schließt automatisch nach 2 Minuten.",
+                    gateP4: "🚪 <b>Check-out:</b> Bitte hängen Sie die Fernbedienung beim Auschecken wieder an den Haken im Flur.",
+                    foodH: "Essen in die Ferienwohnung bestellen", foodSubText: "Geben Sie diese Adresse bei Lieferdiensten an:", foodAddr: "📍 <b>Lieferadresse:</b><br>ul. Landaua 12, Kraków", foodBtn: "Lieferadresse Kopieren",
+                    rulesH: "Gästehinweise",
+                    rulesTime: "⏰ <b>Check-out:</b> Bis 11:00 Uhr | 🌙 <b>Nachtruhe:</b> 22:00 – 06:00 Uhr",
+                    rulesHeat: "🔥 <b>Heizung:</b> Bitte Fenster/Türen nicht länger als zum Lüften offen lassen. Die Heizung schaltet sich bei offenem Fenster automatisch ab.",
+                    rulesTrash: "♻️ <b>Müll:</b> Mülltonnen befinden sich an der Südseite des Gebäudes (nach rechts um die Ecke).",
+                    rulesFees: "💳 <b>Zusatzgebühren:</b> Zusätzliche Person (außerhalb Buchung): 150 PLN / Nacht.<br>Haustier: 50 PLN / Nacht.",
+                    rulesSmoke: "🚭 <b>Rauchverbot:</b> Rauchen in der Wohnung ist strengstens verboten.",
+                    guideH: "Empfehlungen",
+                    guide1: "🌳 <b>Kurpark Swoszowice:</b> Schöner grüner Park direkt nebenan.",
+                    guide2: "🏰 <b>Hauptmarkt & Wawel:</b> Ca. 20 Minuten mit Auto oder Bus.",
+                    guide3: "⛏️ <b>Salzbergwerk Wieliczka:</b> Ca. 15 Minuten über die Umgehungsstraße.",
+                    contactH: "Kontakt zum Gastgeber",
+                    contactP1: "📞 <b>Telefon des Gastgebers:</b><br><span style='font-size:1.3rem; font-weight:800; color:var(--primary-green);'>+48 508 048 886</span>",
+                    contactP2: "💬 Wir stehen Ihnen bei Fragen jederzeit gerne zur Verfügung!",
+                    contactBtn: "Telefonnummer Kopieren",
+                    aboutText: "Willkommen! Wir haben alles getan, um Ihren Aufenthalt in Krakau unvergesslich zu machen.<br><br><i>\"You are welcome\"</i>"
+                },
+                toasts: {
+                    wifi: "WLAN-Passwort kopiert!",
+                    addr: "Adresse kopiert!",
+                    phone: "Telefonnummer kopiert!"
+                }
+            },
+            it: {
+                code: "IT",
+                greetings: {
+                    morning: "Buongiorno! Benvenuti a Matylda House",
+                    day: "Benvenuti a Matylda House",
+                    night: "Buonasera! Benvenuti a Matylda House"
+                },
+                welcomeSub: "Vi auguriamo un soggiorno felice e rilassante",
+                cards: {
+                    wifiTitle: "Wi-Fi", wifiSub: "Connessione veloce",
+                    gateTitle: "Parcheggio & Cancello", gateSub: "Telecomando e ingresso",
+                    foodTitle: "Ordina Cibo", foodSub: "Indirizzo di consegna",
+                    rulesTitle: "Regole & Info", rulesSub: "Riscaldamento, rifiuti, extra",
+                    guideTitle: "Scopri Cracovia", guideSub: "Attrazioni vicine",
+                    contactTitle: "Contatti", contactSub: "Proprietario"
+                },
+                modals: {
+                    wifiH: "Rete Wi-Fi", wifiSsid: "📶 <b>Nome rete:</b> Matylda_House", wifiPass: "🔑 <b>Password:</b> Domowe_WIFI", wifiBtn: "Copia Password",
+                    gateH: "Parcheggio e Cancello",
+                    gateP1: "🅿️ <b>Parcheggio:</b> Il posto auto è contrassegnato davanti all'ingresso dell'edificio (a sinistra dell'ingresso).",
+                    gateP2: "🔑 <b>Telecomando:</b> Sull'attaccapanni nel corridoio c'è il telecomando. Il <b>tasto sinistro</b> apre, ferma e chiude il cancello.",
+                    gateP3: "🔘 <b>Pulsante esterno:</b> Puoi aprire il cancello anche con il pulsante accanto alla porta. Si chiude automaticamente dopo 2 minuti.",
+                    gateP4: "🚪 <b>Check-out:</b> Al momento del check-out si prega di riposizionare il telecomando sull'attaccapanni.",
+                    foodH: "Ordina cibo in appartamento", foodSubText: "Usa questo indirizzo per le tue consegne:", foodAddr: "📍 <b>Indirizzo di consegna:</b><br>ul. Landaua 12, Kraków", foodBtn: "Copia Indirizzo",
+                    rulesH: "Informazioni per gli ospiti",
+                    rulesTime: "⏰ <b>Check-out:</b> Entro le 11:00 | 🌙 <b>Silenzio:</b> 22:00 – 06:00",
+                    rulesHeat: "🔥 <b>Riscaldamento:</b> Si prega di non lasciare finestre/porte aperte a lungo. Il riscaldamento si spegne automaticamente.",
+                    rulesTrash: "♻️ <b>Rifiuti:</b> I cassonetti si trovano sul lato sud dell'edificio (a destra dietro l'angolo).",
+                    rulesFees: "💳 <b>Costi extra:</b> Ospite supplementare: 150 PLN / notte.<br>Animale domestico: 50 PLN / notte.",
+                    rulesSmoke: "🚭 <b>Divieto di fumo:</b> È vietato fumare all'interno dell'appartamento.",
+                    guideH: "Raccomandazioni",
+                    guide1: "🌳 <b>Parco Termale Swoszowice:</b> Parco verde ideale per passeggiare.",
+                    guide2: "🏰 <b>Piazza del Mercato e Wawel:</b> Ca. 20 min in auto o autobus.",
+                    guide3: "⛏️ <b>Miniera di Sale Wieliczka:</b> Ca. 15 minuti in auto.",
+                    contactH: "Contatta il Proprietario",
+                    contactP1: "📞 <b>Telefono proprietario:</b><br><span style='font-size:1.3rem; font-weight:800; color:var(--primary-green);'>+48 508 048 886</span>",
+                    contactP2: "💬 Siamo a vostra disposizione per qualsiasi necessità!",
+                    contactBtn: "Copia Numero",
+                    aboutText: "Benvenuti! Abbiamo preparato tutto per rendere il vostro soggiorno speciale.<br><br><i>\"You are welcome\"</i>"
+                },
+                toasts: {
+                    wifi: "Password Wi-Fi copiata!",
+                    addr: "Indirizzo copiato!",
+                    phone: "Numero copiato!"
+                }
+            },
+            es: {
+                code: "ES",
+                greetings: {
+                    morning: "¡Buenos días! Bienvenidos a Matylda House",
+                    day: "Bienvenidos a Matylda House",
+                    night: "¡Buenas noches! Bienvenidos a Matylda House"
+                },
+                welcomeSub: "Les deseamos una estancia feliz y relajante",
+                cards: {
+                    wifiTitle: "Wi-Fi", wifiSub: "Internet rápido",
+                    gateTitle: "Aparcamiento y Portón", gateSub: "Mando, acceso y botón",
+                    foodTitle: "Pedir Comida", foodSub: "Dirección de entrega",
+                    rulesTitle: "Reglas e Info", rulesSub: "Calefacción, basura, tasas",
+                    guideTitle: "Descubre Cracovia", guideSub: "Atracciones cercanas",
+                    contactTitle: "Contacto", contactSub: "Propietario"
+                },
+                modals: {
+                    wifiH: "Red Wi-Fi", wifiSsid: "📶 <b>Nombre de red:</b> Matylda_House", wifiPass: "🔑 <b>Contraseña:</b> Domowe_WIFI", wifiBtn: "Copiar Contraseña",
+                    gateH: "Aparcamiento y Portón",
+                    gateP1: "🅿️ <b>Aparcamiento:</b> La plaza marcada está frente a la entrada del edificio (a la izquierda de la entrada).",
+                    gateP2: "🔑 <b>Mando del portón:</b> En el perchero del pasillo tiene el mando. El <b>botón izquierdo</b> abre, detiene y cierra el portón.",
+                    gateP3: "🔘 <b>Botón exterior:</b> También puede abrir el portón con el botón junto a la puerta de entrada. Se cierra solo tras 2 minutos.",
+                    gateP4: "🚪 <b>Salida:</b> Al marcharte, por favor deja el mando en el perchero del pasillo.",
+                    foodH: "Pedir comida al apartamento", foodSubText: "Utilice esta dirección para sus pedidos:", foodAddr: "📍 <b>Dirección de entrega:</b><br>ul. Landaua 12, Kraków", foodBtn: "Copiar Dirección",
+                    rulesH: "Información para huéspedes",
+                    rulesTime: "⏰ <b>Check-out:</b> Hasta las 11:00 | 🌙 <b>Silencio:</b> 22:00 – 06:00",
+                    rulesHeat: "🔥 <b>Calefacción:</b> No deje ventanas o puertas abiertas más de lo necesario. La calefacción se apaga automáticamente si quedan abiertas.",
+                    rulesTrash: "♻️ <b>Basura:</b> Los contenedores están en el lado sur del edificio (gire a la derecha a la vuelta de la esquina).",
+                    rulesFees: "💳 <b>Tasas adicionales:</b> Huésped adicional: 150 PLN / noche.<br>Mascota: 50 PLN / noche.",
+                    rulesSmoke: "🚭 <b>Prohibido fumar:</b> Está totalmente prohibido fumar en el interior.",
+                    guideH: "Recomendaciones",
+                    guide1: "🌳 <b>Parque Balneario Swoszowice:</b> Encantador parque verde junto al apartamento.",
+                    guide2: "🏰 <b>Plaza del Mercado y Wawel:</b> A unos 20 min en coche o autobús.",
+                    guide3: "⛏️ <b>Mina de Sal Wieliczka:</b> A unos 15 minutos en coche.",
+                    contactH: "Contacto con el Propietario",
+                    contactP1: "📞 <b>Teléfono del propietario:</b><br><span style='font-size:1.3rem; font-weight:800; color:var(--primary-green);'>+48 508 048 886</span>",
+                    contactP2: "💬 ¡Estamos a su disposición durante toda su estancia!",
+                    contactBtn: "Copiar Teléfono",
+                    aboutText: "¡Bienvenidos! Hemos preparado todo para que su estancia sea perfecta.<br><br><i>\"You are welcome\"</i>"
+                },
+                toasts: {
+                    wifi: "¡Contraseña Wi-Fi copiada!",
+                    addr: "¡Dirección copiada!",
+                    phone: "¡Teléfono copiado!"
+                }
+            }
+        };
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            const l = dict[lang];
+
+            document.getElementById('current-lang-code').textContent = l.code;
+            document.getElementById('welcome-sub-text').textContent = l.welcomeSub;
+
+            // Kafelki
+            document.getElementById('card-wifi-title').textContent = l.cards.wifiTitle;
+            document.getElementById('card-wifi-sub').textContent = l.cards.wifiSub;
+            document.getElementById('card-gate-title').textContent = l.cards.gateTitle;
+            document.getElementById('card-gate-sub').textContent = l.cards.gateSub;
+            document.getElementById('card-food-title').textContent = l.cards.foodTitle;
+            document.getElementById('card-food-sub').textContent = l.cards.foodSub;
+            document.getElementById('card-rules-title').textContent = l.cards.rulesTitle;
+            document.getElementById('card-rules-sub').textContent = l.cards.rulesSub;
+            document.getElementById('card-guide-title').textContent = l.cards.guideTitle;
+            document.getElementById('card-guide-sub').textContent = l.cards.guideSub;
+            document.getElementById('card-contact-title').textContent = l.cards.contactTitle;
+            document.getElementById('card-contact-sub').textContent = l.cards.contactSub;
+
+            // Modale content
+            document.getElementById('m-wifi-h').innerHTML = l.modals.wifiH;
+            document.getElementById('m-wifi-ssid').innerHTML = l.modals.wifiSsid;
+            document.getElementById('m-wifi-pass').innerHTML = l.modals.wifiPass;
+            document.getElementById('m-wifi-btn').innerHTML = l.modals.wifiBtn;
+
+            document.getElementById('m-gate-h').innerHTML = l.modals.gateH;
+            document.getElementById('m-gate-p1').innerHTML = l.modals.gateP1;
+            document.getElementById('m-gate-p2').innerHTML = l.modals.gateP2;
+            document.getElementById('m-gate-p3').innerHTML = l.modals.gateP3;
+            document.getElementById('m-gate-p4').innerHTML = l.modals.gateP4;
+
+            document.getElementById('m-food-h').innerHTML = l.modals.foodH;
+            document.getElementById('m-food-sub').innerHTML = l.modals.foodSubText;
+            document.getElementById('m-food-addr').innerHTML = l.modals.foodAddr;
+            document.getElementById('m-food-btn').innerHTML = l.modals.foodBtn;
+
+            document.getElementById('m-rules-h').innerHTML = l.modals.rulesH;
+            document.getElementById('m-rules-time').innerHTML = l.modals.rulesTime;
+            document.getElementById('m-rules-heat').innerHTML = l.modals.rulesHeat;
+            document.getElementById('m-rules-trash').innerHTML = l.modals.rulesTrash;
+            document.getElementById('m-rules-fees').innerHTML = l.modals.rulesFees;
+            document.getElementById('m-rules-smoke').innerHTML = l.modals.rulesSmoke;
+
+            document.getElementById('m-guide-h').innerHTML = l.modals.guideH;
+            document.getElementById('m-guide-1').innerHTML = l.modals.guide1;
+            document.getElementById('m-guide-2').innerHTML = l.modals.guide2;
+            document.getElementById('m-guide-3').innerHTML = l.modals.guide3;
+
+            document.getElementById('m-contact-h').innerHTML = l.modals.contactH;
+            document.getElementById('m-contact-p1').innerHTML = l.modals.contactP1;
+            document.getElementById('m-contact-p2').innerHTML = l.modals.contactP2;
+            document.getElementById('m-contact-btn').innerHTML = l.modals.contactBtn;
+
+            document.getElementById('m-about-text').innerHTML = l.modals.aboutText;
+
+            // Ukryj ekran języka
+            document.getElementById('lang-select-screen').style.display = 'none';
+
+            // Odśwież zegar i powitanie w nowym języku
+            updateClock();
+        }
+
+        function showLanguageSelect() {
+            document.getElementById('lang-select-screen').style.display = 'flex';
+        }
+
+        // ZEGAR I POWITANIE ZALEŻNIE OD PORY DNIA
         function updateClock() {
             const now = new Date();
             const hours = String(now.getHours()).padStart(2, '0');
@@ -493,16 +970,21 @@
             document.getElementById('clock').textContent = `${hours}:${minutes}`;
 
             const options = { weekday: 'long', day: 'numeric', month: 'long' };
-            document.getElementById('date').textContent = now.toLocaleDateString('pl-PL', options);
+            document.getElementById('date').textContent = now.toLocaleDateString(currentLang, options);
 
             const h = now.getHours();
             const greetingEl = document.getElementById('greeting');
-            if (h >= 5 && h < 12) greetingEl.textContent = "Dzień dobry! Witamy w Matylda House";
-            else if (h >= 12 && h < 18) greetingEl.textContent = "Witamy w Matylda House";
-            else greetingEl.textContent = "Dobry wieczór! Witamy w Matylda House";
+            const g = dict[currentLang].greetings;
+
+            if (h >= 5 && h < 12) {
+                greetingEl.textContent = g.morning;
+            } else if (h >= 12 && h < 18) {
+                greetingEl.textContent = g.day;
+            } else {
+                greetingEl.textContent = g.night;
+            }
         }
         setInterval(updateClock, 1000);
-        updateClock();
 
         // POGODA Z OPEN-METEO
         async function fetchWeather() {
@@ -535,7 +1017,8 @@
         }
 
         // KOPIOWANIE I TOAST
-        function copyText(text, msg) {
+        function copyText(text, toastKey) {
+            const msg = dict[currentLang].toasts[toastKey] || "Copied!";
             navigator.clipboard.writeText(text).then(() => showToast(msg)).catch(() => {
                 const ta = document.createElement('textarea');
                 ta.value = text;
@@ -553,6 +1036,9 @@
             toast.classList.add('show');
             setTimeout(() => toast.classList.remove('show'), 2500);
         }
+
+        // Domyślny start (pokazuje wybór języka)
+        updateClock();
     </script>
 </body>
 </html>
