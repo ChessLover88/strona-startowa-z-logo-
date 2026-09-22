@@ -222,7 +222,7 @@
             50% { opacity: 0.95; transform: translateY(-1px); }
         }
 
-        /* GRID MENU (6 KAFELKÓW) */
+        /* GRID MENU */
         .grid-menu {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -441,7 +441,7 @@
         <p class="welcome-sub" id="welcome-sub-text">Życzymy udanego i wypoczynkowego pobytu</p>
     </div>
 
-    <!-- KAFELKI INTERAKTYWNE (6 KAFELKÓW) -->
+    <!-- KAFELKI INTERAKTYWNE -->
     <div class="grid-menu">
         
         <!-- Kafel 1: Wi-Fi -->
@@ -466,14 +466,14 @@
             </div>
         </div>
 
-        <!-- Kafel 3: Zamów Jedzenie -->
+        <!-- Kafel 3: Zamów Jedzenie i Restauracje -->
         <div class="card" onclick="openModal('modal-food')">
             <div class="card-icon">
                 <svg viewBox="0 0 24 24"><path d="M12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12C20,14.82 18.5,17.28 16.27,18.59 C15.61,17.5 14.39,16.78 13,16.78H11C9.61,16.78 8.39,17.5 7.73,18.59C5.5,17.28 4,14.82 4,12A8,8 0 0,1 12,4Z"/></svg>
             </div>
             <div class="card-info">
                 <h3 id="card-food-title">Zamów Jedzenie</h3>
-                <p id="card-food-sub">Adres dostawy</p>
+                <p id="card-food-sub">Adres i polecane lokale</p>
             </div>
         </div>
 
@@ -523,7 +523,7 @@
             </div>
             <div class="pill-info" id="m-wifi-ssid">📶 <b>Nazwa sieci:</b> Matylda_House</div>
             <div class="pill-info" id="m-wifi-pass">🔑 <b>Hasło:</b> Domowe_WIFI</div>
-            <button class="btn-action" id="m-wifi-btn" onclick="copyText('Domowe_WIFI', 'copied-wifi')">Kopiuj Hasło</button>
+            <button class="btn-action" id="m-wifi-btn" onclick="copyText('Domowe_WIFI', 'wifi')">Kopiuj Hasło</button>
         </div>
     </div>
 
@@ -541,16 +541,22 @@
         </div>
     </div>
 
-    <!-- Modal Dostawa -->
+    <!-- Modal Dostawa i Polecane Restauracje -->
     <div id="modal-food" class="modal-overlay" onclick="closeModalOnBg(event, 'modal-food')">
         <div class="modal-box">
             <div class="modal-header">
-                <h2 id="m-food-h">Zamów Jedzenie do Apartamentu</h2>
+                <h2 id="m-food-h">Zamów Jedzenie i Polecane Lokale</h2>
                 <button class="close-btn" onclick="closeModal('modal-food')">&times;</button>
             </div>
-            <p style="color: var(--text-muted); margin-bottom: 10px;" id="m-food-sub">Podaj ten adres podczas zamawiania na Pyszne.pl, UberEats lub Bolt Food:</p>
+            <p style="color: var(--text-muted); margin-bottom: 6px;" id="m-food-sub">Podaj ten adres podczas zamawiania na Pyszne.pl, UberEats lub Bolt Food:</p>
             <div class="pill-info" id="m-food-addr">📍 <b>Adres dostawy:</b><br>ul. Landaua 12, Kraków</div>
-            <button class="btn-action" id="m-food-btn" onclick="copyText('ul. Landaua 12, Kraków', 'copied-addr')">Kopiuj Adres Dostawy</button>
+            <button class="btn-action" id="m-food-btn" style="margin-bottom: 14px;" onclick="copyText('ul. Landaua 12, Kraków', 'addr')">Kopiuj Adres Dostawy</button>
+
+            <!-- POLECANE RESTAURACJE -->
+            <div class="pill-info" id="m-food-nearby">🍽️ <b>W pobliżu (Swoszowice):</b><br><b>Restauracja Szyb Swoszowice</b><br>📍 ul. Szybisko 40 (ok. 1,5 km od apartamentu)</div>
+            <div class="pill-info" id="m-food-center">🥩 <b>W centrum Krakowa:</b><br><b>MooMoo Steak & Wine (Mo-Mo Stek)</b><br>📍 ul. Sienna 9 (Stare Miasto)</div>
+            <div class="pill-info" id="m-food-rec">🍝 <b>Polecana restauracja:</b><br><b>Restauracja Pół na Pół</b> (kuchnia polsko-włoska)<br>📍 ul. Kosocicka 105A, Kraków</div>
+            <div class="pill-info" id="m-food-fast">🍔 <b>Najbliższy Fast Food:</b><br><b>McDonald's</b><br>📍 ul. Cechowa / ul. Stojałowskiego 2 (ok. 2,5 km od apartamentu)</div>
         </div>
     </div>
 
@@ -591,7 +597,7 @@
             </div>
             <div class="pill-info" id="m-contact-p1">📞 <b>Telefon do właściciela:</b><br><span style="font-size:1.3rem; font-weight:800; color:var(--primary-green);">+48 508 048 886</span></div>
             <div class="pill-info" id="m-contact-p2">💬 Jesteśmy do Państwa dyspozycji w razie pytań lub wątpliwości podczas pobytu!</div>
-            <button class="btn-action" id="m-contact-btn" onclick="copyText('508048886', 'copied-phone')">Kopiuj Numer Telefonu</button>
+            <button class="btn-action" id="m-contact-btn" onclick="copyText('508048886', 'phone')">Kopiuj Numer Telefonu</button>
         </div>
     </div>
 
@@ -627,7 +633,7 @@
                 cards: {
                     wifiTitle: "Wi-Fi", wifiSub: "Szybki internet",
                     gateTitle: "Parking i Brama", gateSub: "Pilot, wjazd i przycisk",
-                    foodTitle: "Zamów Jedzenie", foodSub: "Adres dostawy",
+                    foodTitle: "Zamów Jedzenie", foodSub: "Adres i polecane lokale",
                     rulesTitle: "Wskazówki i Zasady", rulesSub: "Ogrzewanie, śmieci, opłaty",
                     guideTitle: "Odkryj Kraków", guideSub: "Atrakcje w okolicy",
                     contactTitle: "Kontakt", contactSub: "Właściciel obiektu"
@@ -639,7 +645,14 @@
                     gateP2: "🔑 <b>Pilot do bramy:</b> Na wieszaku obok w korytarzu znajduje się pilot do Państwa dyspozycji. <b>Lewy przycisk</b> służy do otwierania, zatrzymywania i zamykania bramy.",
                     gateP3: "🔘 <b>Przycisk przy drzwiach:</b> Bramę wjazdową można otworzyć również przyciskiem znajdującym się na zewnątrz obok drzwi wejściowych do apartamentu. Brama zamyka się dopiero po 2 minutach od otwarcia, aby zapewnić czas na spokojny wyjazd.",
                     gateP4: "🚪 <b>Wymeldowanie:</b> Przy wymeldowaniu prosimy o pozostawienie pilota na wieszaku w korytarzu.",
-                    foodH: "Zamów Jedzenie do Apartamentu", foodSubText: "Podaj ten adres podczas zamawiania na Pyszne.pl, UberEats lub Bolt Food:", foodAddr: "📍 <b>Adres dostawy:</b><br>ul. Landaua 12, Kraków", foodBtn: "Kopiuj Adres Dostawy",
+                    foodH: "Zamów Jedzenie i Polecane Lokale",
+                    foodSubText: "Podaj ten adres podczas zamawiania na Pyszne.pl, UberEats lub Bolt Food:",
+                    foodAddr: "📍 <b>Adres dostawy:</b><br>ul. Landaua 12, Kraków",
+                    foodBtn: "Kopiuj Adres Dostawy",
+                    foodNearby: "🍽️ <b>W pobliżu (Swoszowice):</b><br><b>Restauracja Szyb Swoszowice</b><br>📍 ul. Szybisko 40 (ok. 1,5 km od apartamentu)",
+                    foodCenter: "🥩 <b>W centrum Krakowa:</b><br><b>MooMoo Steak & Wine (Mo-Mo Stek)</b><br>📍 ul. Sienna 9 (Stare Miasto)",
+                    foodRec: "🍝 <b>Polecana restauracja:</b><br><b>Restauracja Pół na Pół</b> (kuchnia polsko-włoska)<br>📍 ul. Kosocicka 105A, Kraków",
+                    foodFast: "🍔 <b>Najbliższy Fast Food:</b><br><b>McDonald's</b><br>📍 ul. Cechowa / ul. Stojałowskiego 2 (ok. 2,5 km od apartamentu)",
                     rulesH: "Wskazówki dla Gości",
                     rulesTime: "⏰ <b>Wymeldowanie:</b> Do 11:00 | 🌙 <b>Cisza nocna:</b> 22:00 – 06:00",
                     rulesHeat: "🔥 <b>Ogrzewanie:</b> Prosimy o nieotwieranie okien i drzwi na dłużej niż w celach przewietrzenia pomieszczeń. W apartamencie działa ogrzewanie, które wyłącza się automatycznie, jeśli okna lub drzwi są uchylone/otwarte przez dłuższy czas.",
@@ -673,7 +686,7 @@
                 cards: {
                     wifiTitle: "Wi-Fi", wifiSub: "Fast Internet",
                     gateTitle: "Parking & Gate", gateSub: "Remote, driveway & button",
-                    foodTitle: "Order Food", foodSub: "Delivery address",
+                    foodTitle: "Order Food", foodSub: "Address & top spots",
                     rulesTitle: "House Rules & Info", rulesSub: "Heating, trash, fees",
                     guideTitle: "Discover Kraków", guideSub: "Nearby attractions",
                     contactTitle: "Contact", contactSub: "Property Owner"
@@ -685,7 +698,14 @@
                     gateP2: "🔑 <b>Gate Remote:</b> On the rack in the hallway there is a remote control. The <b>left button</b> opens, stops, and closes the gate.",
                     gateP3: "🔘 <b>Door Button:</b> The gate can also be opened using the button outside next to the apartment entrance. The gate closes automatically after 2 minutes to allow a stress-free exit.",
                     gateP4: "🚪 <b>Check-out:</b> Please leave the gate remote back on the hallway rack upon check-out.",
-                    foodH: "Order Food to Apartment", foodSubText: "Provide this address when ordering on UberEats, Bolt Food, or local apps:", foodAddr: "📍 <b>Delivery address:</b><br>ul. Landaua 12, Kraków", foodBtn: "Copy Delivery Address",
+                    foodH: "Order Food & Recommended Spots",
+                    foodSubText: "Provide this address when ordering on UberEats, Bolt Food, or Pyszne.pl:",
+                    foodAddr: "📍 <b>Delivery Address:</b><br>ul. Landaua 12, Kraków",
+                    foodBtn: "Copy Delivery Address",
+                    foodNearby: "🍽️ <b>Nearby (Swoszowice):</b><br><b>Restauracja Szyb Swoszowice</b><br>📍 ul. Szybisko 40 (approx. 1.5 km from apartment)",
+                    foodCenter: "🥩 <b>In City Center:</b><br><b>MooMoo Steak & Wine (Mo-Mo Stek)</b><br>📍 ul. Sienna 9 (Old Town)",
+                    foodRec: "🍝 <b>Recommended Restaurant:</b><br><b>Restauracja Pół na Pół</b> (Polish & Italian cuisine)<br>📍 ul. Kosocicka 105A, Kraków",
+                    foodFast: "🍔 <b>Nearest Fast Food:</b><br><b>McDonald's</b><br>📍 ul. Cechowa / ul. Stojałowskiego 2 (approx. 2.5 km from apartment)",
                     rulesH: "Guest Guidelines",
                     rulesTime: "⏰ <b>Check-out:</b> By 11:00 AM | 🌙 <b>Quiet hours:</b> 10:00 PM – 06:00 AM",
                     rulesHeat: "🔥 <b>Heating:</b> Please do not leave windows or doors open longer than needed for airing out. The heating turns off automatically if windows/doors remain open for a prolonged time.",
@@ -719,7 +739,7 @@
                 cards: {
                     wifiTitle: "Wi-Fi", wifiSub: "Швидкий інтернет",
                     gateTitle: "Паркінг та Брама", gateSub: "Пульт, заїзд та кнопка",
-                    foodTitle: "Замовити Їжу", foodSub: "Адреса доставки",
+                    foodTitle: "Замовити Їжу", foodSub: "Адреса та заклади",
                     rulesTitle: "Правила та Інфо", rulesSub: "Опалення, сміття, збори",
                     guideTitle: "Відкрийте Краків", guideSub: "Цікаві місця поруч",
                     contactTitle: "Контакти", contactSub: "Власник апартаментів"
@@ -731,7 +751,14 @@
                     gateP2: "🔑 <b>Пульт від брами:</b> На вішалці у коридорі є пульт. <b>Ліва кнопка</b> відкриває, зупиняє та закриває браму.",
                     gateP3: "🔘 <b>Кнопка біля дверей:</b> Браму можна відкрити кнопкою зовні біля входу. Вона закривається автоматично через 2 хвилини, щоб ви спокійно виїхали.",
                     gateP4: "🚪 <b>Виїзд:</b> При виїзді просимо залишити пульт на вішалці у коридорі.",
-                    foodH: "Замовити Їжу в Апартаменти", foodSubText: "Вкажіть цю адресу при замовленні у службах доставки:", foodAddr: "📍 <b>Адреса доставки:</b><br>ul. Landaua 12, Kraków", foodBtn: "Копіювати Адресу",
+                    foodH: "Замовлення Їжі та Ресторани",
+                    foodSubText: "Вкажіть цю адресу при замовленні доставки:",
+                    foodAddr: "📍 <b>Адреса доставки:</b><br>ul. Landaua 12, Kraków",
+                    foodBtn: "Копіювати Адресу",
+                    foodNearby: "🍽️ <b>Поруч (Свошовіце):</b><br><b>Restauracja Szyb Swoszowice</b><br>📍 ul. Szybisko 40 (бл. 1,5 км від апартаментів)",
+                    foodCenter: "🥩 <b>У центрі Кракова:</b><br><b>MooMoo Steak & Wine (Mo-Mo Stek)</b><br>📍 ul. Sienna 9 (Старе Місто)",
+                    foodRec: "🍝 <b>Рекомендований ресторан:</b><br><b>Restauracja Pół na Pół</b> (польсько-італійська кухня)<br>📍 ul. Kosocicka 105A, Kraków",
+                    foodFast: "🍔 <b>Найближчий Фастфуд:</b><br><b>McDonald's</b><br>📍 ul. Cechowa / ul. Stojałowskiego 2 (бл. 2,5 км від апартаментів)",
                     rulesH: "Інформація для Гостей",
                     rulesTime: "⏰ <b>Виїзд:</b> До 11:00 | 🌙 <b>Тихі години:</b> 22:00 – 06:00",
                     rulesHeat: "🔥 <b>Опалення:</b> Просимо не залишати вікна та двері відчиненими довше, ніж для короткого провітрювання. Опалення вимикається автоматично при тривалому відкритті.",
@@ -765,7 +792,7 @@
                 cards: {
                     wifiTitle: "WLAN", wifiSub: "Schnelles Internet",
                     gateTitle: "Parkplatz & Tor", gateSub: "Fernbedienung & Einfahrt",
-                    foodTitle: "Essen Bestellen", foodSub: "Lieferadresse",
+                    foodTitle: "Essen Bestellen", wifiSub: "Adresse & Lokal-Tipps",
                     rulesTitle: "Hausordnung & Info", rulesSub: "Heizung, Müll, Gebühren",
                     guideTitle: "Entdecke Krakau", guideSub: "Sehenswürdigkeiten",
                     contactTitle: "Kontakt", contactSub: "Eigentümer"
@@ -777,7 +804,14 @@
                     gateP2: "🔑 <b>Tor-Fernbedienung:</b> Im Flur am Haken befindet sich die Fernbedienung. Die <b>linke Taste</b> öffnet, stoppt und schließt das Tor.",
                     gateP3: "🔘 <b>Taster an der Tür:</b> Das Tor kann auch mit dem Taster außen neben der Tür geöffnet werden. Es schließt automatisch nach 2 Minuten.",
                     gateP4: "🚪 <b>Check-out:</b> Bitte hängen Sie die Fernbedienung beim Auschecken wieder an den Haken im Flur.",
-                    foodH: "Essen in die Ferienwohnung bestellen", foodSubText: "Geben Sie diese Adresse bei Lieferdiensten an:", foodAddr: "📍 <b>Lieferadresse:</b><br>ul. Landaua 12, Kraków", foodBtn: "Lieferadresse Kopieren",
+                    foodH: "Essen Bestellen & Empfohlene Lokale",
+                    foodSubText: "Geben Sie diese Adresse bei Lieferdiensten an:",
+                    foodAddr: "📍 <b>Lieferadresse:</b><br>ul. Landaua 12, Kraków",
+                    foodBtn: "Lieferadresse Kopieren",
+                    foodNearby: "🍽️ <b>In der Nähe (Swoszowice):</b><br><b>Restauracja Szyb Swoszowice</b><br>📍 ul. Szybisko 40 (ca. 1,5 km entfernt)",
+                    foodCenter: "🥩 <b>Im Stadtzentrum:</b><br><b>MooMoo Steak & Wine (Mo-Mo Stek)</b><br>📍 ul. Sienna 9 (Altstadt)",
+                    foodRec: "🍝 <b>Empfohlenes Restaurant:</b><br><b>Restauracja Pół na Pół</b> (polnisch-italienisch)<br>📍 ul. Kosocicka 105A, Kraków",
+                    foodFast: "🍔 <b>Nächstes Fast Food:</b><br><b>McDonald's</b><br>📍 ul. Cechowa / ul. Stojałowskiego 2 (ca. 2,5 km entfernt)",
                     rulesH: "Gästehinweise",
                     rulesTime: "⏰ <b>Check-out:</b> Bis 11:00 Uhr | 🌙 <b>Nachtruhe:</b> 22:00 – 06:00 Uhr",
                     rulesHeat: "🔥 <b>Heizung:</b> Bitte Fenster/Türen nicht länger als zum Lüften offen lassen. Die Heizung schaltet sich bei offenem Fenster automatisch ab.",
@@ -811,7 +845,7 @@
                 cards: {
                     wifiTitle: "Wi-Fi", wifiSub: "Connessione veloce",
                     gateTitle: "Parcheggio & Cancello", gateSub: "Telecomando e ingresso",
-                    foodTitle: "Ordina Cibo", foodSub: "Indirizzo di consegna",
+                    foodTitle: "Ordina Cibo", foodSub: "Indirizzo e locali raccomandati",
                     rulesTitle: "Regole & Info", rulesSub: "Riscaldamento, rifiuti, extra",
                     guideTitle: "Scopri Cracovia", guideSub: "Attrazioni vicine",
                     contactTitle: "Contatti", contactSub: "Proprietario"
@@ -823,7 +857,14 @@
                     gateP2: "🔑 <b>Telecomando:</b> Sull'attaccapanni nel corridoio c'è il telecomando. Il <b>tasto sinistro</b> apre, ferma e chiude il cancello.",
                     gateP3: "🔘 <b>Pulsante esterno:</b> Puoi aprire il cancello anche con il pulsante accanto alla porta. Si chiude automaticamente dopo 2 minuti.",
                     gateP4: "🚪 <b>Check-out:</b> Al momento del check-out si prega di riposizionare il telecomando sull'attaccapanni.",
-                    foodH: "Ordina cibo in appartamento", foodSubText: "Usa questo indirizzo per le tue consegne:", foodAddr: "📍 <b>Indirizzo di consegna:</b><br>ul. Landaua 12, Kraków", foodBtn: "Copia Indirizzo",
+                    foodH: "Ordina Cibo & Ristoranti Consigliati",
+                    foodSubText: "Usa questo indirizzo per le tue consegne:",
+                    foodAddr: "📍 <b>Indirizzo di Consegna:</b><br>ul. Landaua 12, Kraków",
+                    foodBtn: "Copia Indirizzo",
+                    foodNearby: "🍽️ <b>Nelle vicinanze (Swoszowice):</b><br><b>Restauracja Szyb Swoszowice</b><br>📍 ul. Szybisko 40 (ca. 1,5 km dall'appartamento)",
+                    foodCenter: "🥩 <b>In centro città:</b><br><b>MooMoo Steak & Wine (Mo-Mo Stek)</b><br>📍 ul. Sienna 9 (Città Vecchia)",
+                    foodRec: "🍝 <b>Ristorante consigliato:</b><br><b>Restauracja Pół na Pół</b> (cucina polacco-italiana)<br>📍 ul. Kosocicka 105A, Kraków",
+                    foodFast: "🍔 <b>Fast Food più vicino:</b><br><b>McDonald's</b><br>📍 ul. Cechowa / ul. Stojałowskiego 2 (ca. 2,5 km)",
                     rulesH: "Informazioni per gli ospiti",
                     rulesTime: "⏰ <b>Check-out:</b> Entro le 11:00 | 🌙 <b>Silenzio:</b> 22:00 – 06:00",
                     rulesHeat: "🔥 <b>Riscaldamento:</b> Si prega di non lasciare finestre/porte aperte a lungo. Il riscaldamento si spegne automaticamente.",
@@ -857,7 +898,7 @@
                 cards: {
                     wifiTitle: "Wi-Fi", wifiSub: "Internet rápido",
                     gateTitle: "Aparcamiento y Portón", gateSub: "Mando, acceso y botón",
-                    foodTitle: "Pedir Comida", foodSub: "Dirección de entrega",
+                    foodTitle: "Pedir Comida", foodSub: "Dirección y restaurantes",
                     rulesTitle: "Reglas e Info", rulesSub: "Calefacción, basura, tasas",
                     guideTitle: "Descubre Cracovia", guideSub: "Atracciones cercanas",
                     contactTitle: "Contacto", contactSub: "Propietario"
@@ -869,7 +910,14 @@
                     gateP2: "🔑 <b>Mando del portón:</b> En el perchero del pasillo tiene el mando. El <b>botón izquierdo</b> abre, detiene y cierra el portón.",
                     gateP3: "🔘 <b>Botón exterior:</b> También puede abrir el portón con el botón junto a la puerta de entrada. Se cierra solo tras 2 minutos.",
                     gateP4: "🚪 <b>Salida:</b> Al marcharte, por favor deja el mando en el perchero del pasillo.",
-                    foodH: "Pedir comida al apartamento", foodSubText: "Utilice esta dirección para sus pedidos:", foodAddr: "📍 <b>Dirección de entrega:</b><br>ul. Landaua 12, Kraków", foodBtn: "Copiar Dirección",
+                    foodH: "Pedir Comida y Restaurantes",
+                    foodSubText: "Utilice esta dirección para sus pedidos a domicilio:",
+                    foodAddr: "📍 <b>Dirección de entrega:</b><br>ul. Landaua 12, Kraków",
+                    foodBtn: "Copiar Dirección",
+                    foodNearby: "🍽️ <b>Cerca del apartamento (Swoszowice):</b><br><b>Restauracja Szyb Swoszowice</b><br>📍 ul. Szybisko 40 (aprox. 1,5 km del apartamento)",
+                    foodCenter: "🥩 <b>En el centro de Cracovia:</b><br><b>MooMoo Steak & Wine (Mo-Mo Stek)</b><br>📍 ul. Sienna 9 (Casco Antiguo)",
+                    foodRec: "🍝 <b>Restaurante recomendado:</b><br><b>Restauracja Pół na Pół</b> (cocina polaco-italiana)<br>📍 ul. Kosocicka 105A, Kraków",
+                    foodFast: "🍔 <b>Fast Food más cercano:</b><br><b>McDonald's</b><br>📍 ul. Cechowa / ul. Stojałowskiego 2 (aprox. 2,5 km)",
                     rulesH: "Información para huéspedes",
                     rulesTime: "⏰ <b>Check-out:</b> Hasta las 11:00 | 🌙 <b>Silencio:</b> 22:00 – 06:00",
                     rulesHeat: "🔥 <b>Calefacción:</b> No deje ventanas o puertas abiertas más de lo necesario. La calefacción se apaga automáticamente si quedan abiertas.",
@@ -927,10 +975,15 @@
             document.getElementById('m-gate-p3').innerHTML = l.modals.gateP3;
             document.getElementById('m-gate-p4').innerHTML = l.modals.gateP4;
 
+            // Modal Food & Restaurants
             document.getElementById('m-food-h').innerHTML = l.modals.foodH;
             document.getElementById('m-food-sub').innerHTML = l.modals.foodSubText;
             document.getElementById('m-food-addr').innerHTML = l.modals.foodAddr;
             document.getElementById('m-food-btn').innerHTML = l.modals.foodBtn;
+            document.getElementById('m-food-nearby').innerHTML = l.modals.foodNearby;
+            document.getElementById('m-food-center').innerHTML = l.modals.foodCenter;
+            document.getElementById('m-food-rec').innerHTML = l.modals.foodRec;
+            document.getElementById('m-food-fast').innerHTML = l.modals.foodFast;
 
             document.getElementById('m-rules-h').innerHTML = l.modals.rulesH;
             document.getElementById('m-rules-time').innerHTML = l.modals.rulesTime;
