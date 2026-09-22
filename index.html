@@ -107,9 +107,7 @@
             border-color: var(--primary-green);
         }
 
-        .flag {
-            font-size: 1.8rem;
-        }
+        .flag { font-size: 1.8rem; }
 
         /* PASEK GÓRNY */
         header {
@@ -145,9 +143,7 @@
             font-size: 0.9rem;
         }
 
-        .lang-switch-btn:active {
-            transform: scale(0.95);
-        }
+        .lang-switch-btn:active { transform: scale(0.95); }
 
         .weather-icon { font-size: 1.4rem; }
         .weather-temp { font-size: 1.2rem; font-weight: 700; color: var(--primary-green); }
@@ -466,7 +462,7 @@
             </div>
         </div>
 
-        <!-- Kafel 3: Zamów Jedzenie i Restauracje -->
+        <!-- Kafel 3: Zamów Jedzenie -->
         <div class="card" onclick="openModal('modal-food')">
             <div class="card-icon">
                 <svg viewBox="0 0 24 24"><path d="M12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12C20,14.82 18.5,17.28 16.27,18.59 C15.61,17.5 14.39,16.78 13,16.78H11C9.61,16.78 8.39,17.5 7.73,18.59C5.5,17.28 4,14.82 4,12A8,8 0 0,1 12,4Z"/></svg>
@@ -488,7 +484,7 @@
             </div>
         </div>
 
-        <!-- Kafel 5: Przewodnik -->
+        <!-- Kafel 5: Przewodnik / Atrakcje -->
         <div class="card" onclick="openModal('modal-guide')">
             <div class="card-icon">
                 <svg viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4M11,7V13H17V11.5H12.5V7H11Z"/></svg>
@@ -552,7 +548,6 @@
             <div class="pill-info" id="m-food-addr">📍 <b>Adres dostawy:</b><br>ul. Landaua 12, Kraków</div>
             <button class="btn-action" id="m-food-btn" style="margin-bottom: 14px;" onclick="copyText('ul. Landaua 12, Kraków', 'addr')">Kopiuj Adres Dostawy</button>
 
-            <!-- POLECANE RESTAURACJE -->
             <div class="pill-info" id="m-food-nearby">🍽️ <b>W pobliżu (Swoszowice):</b><br><b>Restauracja Szyb Swoszowice</b><br>📍 ul. Szybisko 40 (ok. 1,5 km od apartamentu)</div>
             <div class="pill-info" id="m-food-center">🥩 <b>W centrum Krakowa:</b><br><b>MooMoo Steak & Wine (Mo-Mo Stek)</b><br>📍 ul. Sienna 9 (Stare Miasto)</div>
             <div class="pill-info" id="m-food-rec">🍝 <b>Polecana restauracja:</b><br><b>Restauracja Pół na Pół</b> (kuchnia polsko-włoska)<br>📍 ul. Kosocicka 105A, Kraków</div>
@@ -575,16 +570,19 @@
         </div>
     </div>
 
-    <!-- Modal Przewodnik -->
+    <!-- Modal Przewodnik / Rekomendacje i Okolica -->
     <div id="modal-guide" class="modal-overlay" onclick="closeModalOnBg(event, 'modal-guide')">
         <div class="modal-box">
             <div class="modal-header">
-                <h2 id="m-guide-h">Rekomendacje i Okolica</h2>
+                <h2 id="m-guide-h">Rekomendacje i Atrakcje</h2>
                 <button class="close-btn" onclick="closeModal('modal-guide')">&times;</button>
             </div>
-            <div class="pill-info" id="m-guide-1">🌳 <b>Park Zdrojowy w Swoszowicach:</b> Urokliwe, zielone miejsce na spacer tuż obok apartamentu.</div>
-            <div class="pill-info" id="m-guide-2">🏰 <b>Rynek Główny & Wawel:</b> Ok. 20 minut jazdy samochodem lub autobusem.</div>
-            <div class="pill-info" id="m-guide-3">⛏️ <b>Kopalnia Soli Wieliczka:</b> Ok. 15 minut trasą obwodową.</div>
+            <div class="pill-info" id="m-guide-park">🌳 <b>Park Zdrojowy w Swoszowicach:</b> Urokliwe, zielone miejsce na spacer tuż obok apartamentu.</div>
+            <div class="pill-info" id="m-guide-view">🌄 <b>Punkt widokowy na Kraków:</b> Okolice Fortu Swoszowice przy ul. Droga Rokadowa – wspaniała panorama miasta z góry, szczególnie ciekawa i efektowna nocą przy dobrej pogodzie.</div>
+            <div class="pill-info" id="m-guide-market">🏰 <b>Rynek Główny & Podziemia Rynku:</b> Sercem Krakowa z unikalną podziemną trasą turystyczną pod płytą Rynku (dojazd samochodem zajmuje ok. 30 minut).</div>
+            <div class="pill-info" id="m-guide-wawel">👑 <b>Zamek Królewski na Wawelu & Smok Wawelski:</b> Rezydencja królów oraz słynny ziejący ogniem pomnik Smoka Wawelskiego na bulwarach nad Wisłą (ok. 30 minut autem).</div>
+            <div class="pill-info" id="m-guide-wieliczka">⛏️ <b>Kopalnia Soli w Wieliczce:</b> Słynna podziemna trasa turystyczna (ok. 15 minut jazdy samochodem trasą obwodową).</div>
+            <div class="pill-info" id="m-guide-energylandia">🎢 <b>Park Rozrywki Energylandia w Zatorze:</b> Największy park rozrywki w Polsce. Trasa z ul. Landaua to ok. 50-55 km, a dojazd samochodem zajmuje ok. 45–50 minut.</div>
         </div>
     </div>
 
@@ -659,10 +657,13 @@
                     rulesTrash: "♻️ <b>Śmieci:</b> Pojemniki na śmieci znajdują się od południowej strony budynku. Wychodząc z apartamentu należy pójść w prawo i za rogiem znajdują się pojemniki.",
                     rulesFees: "💳 <b>Opłaty dodatkowe:</b> Dokwaterowanie dodatkowej osoby (ponad ujęte w rezerwacji): 150 zł / dobę.<br>Pobyt zwierzęcia: 50 zł / dobę za zwierzę.",
                     rulesSmoke: "🚭 <b>Zakaz palenia:</b> Palenie wewnątrz apartamentu jest całkowicie zabronione.",
-                    guideH: "Rekomendacje i Okolica",
-                    guide1: "🌳 <b>Park Zdrojowy w Swoszowicach:</b> Urokliwe, zielone miejsce na spacer tuż obok apartamentu.",
-                    guide2: "🏰 <b>Rynek Główny & Wawel:</b> Ok. 20 minut jazdy samochodem lub autobusem.",
-                    guide3: "⛏️ <b>Kopalnia Soli Wieliczka:</b> Ok. 15 minut trasą obwodową.",
+                    guideH: "Rekomendacje i Atrakcje",
+                    guidePark: "🌳 <b>Park Zdrojowy w Swoszowicach:</b> Urokliwe, zielone miejsce na spacer tuż obok apartamentu.",
+                    guideView: "🌄 <b>Punkt widokowy na Kraków:</b> Okolice Fortu Swoszowice przy ul. Droga Rokadowa – wspaniała panorama miasta z góry, szczególnie ciekawa i efektowna nocą przy dobrej pogodzie.",
+                    guideMarket: "🏰 <b>Rynek Główny & Podziemia Rynku:</b> Sercem Krakowa z unikalną podziemną trasą turystyczną pod płytą Rynku (dojazd samochodem zajmuje ok. 30 minut).",
+                    guideWawel: "👑 <b>Zamek Królewski na Wawelu & Smok Wawelski:</b> Rezydencja królów oraz słynny ziejący ogniem pomnik Smoka Wawelskiego na bulwarach nad Wisłą (ok. 30 minut autem).",
+                    guideWieliczka: "⛏️ <b>Kopalnia Soli w Wieliczce:</b> Słynna podziemna trasa turystyczna (ok. 15 minut jazdy samochodem trasą obwodową).",
+                    guideEnergylandia: "🎢 <b>Park Rozrywki Energylandia w Zatorze:</b> Największy park rozrywki w Polsce. Trasa z ul. Landaua to ok. 50-55 km, a dojazd samochodem zajmuje ok. 45–50 minut.",
                     contactH: "Kontakt do Właściciela",
                     contactP1: "📞 <b>Telefon do właściciela:</b><br><span style='font-size:1.3rem; font-weight:800; color:var(--primary-green);'>+48 508 048 886</span>",
                     contactP2: "💬 Jesteśmy do Państwa dyspozycji w razie pytań lub wątpliwości podczas pobytu!",
@@ -712,10 +713,13 @@
                     rulesTrash: "♻️ <b>Trash:</b> Waste containers are located on the south side of the building. Exit the apartment, turn right, and they are around the corner.",
                     rulesFees: "💳 <b>Extra Fees:</b> Additional guest (beyond reservation): 150 PLN / night.<br>Pet stay: 50 PLN / night per pet.",
                     rulesSmoke: "🚭 <b>No Smoking:</b> Smoking inside the apartment is strictly prohibited.",
-                    guideH: "Recommendations & Area",
-                    guide1: "🌳 <b>Swoszowice Spa Park:</b> Charming green park for a relaxing walk right next door.",
-                    guide2: "🏰 <b>Main Market Square & Wawel:</b> Approx. 20 minutes by car or bus.",
-                    guide3: "⛏️ <b>Wieliczka Salt Mine:</b> Approx. 15 minutes via the ring road.",
+                    guideH: "Recommendations & Attractions",
+                    guidePark: "🌳 <b>Swoszowice Spa Park:</b> Charming green park for a relaxing walk right next door.",
+                    guideView: "🌄 <b>Kraków Viewpoint (Night View):</b> Near Fort Swoszowice at ul. Droga Rokadowa – a wonderful panorama of Kraków from above, especially stunning at night in clear weather.",
+                    guideMarket: "🏰 <b>Main Market Square & Market Underground:</b> The heart of Kraków with a unique underground exhibition (approx. 30 minutes drive by car).",
+                    guideWawel: "👑 <b>Wawel Royal Castle & Wawel Dragon Statue:</b> Historic royal residence and the famous fire-breathing Dragon Statue on the Vistula boulevards (approx. 30 min by car).",
+                    guideWieliczka: "⛏️ <b>Wieliczka Salt Mine:</b> Famous UNESCO underground salt mine (approx. 15 minutes drive by car via the bypass).",
+                    guideEnergylandia: "🎢 <b>Energylandia Amusement Park in Zator:</b> The largest amusement park in Poland. Route from ul. Landaua is approx. 50-55 km, taking about 45–50 minutes by car.",
                     contactH: "Contact Owner",
                     contactP1: "📞 <b>Owner Phone:</b><br><span style='font-size:1.3rem; font-weight:800; color:var(--primary-green);'>+48 508 048 886</span>",
                     contactP2: "💬 We are at your service if you have any questions during your stay!",
@@ -765,10 +769,13 @@
                     rulesTrash: "♻️ <b>Сміття:</b> Сміттєві контейнери розташовані з південного боку будівлі. Вийшовши з апартаментів, поверніть праворуч за ріг.",
                     rulesFees: "💳 <b>Додаткові збори:</b> Додатковий гість (понад бронювання): 150 PLN / добу.<br>Проживання тварин: 50 PLN / добу за тварину.",
                     rulesSmoke: "🚭 <b>Заборона куріння:</b> Куріння всередині апартаментів суворо заборонено.",
-                    guideH: "Рекомендації",
-                    guide1: "🌳 <b>Парк Свошовіце:</b> Затишний зелений парк для прогулянок поруч.",
-                    guide2: "🏰 <b>Площа Ринок та Вавель:</b> Близько 20 хвилин на авто чи автобусі.",
-                    guide3: "⛏️ <b>Соляна копальня Величка:</b> Близько 15 хвилин по об'їзній.",
+                    guideH: "Рекомендації та Пам'ятки",
+                    guidePark: "🌳 <b>Парк Свошовіце:</b> Затишний зелений парк для прогулянок поруч з апартаментами.",
+                    guideView: "🌄 <b>Оглядовий майданчик Кракова:</b> Поруч із Фортом Свошовіце на вул. Droga Rokadowa – чудова панорама міста зверху, особливо вражаюча вночі за гарної погоди.",
+                    guideMarket: "🏰 <b>Головний Ринок та Підземелля Ринку:</b> Серце Кракова з унікальною підземною екскурсійною трасою (доїзд автомобілем займає близько 30 хвилин).",
+                    guideWawel: "👑 <b>Королівський замок на Вавелі та Вавельський Дракон:</b> Історична резиденція королів і знаменитий вогнедишний дракон на бульварах Вісли (близько 30 хв на авто).",
+                    guideWieliczka: "⛏️ <b>Соляна копальня Величка:</b> Всесвітньо відома підземна соляна шахта (близько 15 хвилин їзди на авто по об'їзній).",
+                    guideEnergylandia: "🎢 <b>Парк розваг Energylandia в Заторі:</b> Найбільший парк розваг у Польщі. Маршрут з вул. Landaua становить бл. 50-55 км (близько 45–50 хвилин на авто).",
                     contactH: "Контакт з Власником",
                     contactP1: "📞 <b>Телефон власника:</b><br><span style='font-size:1.3rem; font-weight:800; color:var(--primary-green);'>+48 508 048 886</span>",
                     contactP2: "💬 Ми завжди раді допомогти вам під час вашого перебування!",
@@ -818,10 +825,13 @@
                     rulesTrash: "♻️ <b>Müll:</b> Mülltonnen befinden sich an der Südseite des Gebäudes (nach rechts um die Ecke).",
                     rulesFees: "💳 <b>Zusatzgebühren:</b> Zusätzliche Person (außerhalb Buchung): 150 PLN / Nacht.<br>Haustier: 50 PLN / Nacht.",
                     rulesSmoke: "🚭 <b>Rauchverbot:</b> Rauchen in der Wohnung ist strengstens verboten.",
-                    guideH: "Empfehlungen",
-                    guide1: "🌳 <b>Kurpark Swoszowice:</b> Schöner grüner Park direkt nebenan.",
-                    guide2: "🏰 <b>Hauptmarkt & Wawel:</b> Ca. 20 Minuten mit Auto oder Bus.",
-                    guide3: "⛏️ <b>Salzbergwerk Wieliczka:</b> Ca. 15 Minuten über die Umgehungsstraße.",
+                    guideH: "Empfehlungen & Attraktionen",
+                    guidePark: "🌳 <b>Kurpark Swoszowice:</b> Schöner grüner Park direkt nebenan.",
+                    guideView: "🌄 <b>Aussichtspunkt auf Krakau:</b> Nahe Fort Swoszowice an der ul. Droga Rokadowa – herrliches Stadtpanorama von oben, besonders beeindruckend nachts bei gutem Wetter.",
+                    guideMarket: "🏰 <b>Hauptmarkt & Untergrund des Hauptmarktes:</b> Das Herz von Krakau mit unterirdischem Museum (Fahrzeit mit dem Auto ca. 30 Minuten).",
+                    guideWawel: "👑 <b>Königsschloss Wawel & Wawel-Drache:</b> Historische Königsresidenz und der berühmte feuerspeiende Drache an den Weichsel-Boulevards (ca. 30 Min. mit dem Auto).",
+                    guideWieliczka: "⛏️ <b>Salzbergwerk Wieliczka:</b> Weltberühmte unterirdische Salzmine (ca. 15 Minuten Autofahrt über die Umgehungsstraße).",
+                    guideEnergylandia: "🎢 <b>Freizeitpark Energylandia in Zator:</b> Der größte Freizeitpark Polens. Die Route von der ul. Landaua beträgt ca. 50-55 km (ca. 45–50 Minuten Autofahrt).",
                     contactH: "Kontakt zum Gastgeber",
                     contactP1: "📞 <b>Telefon des Gastgebers:</b><br><span style='font-size:1.3rem; font-weight:800; color:var(--primary-green);'>+48 508 048 886</span>",
                     contactP2: "💬 Wir stehen Ihnen bei Fragen jederzeit gerne zur Verfügung!",
@@ -871,10 +881,13 @@
                     rulesTrash: "♻️ <b>Rifiuti:</b> I cassonetti si trovano sul lato sud dell'edificio (a destra dietro l'angolo).",
                     rulesFees: "💳 <b>Costi extra:</b> Ospite supplementare: 150 PLN / notte.<br>Animale domestico: 50 PLN / notte.",
                     rulesSmoke: "🚭 <b>Divieto di fumo:</b> È vietato fumare all'interno dell'appartamento.",
-                    guideH: "Raccomandazioni",
-                    guide1: "🌳 <b>Parco Termale Swoszowice:</b> Parco verde ideale per passeggiare.",
-                    guide2: "🏰 <b>Piazza del Mercato e Wawel:</b> Ca. 20 min in auto o autobus.",
-                    guide3: "⛏️ <b>Miniera di Sale Wieliczka:</b> Ca. 15 minuti in auto.",
+                    guideH: "Raccomandazioni e Attrazioni",
+                    guidePark: "🌳 <b>Parco Termale Swoszowice:</b> Parco verde ideale per passeggiare proprio accanto.",
+                    guideView: "🌄 <b>Punto Panoramico su Cracovia:</b> Vicino al Fort Swoszowice in ul. Droga Rokadowa – uno splendido panorama dall'alto, particolarmente suggestivo di notte con bel tempo.",
+                    guideMarket: "🏰 <b>Piazza del Mercato & Sotterranei del Mercato:</b> Il cuore di Cracovia con un percorso museale sotterraneo unico (circa 30 minuti in auto).",
+                    guideWawel: "👑 <b>Castello Reale del Wawel & Drago del Wawel:</b> Residenza reale storica e la famosa statua del Drago sputafuoco sui viali del Vistola (circa 30 min in auto).",
+                    guideWieliczka: "⛏️ <b>Miniera di Sale Wieliczka:</b> Famosa miniera di sale sotterranea (circa 15 minuti in auto tramite la tangenziale).",
+                    guideEnergylandia: "🎢 <b>Parco Divertimenti Energylandia a Zator:</b> Il più grande parco divertimenti della Polonia. Percorso da ul. Landaua: circa 50-55 km (circa 45–50 minuti in auto).",
                     contactH: "Contatta il Proprietario",
                     contactP1: "📞 <b>Telefono proprietario:</b><br><span style='font-size:1.3rem; font-weight:800; color:var(--primary-green);'>+48 508 048 886</span>",
                     contactP2: "💬 Siamo a vostra disposizione per qualsiasi necessità!",
@@ -924,10 +937,13 @@
                     rulesTrash: "♻️ <b>Basura:</b> Los contenedores están en el lado sur del edificio (gire a la derecha a la vuelta de la esquina).",
                     rulesFees: "💳 <b>Tasas adicionales:</b> Huésped adicional: 150 PLN / noche.<br>Mascota: 50 PLN / noche.",
                     rulesSmoke: "🚭 <b>Prohibido fumar:</b> Está totalmente prohibido fumar en el interior.",
-                    guideH: "Recomendaciones",
-                    guide1: "🌳 <b>Parque Balneario Swoszowice:</b> Encantador parque verde junto al apartamento.",
-                    guide2: "🏰 <b>Plaza del Mercado y Wawel:</b> A unos 20 min en coche o autobús.",
-                    guide3: "⛏️ <b>Mina de Sal Wieliczka:</b> A unos 15 minutos en coche.",
+                    guideH: "Recomendaciones y Atracciones",
+                    guidePark: "🌳 <b>Parque Balneario Swoszowice:</b> Encantador parque verde junto al apartamento.",
+                    guideView: "🌄 <b>Mirador de Cracovia:</b> Cerca del Fort Swoszowice en ul. Droga Rokadowa – magnífica vista panorámica de la ciudad, especialmente impresionante de noche con buen tiempo.",
+                    guideMarket: "🏰 <b>Plaza del Mercado y Subterráneos del Mercado:</b> El corazón de Cracovia con un recorrido subterráneo único (unos 30 minutos en coche).",
+                    guideWawel: "👑 <b>Castillo Real de Wawel y Dragón de Wawel:</b> Residencia real histórica y la famosa estatua del Dragón que escupe fuego en los bulevares del Vístula (unos 30 min en coche).",
+                    guideWieliczka: "⛏️ <b>Mina de Sal Wieliczka:</b> Famosa mina de sal subterránea (unos 15 minutos en coche por la variante).",
+                    guideEnergylandia: "🎢 <b>Parque de Atracciones Energylandia en Zator:</b> El parque de atracciones más grande de Polonia. Ruta desde ul. Landaua: unos 50-55 km (unos 45–50 minutos en coche).",
                     contactH: "Contacto con el Propietario",
                     contactP1: "📞 <b>Teléfono del propietario:</b><br><span style='font-size:1.3rem; font-weight:800; color:var(--primary-green);'>+48 508 048 886</span>",
                     contactP2: "💬 ¡Estamos a su disposición durante toda su estancia!",
@@ -985,6 +1001,7 @@
             document.getElementById('m-food-rec').innerHTML = l.modals.foodRec;
             document.getElementById('m-food-fast').innerHTML = l.modals.foodFast;
 
+            // Modal Rules
             document.getElementById('m-rules-h').innerHTML = l.modals.rulesH;
             document.getElementById('m-rules-time').innerHTML = l.modals.rulesTime;
             document.getElementById('m-rules-heat').innerHTML = l.modals.rulesHeat;
@@ -992,11 +1009,16 @@
             document.getElementById('m-rules-fees').innerHTML = l.modals.rulesFees;
             document.getElementById('m-rules-smoke').innerHTML = l.modals.rulesSmoke;
 
+            // Modal Guide & Attractions
             document.getElementById('m-guide-h').innerHTML = l.modals.guideH;
-            document.getElementById('m-guide-1').innerHTML = l.modals.guide1;
-            document.getElementById('m-guide-2').innerHTML = l.modals.guide2;
-            document.getElementById('m-guide-3').innerHTML = l.modals.guide3;
+            document.getElementById('m-guide-park').innerHTML = l.modals.guidePark;
+            document.getElementById('m-guide-view').innerHTML = l.modals.guideView;
+            document.getElementById('m-guide-market').innerHTML = l.modals.guideMarket;
+            document.getElementById('m-guide-wawel').innerHTML = l.modals.guideWawel;
+            document.getElementById('m-guide-wieliczka').innerHTML = l.modals.guideWieliczka;
+            document.getElementById('m-guide-energylandia').innerHTML = l.modals.guideEnergylandia;
 
+            // Modal Contact
             document.getElementById('m-contact-h').innerHTML = l.modals.contactH;
             document.getElementById('m-contact-p1').innerHTML = l.modals.contactP1;
             document.getElementById('m-contact-p2').innerHTML = l.modals.contactP2;
