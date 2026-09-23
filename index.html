@@ -21,7 +21,6 @@
             --shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
         }
 
-        /* Zwiększona bazowa czcionka dla lepszej czytelności na ekranie */
         html {
             font-size: 18px; 
             transition: font-size 0.3s ease;
@@ -39,9 +38,10 @@
         body {
             background: radial-gradient(circle at 50% 20%, #172618 0%, #080c08 100%);
             color: var(--text-main);
-            height: 100vh;
+            min-height: 100vh;
             width: 100vw;
-            overflow: hidden;
+            overflow-x: hidden;
+            overflow-y: auto; /* Pozwala na scroll, jeśli elementy wyjdą poza ekran */
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -128,6 +128,7 @@
             display: flex;
             align-items: center;
             gap: 12px;
+            flex-wrap: wrap;
         }
 
         .weather-card, .lang-switch-btn, .accessibility-btn {
@@ -232,9 +233,21 @@
         /* GRID MENU */
         .grid-menu {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(4, 1fr);
             gap: 14px;
             width: 100%;
+        }
+
+        @media (max-width: 1024px) {
+            .grid-menu {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .grid-menu {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
 
         .card {
@@ -428,7 +441,7 @@
             <button class="lang-switch-btn" onclick="showLanguageSelect()">
                 🌐 <span id="current-lang-code">PL</span>
             </button>
-            <!-- Przyciski ułatwień dostępu (powiększanie tekstu) -->
+            <!-- Przyciski ułatwień dostępu -->
             <button class="accessibility-btn" onclick="changeFontSize(-2)">A-</button>
             <button class="accessibility-btn" onclick="changeFontSize(2)">A+</button>
         </div>
@@ -476,7 +489,7 @@
             </div>
         </div>
 
-        <!-- Kafel 3: Zamów Jedzenie i Zakupy -->
+        <!-- Kafel 3: Zamów Jedzenie -->
         <div class="card" onclick="openModal('modal-food')">
             <div class="card-icon">
                 <svg viewBox="0 0 24 24"><path d="M12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12C20,14.82 18.5,17.28 16.27,18.59 C15.61,17.5 14.39,16.78 13,16.78H11C9.61,16.78 8.39,17.5 7.73,18.59C5.5,17.28 4,14.82 4,12A8,8 0 0,1 12,4Z"/></svg>
@@ -517,6 +530,17 @@
             <div class="card-info">
                 <h3 id="card-contact-title">Kontakt</h3>
                 <p id="card-contact-sub">Właściciel obiektu</p>
+            </div>
+        </div>
+        
+        <!-- Kafel 7: Mapa i Lokalizacja -->
+        <div class="card" onclick="openModal('modal-map')">
+            <div class="card-icon">
+                <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9C5 14.25 12 22 12 22C12 22 19 14.25 19 9C19 5.13 15.87 2 12 2M12 11.5C10.62 11.5 9.5 10.38 9.5 9C9.5 7.62 10.62 6.5 12 6.5C13.38 6.5 14.5 7.62 14.5 9C14.5 10.38 13.38 11.5 12 11.5Z"/></svg>
+            </div>
+            <div class="card-info">
+                <h3 id="card-map-title">Mapa</h3>
+                <p id="card-map-sub">Lokalizacja obiektu</p>
             </div>
         </div>
 
@@ -613,6 +637,30 @@
             <button class="btn-action" id="m-contact-btn" onclick="copyText('508048886', 'phone')">Kopiuj Numer Telefonu</button>
         </div>
     </div>
+    
+    <!-- Modal Mapa (NOWY) -->
+    <div id="modal-map" class="modal-overlay" onclick="closeModalOnBg(event, 'modal-map')">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h2 id="m-map-h">Lokalizacja i Mapa</h2>
+                <button class="close-btn" onclick="closeModal('modal-map')">&times;</button>
+            </div>
+            <div class="pill-info" id="m-map-addr" style="margin-bottom: 16px;">📍 <b>Adres obiektu:</b><br>ul. Landaua 12, Kraków (Swoszowice)</div>
+            
+            <div style="border-radius: 14px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.5); background: #fff;">
+                <iframe 
+                    width="100%" 
+                    height="320" 
+                    frameborder="0" 
+                    style="border:0; display: block;" 
+                    src="https://maps.google.com/maps?q=ul.%20Landaua%2012,%20Krak%C3%B3w&t=&z=14&ie=UTF8&iwloc=&output=embed" 
+                    allowfullscreen>
+                </iframe>
+            </div>
+            
+            <button class="btn-action" id="m-map-btn" style="margin-top: 16px;" onclick="copyText('ul. Landaua 12, Kraków', 'addr')">Kopiuj Adres</button>
+        </div>
+    </div>
 
     <!-- Modal O Obiekcie -->
     <div id="modal-about" class="modal-overlay" onclick="closeModalOnBg(event, 'modal-about')">
@@ -658,7 +706,8 @@
                     foodTitle: "Zamów Jedzenie", foodSub: "Adres i polecane lokale",
                     rulesTitle: "Wskazówki i Zasady", rulesSub: "Ogrzewanie, śmieci, opłaty",
                     guideTitle: "Odkryj Kraków", guideSub: "Atrakcje w okolicy",
-                    contactTitle: "Kontakt", contactSub: "Właściciel obiektu"
+                    contactTitle: "Kontakt", contactSub: "Właściciel obiektu",
+                    mapTitle: "Mapa", mapSub: "Lokalizacja obiektu"
                 },
                 modals: {
                     wifiH: "Sieć Wi-Fi", wifiSsid: "📶 <b>Nazwa sieci:</b> Matylda_House", wifiPass: "🔑 <b>Hasło:</b> Domowe_WIFI", wifiBtn: "Kopiuj Hasło",
@@ -693,7 +742,10 @@
                     contactP1: "📞 <b>Telefon do właściciela:</b><br><span style='font-size:1.3rem; font-weight:800; color:var(--primary-green);'>+48 508 048 886</span>",
                     contactP2: "💬 Jesteśmy do Państwa dyspozycji w razie pytań lub wątpliwości podczas pobytu!",
                     contactBtn: "Kopiuj Numer Telefonu",
-                    aboutText: "Witaj w naszym apartamencie! Zrobiliśmy wszystko, aby Twój pobyt w Krakowie był wyjątkowy i komfortowy.<br><br><i>\"You are welcome\"</i>"
+                    aboutText: "Witaj w naszym apartamencie! Zrobiliśmy wszystko, aby Twój pobyt w Krakowie był wyjątkowy i komfortowy.<br><br><i>\"You are welcome\"</i>",
+                    mapH: "Lokalizacja i Mapa",
+                    mapAddr: "📍 <b>Adres obiektu:</b><br>ul. Landaua 12, Kraków (Swoszowice)",
+                    mapBtn: "Kopiuj Adres"
                 },
                 toasts: {
                     wifi: "Skopiowano hasło Wi-Fi!",
@@ -715,7 +767,8 @@
                     foodTitle: "Order Food", foodSub: "Address & top spots",
                     rulesTitle: "House Rules & Info", rulesSub: "Heating, trash, fees",
                     guideTitle: "Discover Kraków", guideSub: "Nearby attractions",
-                    contactTitle: "Contact", contactSub: "Property Owner"
+                    contactTitle: "Contact", contactSub: "Property Owner",
+                    mapTitle: "Map", mapSub: "Property location"
                 },
                 modals: {
                     wifiH: "Wi-Fi Network", wifiSsid: "📶 <b>Network Name:</b> Matylda_House", wifiPass: "🔑 <b>Password:</b> Domowe_WIFI", wifiBtn: "Copy Password",
@@ -750,11 +803,14 @@
                     contactP1: "📞 <b>Owner Phone:</b><br><span style='font-size:1.3rem; font-weight:800; color:var(--primary-green);'>+48 508 048 886</span>",
                     contactP2: "💬 We are at your service if you have any questions during your stay!",
                     contactBtn: "Copy Phone Number",
-                    aboutText: "Welcome to our apartment! We made every effort to make your stay in Kraków comfortable.<br><br><i>\"You are welcome\"</i>"
+                    aboutText: "Welcome to our apartment! We made every effort to make your stay in Kraków comfortable.<br><br><i>\"You are welcome\"</i>",
+                    mapH: "Location & Map",
+                    mapAddr: "📍 <b>Property Address:</b><br>ul. Landaua 12, Kraków (Swoszowice)",
+                    mapBtn: "Copy Address"
                 },
                 toasts: {
                     wifi: "Wi-Fi password copied!",
-                    addr: "Delivery address copied!",
+                    addr: "Address copied!",
                     phone: "Phone number copied!"
                 }
             },
@@ -772,7 +828,8 @@
                     foodTitle: "Замовити Їжу", foodSub: "Адреса та заклади",
                     rulesTitle: "Правила та Інфо", rulesSub: "Опалення, сміття, збори",
                     guideTitle: "Відкрийте Краків", guideSub: "Цікаві місця поруч",
-                    contactTitle: "Контакти", contactSub: "Власник апартаментів"
+                    contactTitle: "Контакти", contactSub: "Власник апартаментів",
+                    mapTitle: "Карта", mapSub: "Локація об'єкта"
                 },
                 modals: {
                     wifiH: "Мережа Wi-Fi", wifiSsid: "📶 <b>Назва мережі:</b> Matylda_House", wifiPass: "🔑 <b>Пароль:</b> Domowe_WIFI", wifiBtn: "Копіювати Пароль",
@@ -807,7 +864,10 @@
                     contactP1: "📞 <b>Телефон власника:</b><br><span style='font-size:1.3rem; font-weight:800; color:var(--primary-green);'>+48 508 048 886</span>",
                     contactP2: "💬 Ми до ваших послуг у разі виникнення питань під час вашого перебування!",
                     contactBtn: "Копіювати Номер",
-                    aboutText: "Ласкаво просимо! Ми зробили все, щоб ваше перебування у Кракові було комфортним.<br><br><i>\"You are welcome\"</i>"
+                    aboutText: "Ласкаво просимо! Ми зробили все, щоб ваше перебування у Кракові було комфортним.<br><br><i>\"You are welcome\"</i>",
+                    mapH: "Локація та Карта",
+                    mapAddr: "📍 <b>Адреса об'єкта:</b><br>ul. Landaua 12, Kraków (Swoszowice)",
+                    mapBtn: "Копіювати Адресу"
                 },
                 toasts: {
                     wifi: "Пароль Wi-Fi скопійовано!",
@@ -829,7 +889,8 @@
                     foodTitle: "Essen Bestellen", foodSub: "Adresse & Empfehlungen",
                     rulesTitle: "Hausregeln & Infos", rulesSub: "Heizung, Müll, Gebühren",
                     guideTitle: "Krakau Entdecken", guideSub: "Nahegelegene Attraktionen",
-                    contactTitle: "Kontakt", contactSub: "Gastgeber"
+                    contactTitle: "Kontakt", contactSub: "Gastgeber",
+                    mapTitle: "Karte", mapSub: "Lage der Unterkunft"
                 },
                 modals: {
                     wifiH: "WLAN-Netzwerk", wifiSsid: "📶 <b>Netzwerkname:</b> Matylda_House", wifiPass: "🔑 <b>Passwort:</b> Domowe_WIFI", wifiBtn: "Passwort Kopieren",
@@ -864,7 +925,10 @@
                     contactP1: "📞 <b>Telefonnummer:</b><br><span style='font-size:1.3rem; font-weight:800; color:var(--primary-green);'>+48 508 048 886</span>",
                     contactP2: "💬 Wir stehen Ihnen bei Fragen jederzeit zur Verfügung!",
                     contactBtn: "Nummer Kopieren",
-                    aboutText: "Willkommen in unserem Apartment! Wir haben alles getan, um Ihren Aufenthalt angenehm zu gestalten.<br><br><i>\"You are welcome\"</i>"
+                    aboutText: "Willkommen in unserem Apartment! Wir haben alles getan, um Ihren Aufenthalt angenehm zu gestalten.<br><br><i>\"You are welcome\"</i>",
+                    mapH: "Lage & Karte",
+                    mapAddr: "📍 <b>Adresse der Unterkunft:</b><br>ul. Landaua 12, Kraków (Swoszowice)",
+                    mapBtn: "Adresse Kopieren"
                 },
                 toasts: { wifi: "Passwort kopiert!", addr: "Adresse kopiert!", phone: "Nummer kopiert!" }
             },
@@ -882,7 +946,8 @@
                     foodTitle: "Ordina Cibo", foodSub: "Indirizzo & locali top",
                     rulesTitle: "Regole della Casa", rulesSub: "Riscaldamento, rifiuti",
                     guideTitle: "Scopri Cracovia", guideSub: "Attrazioni vicine",
-                    contactTitle: "Contatti", contactSub: "Proprietario"
+                    contactTitle: "Contatti", contactSub: "Proprietario",
+                    mapTitle: "Mappa", mapSub: "Posizione"
                 },
                 modals: {
                     wifiH: "Rete Wi-Fi", wifiSsid: "📶 <b>Nome Rete:</b> Matylda_House", wifiPass: "🔑 <b>Password:</b> Domowe_WIFI", wifiBtn: "Copia Password",
@@ -917,7 +982,10 @@
                     contactP1: "📞 <b>Telefono Proprietario:</b><br><span style='font-size:1.3rem; font-weight:800; color:var(--primary-green);'>+48 508 048 886</span>",
                     contactP2: "💬 Siamo a vostra disposizione per qualsiasi domanda!",
                     contactBtn: "Copia Numero",
-                    aboutText: "Benvenuti! Abbiamo fatto il massimo per rendere il vostro soggiorno confortevole.<br><br><i>\"You are welcome\"</i>"
+                    aboutText: "Benvenuti! Abbiamo fatto il massimo per rendere il vostro soggiorno confortevole.<br><br><i>\"You are welcome\"</i>",
+                    mapH: "Posizione e Mappa",
+                    mapAddr: "📍 <b>Indirizzo:</b><br>ul. Landaua 12, Kraków (Swoszowice)",
+                    mapBtn: "Copia Indirizzo"
                 },
                 toasts: { wifi: "Password copiata!", addr: "Indirizzo copiato!", phone: "Numero copiato!" }
             },
@@ -935,20 +1003,21 @@
                     foodTitle: "Pedir Comida", foodSub: "Dirección y restaurantes",
                     rulesTitle: "Reglas de la Casa", rulesSub: "Calefacción, basura",
                     guideTitle: "Descubre Cracovia", guideSub: "Atracciones cercanas",
-                    contactTitle: "Contacto", contactSub: "Propietario del lugar"
+                    contactTitle: "Contacto", contactSub: "Propietario del lugar",
+                    mapTitle: "Mapa", mapSub: "Ubicación"
                 },
                 modals: {
                     wifiH: "Red Wi-Fi", wifiSsid: "📶 <b>Nombre de red:</b> Matylda_House", wifiPass: "🔑 <b>Contraseña:</b> Domowe_WIFI", wifiBtn: "Copiar Contraseña",
                     gateH: "Estacionamiento y Puerta de Entrada",
                     gateP1: "🅿️ <b>Estacionamiento:</b> El lugar de estacionamiento está marcado frente a la entrada del edificio (a la izquierda de la puerta del apartamento).",
-                    gateP2: "🔑 <b>Mando a distancia:</b> En el perchero del pasillo encontrarán un mando. El <b>botón izquierdo</b> abre, detiene y cierra la puerta del recinto.",
+                    gateP2: "🔑 <b>Mando a distancia:</b> En el perchero del pasillo encontrarán un mando. El <b>botón izquierdo</b> opens, detiene y cierra la puerta del recinto.",
                     gateP3: "🔘 <b>Botón en la puerta:</b> La puerta también se puede abrir usando el botón exterior. Se cierra automáticamente después de 2 minutos para permitir su salida.",
                     gateP4: "🚪 <b>Check-out:</b> Por favor, deje el mando en el perchero del pasillo al realizar el check-out.",
                     foodH: "Pedir Comida y Recomendaciones",
                     foodSubText: "Indique esta dirección al pedir a domicilio:",
                     foodAddr: "📍 <b>Dirección de entrega:</b><br>ul. Landaua 12, Kraków",
                     foodBtn: "Copiar Dirección",
-                    foodShop: "🛒 <b>Compras y Cafetería:</b><br><b>Pequeño centro comercial (Supermercado, Rossmann, Farmacia, Parter Cafe)</b><br>📍 ul. Myślenicka 133, Kraków",
+                    foodShop: "🛒 <b>Compras y Cafetería:</b><br><b>Pequeño centro comercial (Supermercato, Rossmann, Farmacia, Parter Cafe)</b><br>📍 ul. Myślenicka 133, Kraków",
                     foodNearby: "🍽️ <b>Cerca (Swoszowice):</b><br><b>Restauracja Szyb Swoszowice</b><br>📍 ul. Szybisko 40 (aprox. 1,5 km)",
                     foodCenter: "🥩 <b>En el Centro de la Ciudad:</b><br><b>MooMoo Steak & Wine (Mo-Mo Stek)</b><br>📍 ul. Sienna 9 (Casco Antiguo)",
                     foodRec: "🍝 <b>Restaurante Recomendado:</b><br><b>Restauracja Pół na Pół</b> (Cocina polaca e italiana)<br>📍 ul. Kosocicka 105A, Kraków",
@@ -970,7 +1039,10 @@
                     contactP1: "📞 <b>Teléfono del Propietario:</b><br><span style='font-size:1.3rem; font-weight:800; color:var(--primary-green);'>+48 508 048 886</span>",
                     contactP2: "💬 ¡Estamos a su disposición si tienen preguntas durante su estancia!",
                     contactBtn: "Copiar Número",
-                    aboutText: "¡Bienvenidos a nuestro apartamento! Hemos hecho todo lo posible para que su estancia sea cómoda.<br><br><i>\"You are welcome\"</i>"
+                    aboutText: "¡Bienvenidos a nuestro apartamento! Hemos hecho todo lo posible para que su estancia sea cómoda.<br><br><i>\"You are welcome\"</i>",
+                    mapH: "Ubicación y Mapa",
+                    mapAddr: "📍 <b>Dirección:</b><br>ul. Landaua 12, Kraków (Swoszowice)",
+                    mapBtn: "Copiar Dirección"
                 },
                 toasts: { wifi: "¡Contraseña copiada!", addr: "¡Dirección copiada!", phone: "¡Número copiado!" }
             }
@@ -998,6 +1070,10 @@
             document.getElementById('card-guide-sub').innerText = l.cards.guideSub;
             document.getElementById('card-contact-title').innerText = l.cards.contactTitle;
             document.getElementById('card-contact-sub').innerText = l.cards.contactSub;
+            
+            // Nowe Kafelki (Mapa)
+            document.getElementById('card-map-title').innerText = l.cards.mapTitle;
+            document.getElementById('card-map-sub').innerText = l.cards.mapSub;
 
             // Modale
             document.getElementById('m-wifi-h').innerText = l.modals.wifiH;
@@ -1042,6 +1118,11 @@
             document.getElementById('m-contact-btn').innerText = l.modals.contactBtn;
 
             document.getElementById('m-about-text').innerHTML = l.modals.aboutText;
+            
+            // Nowy Modal (Mapa)
+            document.getElementById('m-map-h').innerText = l.modals.mapH;
+            document.getElementById('m-map-addr').innerHTML = l.modals.mapAddr;
+            document.getElementById('m-map-btn').innerText = l.modals.mapBtn;
 
             // Ukryj splash screen wyboru języka
             document.getElementById('lang-select-screen').style.display = 'none';
