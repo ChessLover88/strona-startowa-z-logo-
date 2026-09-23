@@ -192,7 +192,7 @@
             max-height: 32vh;
             width: auto;
             object-fit: contain;
-            filter: drop-shadow(0 15px 30px rgba(0,0,0,0.7));
+            filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.8)) drop-shadow(0 0 35px rgba(52, 211, 153, 0.35));
             transition: transform 0.2s ease;
             cursor: pointer;
         }
@@ -632,7 +632,7 @@
 
     <script>
         let currentLang = 'pl';
-        let currentFontSize = 18; // Domyślna nowa wartość bazy czcionki dla strony
+        let currentFontSize = 18;
 
         // UŁATWIENIA DOSTĘPU: Regulacja czcionki
         function changeFontSize(changeValue) {
