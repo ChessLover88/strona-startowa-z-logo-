@@ -715,10 +715,11 @@
             }).setView([centerLat, centerLng], 14);
 
             // Kafelki mapy
-            L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-                maxZoom: 19,
-                subdomains: 'abcd'
-            }).addTo(neighborhoodMap);
+           // Usuń stary kod z Carto, który wywołuje błąd, i zastąp go tym:
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(map);
 
             // Ikona domku dla Matylda House
             const houseIcon = L.divIcon({
