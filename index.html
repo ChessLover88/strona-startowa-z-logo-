@@ -7,8 +7,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- Leaflet CSS dla mapy interaktywnej -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
     <style>
         :root {
@@ -185,13 +183,13 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            margin-top: -10px;
+            margin-top: -15px;
             flex: 1;
         }
 
         .logo-img {
-            height: 200px;
-            max-height: 28vh;
+            height: 240px;
+            max-height: 32vh;
             width: auto;
             object-fit: contain;
             filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.8)) drop-shadow(0 0 35px rgba(52, 211, 153, 0.35));
@@ -202,7 +200,7 @@
         .logo-img:active { transform: scale(0.97); }
 
         .welcome-title {
-            font-size: 1.5rem;
+            font-size: 1.7rem;
             font-weight: 800;
             background: linear-gradient(135deg, #ffffff 0%, #a7f3d0 100%);
             -webkit-background-clip: text;
@@ -214,7 +212,7 @@
         }
 
         .welcome-sub {
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             color: var(--text-muted);
             font-weight: 400;
             animation: pulseSub 4s ease-in-out infinite;
@@ -231,11 +229,11 @@
             50% { opacity: 0.95; transform: translateY(-1px); }
         }
 
-        /* GRID MENU - 7 KAFELKÓW (3 kolumny) */
+        /* GRID MENU */
         .grid-menu {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
+            gap: 14px;
             width: 100%;
         }
 
@@ -244,7 +242,7 @@
             border: 1px solid var(--card-border);
             backdrop-filter: blur(16px);
             border-radius: var(--radius);
-            padding: 12px 16px;
+            padding: 14px 18px;
             display: flex;
             align-items: center;
             gap: 12px;
@@ -260,8 +258,8 @@
         }
 
         .card-icon {
-            width: 40px;
-            height: 40px;
+            width: 44px;
+            height: 44px;
             border-radius: 12px;
             background: rgba(52, 211, 153, 0.12);
             color: var(--primary-green);
@@ -272,20 +270,20 @@
         }
 
         .card-icon svg {
-            width: 20px;
-            height: 20px;
+            width: 22px;
+            height: 22px;
             fill: currentColor;
         }
 
         .card-info h3 {
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             font-weight: 700;
             color: var(--text-main);
             margin-bottom: 2px;
         }
 
         .card-info p {
-            font-size: 0.75rem;
+            font-size: 0.78rem;
             color: var(--text-muted);
             line-height: 1.2;
         }
@@ -310,7 +308,7 @@
             background: #121912;
             border: 1px solid var(--card-border);
             width: 100%;
-            max-width: 680px;
+            max-width: 620px;
             max-height: 85vh;
             overflow-y: auto;
             border-radius: 24px;
@@ -374,16 +372,6 @@
         }
 
         .btn-action:active { opacity: 0.85; }
-
-        /* MAPA STYLES */
-        #map {
-            width: 100%;
-            height: 380px;
-            border-radius: 16px;
-            border: 1px solid var(--card-border);
-            margin-top: 12px;
-            z-index: 1;
-        }
 
         /* TOAST */
         .toast {
@@ -463,7 +451,7 @@
         <p class="welcome-sub" id="welcome-sub-text">Życzymy udanego i wypoczynkowego pobytu</p>
     </div>
 
-    <!-- KAFELKI INTERAKTYWNE (7 kafelków) -->
+    <!-- KAFELKI INTERAKTYWNE -->
     <div class="grid-menu">
         
         <!-- Kafel 1: Wi-Fi -->
@@ -532,34 +520,9 @@
             </div>
         </div>
 
-        <!-- Kafel 7: Mapa i Lokalizacja -->
-        <div class="card" onclick="openModal('modal-map')">
-            <div class="card-icon">
-                <svg viewBox="0 0 24 24"><path d="M12,2C8.13,2 5,5.13 5,9C5,14.25 12,22 12,22C12,22 19,14.25 19,9C19,5.13 15.87,2 12,2M12,11.5A2.5,2.5 0 0,1 9.5,9A2.5,2.5 0 0,1 12,6.5A2.5,2.5 0 0,1 14.5,9A2.5,2.5 0 0,1 12,11.5Z"/></svg>
-            </div>
-            <div class="card-info">
-                <h3 id="card-map-title">Mapa i Lokalizacja</h3>
-                <p id="card-map-sub">Matylda House i okolica</p>
-            </div>
-        </div>
-
     </div>
 
     <!-- MODALE -->
-
-    <!-- Modal Mapa -->
-    <div id="modal-map" class="modal-overlay" onclick="closeModalOnBg(event, 'modal-map')">
-        <div class="modal-box" style="max-width: 720px;">
-            <div class="modal-header">
-                <h2 id="m-map-h">Mapa i Lokalizacja</h2>
-                <button class="close-btn" onclick="closeModal('modal-map')">&times;</button>
-            </div>
-            <div class="pill-info" id="m-map-desc">
-                📍 <b>Lokalizacja apartamentu:</b> ul. Landaua 12, Kraków (Swoszowice). Ikona domku 🏠 wskazuje miejsce pobytu gościa, a pinezki 📍 pokazują okoliczne atrakcje i udogodnienia.
-            </div>
-            <div id="map"></div>
-        </div>
-    </div>
 
     <!-- Modal Wi-Fi -->
     <div id="modal-wifi" class="modal-overlay" onclick="closeModalOnBg(event, 'modal-wifi')">
@@ -667,68 +630,9 @@
 
     <div id="toast" class="toast">Komunikat</div>
 
-    <!-- Leaflet JS -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
     <script>
         let currentLang = 'pl';
         let currentFontSize = 18;
-        let mapInitialized = false;
-        let leafletMap = null;
-
-        // Inicjalizacja interaktywnej mapy Leaflet
-        function initMap() {
-            if (mapInitialized) return;
-
-            // Współrzędne Matylda House (ul. Landaua 12, Kraków - Swoszowice)
-            const houseLat = 49.9860;
-            const houseLng = 19.9370;
-
-            leafletMap = L.map('map').setView([houseLat, houseLng], 14);
-
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                maxZoom: 19,
-                attribution: '&copy; OpenStreetMap'
-            }).addTo(leafletMap);
-
-            // Ikona domku dla Matylda House
-            const houseIcon = L.divIcon({
-                className: 'custom-house-marker',
-                html: `<div style="background: #34d399; color: #0d120d; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; box-shadow: 0 4px 12px rgba(0,0,0,0.6); border: 2px solid #ffffff;">🏠</div>`,
-                iconSize: [40, 40],
-                iconAnchor: [20, 20]
-            });
-
-            // Pinezka domku (Gość znajduje się tutaj)
-            L.marker([houseLat, houseLng], { icon: houseIcon })
-                .addTo(leafletMap)
-                .bindPopup("<b>Matylda House (Twoja lokalizacja)</b><br>ul. Landaua 12, Kraków")
-                .openPopup();
-
-            // Pozostałe punkty w okolicy
-            const locations = [
-                { lat: 49.9920, lng: 19.9440, title: "Zakupy i Kawa", desc: "Supermarket, Rossmann, Apteka, Parter Cafe (ul. Myślenicka 133)" },
-                { lat: 49.9800, lng: 19.9320, title: "Restauracja Szyb Swoszowice", desc: "ul. Szybisko 40" },
-                { lat: 49.9830, lng: 19.9350, title: "Park Zdrojowy w Swoszowicach", desc: "Zielone miejsce na spacer" },
-                { lat: 49.9810, lng: 19.9450, title: "Punkt widokowy (Fort Swoszowice)", desc: "ul. Droga Rokadowa" },
-                { lat: 50.0050, lng: 19.9550, title: "McDonald's", desc: "ul. Cechowa / ul. Stojałowskiego" }
-            ];
-
-            const standardIcon = L.divIcon({
-                className: 'custom-std-marker',
-                html: `<div style="background: #10b981; color: #ffffff; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 15px; box-shadow: 0 3px 8px rgba(0,0,0,0.4); border: 2px solid #ffffff;">📍</div>`,
-                iconSize: [32, 32],
-                iconAnchor: [16, 16]
-            });
-
-            locations.forEach(loc => {
-                L.marker([loc.lat, loc.lng], { icon: standardIcon })
-                    .addTo(leafletMap)
-                    .bindPopup(`<b>${loc.title}</b><br>${loc.desc}`);
-            });
-
-            mapInitialized = true;
-        }
 
         // UŁATWIENIA DOSTĘPU: Regulacja czcionki
         function changeFontSize(changeValue) {
@@ -754,12 +658,9 @@
                     foodTitle: "Zamów Jedzenie", foodSub: "Adres i polecane lokale",
                     rulesTitle: "Wskazówki i Zasady", rulesSub: "Ogrzewanie, śmieci, opłaty",
                     guideTitle: "Odkryj Kraków", guideSub: "Atrakcje w okolicy",
-                    contactTitle: "Kontakt", contactSub: "Właściciel obiektu",
-                    mapTitle: "Mapa i Lokalizacja", mapSub: "Matylda House i okolica"
+                    contactTitle: "Kontakt", contactSub: "Właściciel obiektu"
                 },
                 modals: {
-                    mapH: "Mapa i Lokalizacja",
-                    mapDesc: "📍 <b>Lokalizacja apartamentu:</b> ul. Landaua 12, Kraków (Swoszowice). Ikona domku 🏠 wskazuje miejsce pobytu gościa, a pinezki 📍 pokazują okoliczne atrakcje i udogodnienia.",
                     wifiH: "Sieć Wi-Fi", wifiSsid: "📶 <b>Nazwa sieci:</b> Matylda_House", wifiPass: "🔑 <b>Hasło:</b> Domowe_WIFI", wifiBtn: "Kopiuj Hasło",
                     gateH: "Parking i Brama Wjazdowa",
                     gateP1: "🅿️ <b>Parking:</b> Miejsce parkingowe jest oznaczone przed wejściem do budynku, na wprost wjazdu (po lewej stronie od wejścia do apartamentu).",
@@ -814,12 +715,9 @@
                     foodTitle: "Order Food", foodSub: "Address & top spots",
                     rulesTitle: "House Rules & Info", rulesSub: "Heating, trash, fees",
                     guideTitle: "Discover Kraków", guideSub: "Nearby attractions",
-                    contactTitle: "Contact", contactSub: "Property Owner",
-                    mapTitle: "Map & Location", mapSub: "Matylda House & surroundings"
+                    contactTitle: "Contact", contactSub: "Property Owner"
                 },
                 modals: {
-                    mapH: "Map & Location",
-                    mapDesc: "📍 <b>Apartment location:</b> ul. Landaua 12, Kraków (Swoszowice). The house icon 🏠 indicates the guest's location, and pins 📍 show nearby attractions.",
                     wifiH: "Wi-Fi Network", wifiSsid: "📶 <b>Network Name:</b> Matylda_House", wifiPass: "🔑 <b>Password:</b> Domowe_WIFI", wifiBtn: "Copy Password",
                     gateH: "Parking & Entrance Gate",
                     gateP1: "🅿️ <b>Parking:</b> Marked parking space is located in front of the building entrance, straight ahead from the driveway (to the left of the apartment entrance).",
@@ -874,12 +772,9 @@
                     foodTitle: "Замовити Їжу", foodSub: "Адреса та заклади",
                     rulesTitle: "Правила та Інфо", rulesSub: "Опалення, сміття, збори",
                     guideTitle: "Відкрийте Краків", guideSub: "Цікаві місця поруч",
-                    contactTitle: "Контакти", contactSub: "Власник апартаментів",
-                    mapTitle: "Карта та Локація", mapSub: "Matylda House та околиці"
+                    contactTitle: "Контакти", contactSub: "Власник апартаментів"
                 },
                 modals: {
-                    mapH: "Карта та Локація",
-                    mapDesc: "📍 <b>Локація апартаментів:</b> ul. Landaua 12, Kraków (Swoszowice). Іконка будинку 🏠 вказує місцеперебування гостя, а піни 📍 показують пам'ятки поруч.",
                     wifiH: "Мережа Wi-Fi", wifiSsid: "📶 <b>Назва мережі:</b> Matylda_House", wifiPass: "🔑 <b>Пароль:</b> Domowe_WIFI", wifiBtn: "Копіювати Пароль",
                     gateH: "Паркінг та В'їзні Ворота",
                     gateP1: "🅿️ <b>Паркінг:</b> Позначене паркувальне місце знаходиться перед входом у будівлю, прямо від заїзду (ліворуч від входу).",
@@ -934,12 +829,9 @@
                     foodTitle: "Essen Bestellen", foodSub: "Adresse & Empfehlungen",
                     rulesTitle: "Hausregeln & Infos", rulesSub: "Heizung, Müll, Gebühren",
                     guideTitle: "Krakau Entdecken", guideSub: "Nahegelegene Attraktionen",
-                    contactTitle: "Kontakt", contactSub: "Gastgeber",
-                    mapTitle: "Karte & Standort", mapSub: "Matylda House & Umgebung"
+                    contactTitle: "Kontakt", contactSub: "Gastgeber"
                 },
                 modals: {
-                    mapH: "Karte & Standort",
-                    mapDesc: "📍 <b>Standort:</b> ul. Landaua 12, Kraków (Swoszowice). Das Haus-Symbol 🏠 markiert den Aufenthaltsort des Gastes.",
                     wifiH: "WLAN-Netzwerk", wifiSsid: "📶 <b>Netzwerkname:</b> Matylda_House", wifiPass: "🔑 <b>Passwort:</b> Domowe_WIFI", wifiBtn: "Passwort Kopieren",
                     gateH: "Parkplatz & Einfahrtstor",
                     gateP1: "🅿️ <b>Parkplatz:</b> Der markierte Parkplatz befindet sich direkt vor dem Gebäude, geradeaus von der Einfahrt (links vom Apartment-Eingang).",
@@ -990,12 +882,9 @@
                     foodTitle: "Ordina Cibo", foodSub: "Indirizzo & locali top",
                     rulesTitle: "Regole della Casa", rulesSub: "Riscaldamento, rifiuti",
                     guideTitle: "Scopri Cracovia", guideSub: "Attrazioni vicine",
-                    contactTitle: "Contatti", contactSub: "Proprietario",
-                    mapTitle: "Mappa e Posizione", mapSub: "Matylda House e dintorni"
+                    contactTitle: "Contatti", contactSub: "Proprietario"
                 },
                 modals: {
-                    mapH: "Mappa e Posizione",
-                    mapDesc: "📍 <b>Posizione:</b> ul. Landaua 12, Kraków (Swoszowice). L'icona della casa 🏠 indica la posizione dell'ospite.",
                     wifiH: "Rete Wi-Fi", wifiSsid: "📶 <b>Nome Rete:</b> Matylda_House", wifiPass: "🔑 <b>Password:</b> Domowe_WIFI", wifiBtn: "Copia Password",
                     gateH: "Parcheggio e Cancello d'ingresso",
                     gateP1: "🅿️ <b>Parcheggio:</b> Il posto auto è contrassegnato davanti all'ingresso dell'edificio, dritto rispetto all'ingresso carrabile (a sinistra dell'ingresso).",
@@ -1046,12 +935,9 @@
                     foodTitle: "Pedir Comida", foodSub: "Dirección y restaurantes",
                     rulesTitle: "Reglas de la Casa", rulesSub: "Calefacción, basura",
                     guideTitle: "Descubre Cracovia", guideSub: "Atracciones cercanas",
-                    contactTitle: "Contacto", contactSub: "Propietario del lugar",
-                    mapTitle: "Mapa y Ubicación", mapSub: "Matylda House y alrededores"
+                    contactTitle: "Contacto", contactSub: "Propietario del lugar"
                 },
                 modals: {
-                    mapH: "Mapa y Ubicación",
-                    mapDesc: "📍 <b>Ubicación:</b> ul. Landaua 12, Kraków (Swoszowice). El icono de la casa 🏠 indica el lugar donde se encuentra el huésped.",
                     wifiH: "Red Wi-Fi", wifiSsid: "📶 <b>Nombre de red:</b> Matylda_House", wifiPass: "🔑 <b>Contraseña:</b> Domowe_WIFI", wifiBtn: "Copiar Contraseña",
                     gateH: "Estacionamiento y Puerta de Entrada",
                     gateP1: "🅿️ <b>Estacionamiento:</b> El lugar de estacionamiento está marcado frente a la entrada del edificio (a la izquierda de la puerta del apartamento).",
@@ -1112,13 +998,8 @@
             document.getElementById('card-guide-sub').innerText = l.cards.guideSub;
             document.getElementById('card-contact-title').innerText = l.cards.contactTitle;
             document.getElementById('card-contact-sub').innerText = l.cards.contactSub;
-            document.getElementById('card-map-title').innerText = l.cards.mapTitle;
-            document.getElementById('card-map-sub').innerText = l.cards.mapSub;
 
             // Modale
-            document.getElementById('m-map-h').innerText = l.modals.mapH;
-            document.getElementById('m-map-desc').innerHTML = l.modals.mapDesc;
-
             document.getElementById('m-wifi-h').innerText = l.modals.wifiH;
             document.getElementById('m-wifi-ssid').innerHTML = l.modals.wifiSsid;
             document.getElementById('m-wifi-pass').innerHTML = l.modals.wifiPass;
@@ -1198,6 +1079,7 @@
         // POGODA DLA KRAKOWA (Open-Meteo)
         async function fetchWeather() {
             try {
+                // Współrzędne dla Swoszowic, Kraków
                 const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=49.986&longitude=19.937&current_weather=true');
                 const data = await res.json();
                 const temp = Math.round(data.current_weather.temperature);
@@ -1218,19 +1100,11 @@
         }
         
         fetchWeather();
-        setInterval(fetchWeather, 900000);
+        setInterval(fetchWeather, 900000); // Odśwież co 15 minut
 
         // MODALE
         function openModal(id) {
             document.getElementById(id).style.display = 'flex';
-            if (id === 'modal-map') {
-                setTimeout(() => {
-                    initMap();
-                    if (leafletMap) {
-                        leafletMap.invalidateSize();
-                    }
-                }, 150);
-            }
         }
 
         function closeModal(id) {
@@ -1246,6 +1120,7 @@
             navigator.clipboard.writeText(text).then(() => {
                 showToast(dict[currentLang].toasts[type]);
             }).catch(err => {
+                // Fallback (dla starych przeglądarek / kiosk mode bez uprawnień)
                 const textArea = document.createElement("textarea");
                 textArea.value = text;
                 document.body.appendChild(textArea);
