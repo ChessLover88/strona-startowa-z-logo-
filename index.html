@@ -21,6 +21,7 @@
             --shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
         }
 
+        /* Zwiększona bazowa czcionka dla lepszej czytelności na ekranie */
         html {
             font-size: 18px; 
             transition: font-size 0.3s ease;
@@ -38,10 +39,9 @@
         body {
             background: radial-gradient(circle at 50% 20%, #172618 0%, #080c08 100%);
             color: var(--text-main);
-            min-height: 100vh;
+            height: 100vh;
             width: 100vw;
-            overflow-x: hidden;
-            overflow-y: auto; /* Pozwala na scroll, jeśli elementy wyjdą poza ekran */
+            overflow: hidden;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -128,7 +128,6 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            flex-wrap: wrap;
         }
 
         .weather-card, .lang-switch-btn, .accessibility-btn {
@@ -233,21 +232,9 @@
         /* GRID MENU */
         .grid-menu {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(3, 1fr);
             gap: 14px;
             width: 100%;
-        }
-
-        @media (max-width: 1024px) {
-            .grid-menu {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .grid-menu {
-                grid-template-columns: repeat(2, 1fr);
-            }
         }
 
         .card {
@@ -386,6 +373,24 @@
 
         .btn-action:active { opacity: 0.85; }
 
+        /* DODANA KLASA MAPY */
+        .map-wrapper {
+            width: 100%;
+            height: 250px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 18px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            background: #1e2923;
+        }
+
+        .map-wrapper iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
         /* TOAST */
         .toast {
             position: fixed;
@@ -441,7 +446,7 @@
             <button class="lang-switch-btn" onclick="showLanguageSelect()">
                 🌐 <span id="current-lang-code">PL</span>
             </button>
-            <!-- Przyciski ułatwień dostępu -->
+            <!-- Przyciski ułatwień dostępu (powiększanie tekstu) -->
             <button class="accessibility-btn" onclick="changeFontSize(-2)">A-</button>
             <button class="accessibility-btn" onclick="changeFontSize(2)">A+</button>
         </div>
@@ -489,7 +494,7 @@
             </div>
         </div>
 
-        <!-- Kafel 3: Zamów Jedzenie -->
+        <!-- Kafel 3: Zamów Jedzenie i Zakupy -->
         <div class="card" onclick="openModal('modal-food')">
             <div class="card-icon">
                 <svg viewBox="0 0 24 24"><path d="M12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12C20,14.82 18.5,17.28 16.27,18.59 C15.61,17.5 14.39,16.78 13,16.78H11C9.61,16.78 8.39,17.5 7.73,18.59C5.5,17.28 4,14.82 4,12A8,8 0 0,1 12,4Z"/></svg>
@@ -522,25 +527,15 @@
             </div>
         </div>
 
-        <!-- Kafel 6: Kontakt -->
+        <!-- Kafel 6: Kontakt i Mapa -->
         <div class="card" onclick="openModal('modal-contact')">
             <div class="card-icon">
-                <svg viewBox="0 0 24 24"><path d="M6.62,10.79C8.06,13.62 10.38,15.94 13.21,17.38L15.41,15.18C15.69,14.9 16.08,14.82 16.43,14.93C17.55,15.3 18.75,15.5 20,15.5A1,1 0 0,1 21,16.5V20A1,1 0 0,1 20,21A17,17 0 0,1 3,4A1,1 0 0,1 4,3H7.5A1,1 0 0,1 8.5,4C8.5,5.25 8.7,6.45 9.07,7.57C9.18,7.92 9.1,8.31 8.82,8.59L6.62,10.79Z"/></svg>
+                <!-- Zmieniona ikona na Pin (Map marker) -->
+                <svg viewBox="0 0 24 24"><path d="M12,2C15.86,2 19,5.13 19,9C19,14.25 12,22 12,22C12,22 5,14.25 5,9C5,5.13 8.14,2 12,2M12,11.5C13.38,11.5 14.5,10.38 14.5,9C14.5,7.62 13.38,6.5 12,6.5C10.62,6.5 9.5,7.62 9.5,9C9.5,10.38 10.62,11.5 12,11.5Z"/></svg>
             </div>
             <div class="card-info">
-                <h3 id="card-contact-title">Kontakt</h3>
-                <p id="card-contact-sub">Właściciel obiektu</p>
-            </div>
-        </div>
-        
-        <!-- Kafel 7: Mapa i Lokalizacja -->
-        <div class="card" onclick="openModal('modal-map')">
-            <div class="card-icon">
-                <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9C5 14.25 12 22 12 22C12 22 19 14.25 19 9C19 5.13 15.87 2 12 2M12 11.5C10.62 11.5 9.5 10.38 9.5 9C9.5 7.62 10.62 6.5 12 6.5C13.38 6.5 14.5 7.62 14.5 9C14.5 10.38 13.38 11.5 12 11.5Z"/></svg>
-            </div>
-            <div class="card-info">
-                <h3 id="card-map-title">Mapa</h3>
-                <p id="card-map-sub">Lokalizacja obiektu</p>
+                <h3 id="card-contact-title">Kontakt i Mapa</h3>
+                <p id="card-contact-sub">Właściciel i lokalizacja</p>
             </div>
         </div>
 
@@ -625,40 +620,21 @@
         </div>
     </div>
 
-    <!-- Modal Kontakt -->
+    <!-- Modal Kontakt i Mapa -->
     <div id="modal-contact" class="modal-overlay" onclick="closeModalOnBg(event, 'modal-contact')">
         <div class="modal-box">
             <div class="modal-header">
-                <h2 id="m-contact-h">Kontakt do Właściciela</h2>
+                <h2 id="m-contact-h">Kontakt i Lokalizacja</h2>
                 <button class="close-btn" onclick="closeModal('modal-contact')">&times;</button>
             </div>
             <div class="pill-info" id="m-contact-p1">📞 <b>Telefon do właściciela:</b><br><span style="font-size:1.3rem; font-weight:800; color:var(--primary-green);">+48 508 048 886</span></div>
             <div class="pill-info" id="m-contact-p2">💬 Jesteśmy do Państwa dyspozycji w razie pytań lub wątpliwości podczas pobytu!</div>
             <button class="btn-action" id="m-contact-btn" onclick="copyText('508048886', 'phone')">Kopiuj Numer Telefonu</button>
-        </div>
-    </div>
-    
-    <!-- Modal Mapa (NOWY) -->
-    <div id="modal-map" class="modal-overlay" onclick="closeModalOnBg(event, 'modal-map')">
-        <div class="modal-box">
-            <div class="modal-header">
-                <h2 id="m-map-h">Lokalizacja i Mapa</h2>
-                <button class="close-btn" onclick="closeModal('modal-map')">&times;</button>
-            </div>
-            <div class="pill-info" id="m-map-addr" style="margin-bottom: 16px;">📍 <b>Adres obiektu:</b><br>ul. Landaua 12, Kraków (Swoszowice)</div>
             
-            <div style="border-radius: 14px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.5); background: #fff;">
-                <iframe 
-                    width="100%" 
-                    height="320" 
-                    frameborder="0" 
-                    style="border:0; display: block;" 
-                    src="https://maps.google.com/maps?q=ul.%20Landaua%2012,%20Krak%C3%B3w&t=&z=14&ie=UTF8&iwloc=&output=embed" 
-                    allowfullscreen>
-                </iframe>
+            <!-- DODANA MAPA -->
+            <div class="map-wrapper">
+                <iframe src="https://maps.google.com/maps?q=ul.%20Landaua%2012,%20Krak%C3%B3w&t=&z=15&ie=UTF8&iwloc=&output=embed" loading="lazy" allowfullscreen></iframe>
             </div>
-            
-            <button class="btn-action" id="m-map-btn" style="margin-top: 16px;" onclick="copyText('ul. Landaua 12, Kraków', 'addr')">Kopiuj Adres</button>
         </div>
     </div>
 
@@ -690,15 +666,11 @@
             document.documentElement.style.fontSize = currentFontSize + 'px';
         }
 
-        // TŁUMACZENIA MULTI-LANGUAGE
+        // TŁUMACZENIA MULTI-LANGUAGE (Zaktualizowane o nową nazwę kafelka 6)
         const dict = {
             pl: {
                 code: "PL",
-                greetings: {
-                    morning: "Dzień dobry! Witamy w Matylda House",
-                    day: "Witamy w Matylda House",
-                    night: "Dobry wieczór! Witamy w Matylda House"
-                },
+                greetings: { morning: "Dzień dobry! Witamy w Matylda House", day: "Witamy w Matylda House", night: "Dobry wieczór! Witamy w Matylda House" },
                 welcomeSub: "Życzymy udanego i wypoczynkowego pobytu",
                 cards: {
                     wifiTitle: "Wi-Fi", wifiSub: "Szybki internet",
@@ -706,8 +678,7 @@
                     foodTitle: "Zamów Jedzenie", foodSub: "Adres i polecane lokale",
                     rulesTitle: "Wskazówki i Zasady", rulesSub: "Ogrzewanie, śmieci, opłaty",
                     guideTitle: "Odkryj Kraków", guideSub: "Atrakcje w okolicy",
-                    contactTitle: "Kontakt", contactSub: "Właściciel obiektu",
-                    mapTitle: "Mapa", mapSub: "Lokalizacja obiektu"
+                    contactTitle: "Kontakt i Mapa", contactSub: "Właściciel i lokalizacja"
                 },
                 modals: {
                     wifiH: "Sieć Wi-Fi", wifiSsid: "📶 <b>Nazwa sieci:</b> Matylda_House", wifiPass: "🔑 <b>Hasło:</b> Domowe_WIFI", wifiBtn: "Kopiuj Hasło",
@@ -738,37 +709,22 @@
                     guideWawel: "👑 <b>Zamek Królewski na Wawelu & Smok Wawelski:</b> Rezydencja królów oraz słynny ziejący ogniem pomnik Smoka Wawelskiego na bulwarach nad Wisłą (ok. 30 minut autem).",
                     guideWieliczka: "⛏️ <b>Kopalnia Soli w Wieliczce:</b> Słynna podziemna trasa turystyczna (ok. 15 minut jazdy samochodem trasą obwodową).",
                     guideEnergylandia: "🎢 <b>Park Rozrywki Energylandia w Zatorze:</b> Największy park rozrywki w Polsce. Trasa z ul. Landaua to ok. 50-55 km, a dojazd samochodem zajmuje ok. 45–50 minut.",
-                    contactH: "Kontakt do Właściciela",
+                    contactH: "Kontakt i Lokalizacja",
                     contactP1: "📞 <b>Telefon do właściciela:</b><br><span style='font-size:1.3rem; font-weight:800; color:var(--primary-green);'>+48 508 048 886</span>",
                     contactP2: "💬 Jesteśmy do Państwa dyspozycji w razie pytań lub wątpliwości podczas pobytu!",
                     contactBtn: "Kopiuj Numer Telefonu",
-                    aboutText: "Witaj w naszym apartamencie! Zrobiliśmy wszystko, aby Twój pobyt w Krakowie był wyjątkowy i komfortowy.<br><br><i>\"You are welcome\"</i>",
-                    mapH: "Lokalizacja i Mapa",
-                    mapAddr: "📍 <b>Adres obiektu:</b><br>ul. Landaua 12, Kraków (Swoszowice)",
-                    mapBtn: "Kopiuj Adres"
+                    aboutText: "Witaj w naszym apartamencie! Zrobiliśmy wszystko, aby Twój pobyt w Krakowie był wyjątkowy i komfortowy.<br><br><i>\"You are welcome\"</i>"
                 },
-                toasts: {
-                    wifi: "Skopiowano hasło Wi-Fi!",
-                    addr: "Skopiowano adres do schowka!",
-                    phone: "Skopiowano numer telefonu!"
-                }
+                toasts: { wifi: "Skopiowano hasło Wi-Fi!", addr: "Skopiowano adres do schowka!", phone: "Skopiowano numer telefonu!" }
             },
             en: {
                 code: "EN",
-                greetings: {
-                    morning: "Good morning! Welcome to Matylda House",
-                    day: "Welcome to Matylda House",
-                    night: "Good evening! Welcome to Matylda House"
-                },
+                greetings: { morning: "Good morning! Welcome to Matylda House", day: "Welcome to Matylda House", night: "Good evening! Welcome to Matylda House" },
                 welcomeSub: "We wish you a pleasant and relaxing stay",
                 cards: {
-                    wifiTitle: "Wi-Fi", wifiSub: "Fast Internet",
-                    gateTitle: "Parking & Gate", gateSub: "Remote, driveway & button",
-                    foodTitle: "Order Food", foodSub: "Address & top spots",
-                    rulesTitle: "House Rules & Info", rulesSub: "Heating, trash, fees",
-                    guideTitle: "Discover Kraków", guideSub: "Nearby attractions",
-                    contactTitle: "Contact", contactSub: "Property Owner",
-                    mapTitle: "Map", mapSub: "Property location"
+                    wifiTitle: "Wi-Fi", wifiSub: "Fast Internet", gateTitle: "Parking & Gate", gateSub: "Remote, driveway & button",
+                    foodTitle: "Order Food", foodSub: "Address & top spots", rulesTitle: "House Rules & Info", rulesSub: "Heating, trash, fees",
+                    guideTitle: "Discover Kraków", guideSub: "Nearby attractions", contactTitle: "Contact & Map", contactSub: "Owner & Location"
                 },
                 modals: {
                     wifiH: "Wi-Fi Network", wifiSsid: "📶 <b>Network Name:</b> Matylda_House", wifiPass: "🔑 <b>Password:</b> Domowe_WIFI", wifiBtn: "Copy Password",
@@ -799,37 +755,22 @@
                     guideWawel: "👑 <b>Wawel Royal Castle & Wawel Dragon Statue:</b> Historic royal residence and the famous fire-breathing Dragon Statue on the Vistula boulevards (approx. 30 min by car).",
                     guideWieliczka: "⛏️ <b>Wieliczka Salt Mine:</b> Famous UNESCO underground salt mine (approx. 15 minutes drive by car via the bypass).",
                     guideEnergylandia: "🎢 <b>Energylandia Amusement Park in Zator:</b> The largest amusement park in Poland. Route from ul. Landaua is approx. 50-55 km, taking about 45–50 minutes by car.",
-                    contactH: "Contact Owner",
+                    contactH: "Contact & Location",
                     contactP1: "📞 <b>Owner Phone:</b><br><span style='font-size:1.3rem; font-weight:800; color:var(--primary-green);'>+48 508 048 886</span>",
                     contactP2: "💬 We are at your service if you have any questions during your stay!",
                     contactBtn: "Copy Phone Number",
-                    aboutText: "Welcome to our apartment! We made every effort to make your stay in Kraków comfortable.<br><br><i>\"You are welcome\"</i>",
-                    mapH: "Location & Map",
-                    mapAddr: "📍 <b>Property Address:</b><br>ul. Landaua 12, Kraków (Swoszowice)",
-                    mapBtn: "Copy Address"
+                    aboutText: "Welcome to our apartment! We made every effort to make your stay in Kraków comfortable.<br><br><i>\"You are welcome\"</i>"
                 },
-                toasts: {
-                    wifi: "Wi-Fi password copied!",
-                    addr: "Address copied!",
-                    phone: "Phone number copied!"
-                }
+                toasts: { wifi: "Wi-Fi password copied!", addr: "Delivery address copied!", phone: "Phone number copied!" }
             },
             uk: {
                 code: "UK",
-                greetings: {
-                    morning: "Доброго ранку! Ласкаво просимо до Matylda House",
-                    day: "Ласкаво просимо до Matylda House",
-                    night: "Доброго вечора! Ласкаво просимо до Matylda House"
-                },
+                greetings: { morning: "Доброго ранку! Ласкаво просимо до Matylda House", day: "Ласкаво просимо до Matylda House", night: "Доброго вечора! Ласкаво просимо до Matylda House" },
                 welcomeSub: "Бажаємо вам приємного та комфортного відпочинку",
                 cards: {
-                    wifiTitle: "Wi-Fi", wifiSub: "Швидкий інтернет",
-                    gateTitle: "Паркінг та Брама", gateSub: "Пульт, заїзд та кнопка",
-                    foodTitle: "Замовити Їжу", foodSub: "Адреса та заклади",
-                    rulesTitle: "Правила та Інфо", rulesSub: "Опалення, сміття, збори",
-                    guideTitle: "Відкрийте Краків", guideSub: "Цікаві місця поруч",
-                    contactTitle: "Контакти", contactSub: "Власник апартаментів",
-                    mapTitle: "Карта", mapSub: "Локація об'єкта"
+                    wifiTitle: "Wi-Fi", wifiSub: "Швидкий інтернет", gateTitle: "Паркінг та Брама", gateSub: "Пульт, заїзд та кнопка",
+                    foodTitle: "Замовити Їжу", foodSub: "Адреса та заклади", rulesTitle: "Правила та Інфо", rulesSub: "Опалення, сміття, збори",
+                    guideTitle: "Відкрийте Краків", guideSub: "Цікаві місця поруч", contactTitle: "Контакти та Карта", contactSub: "Власник та локація"
                 },
                 modals: {
                     wifiH: "Мережа Wi-Fi", wifiSsid: "📶 <b>Назва мережі:</b> Matylda_House", wifiPass: "🔑 <b>Пароль:</b> Domowe_WIFI", wifiBtn: "Копіювати Пароль",
@@ -860,37 +801,22 @@
                     guideWawel: "👑 <b>Королівський Замок на Вавелі & Вавельський Дракон:</b> Резиденція королів та скульптура Дракона на Віслі (бл. 30 хвилин авто).",
                     guideWieliczka: "⛏️ <b>Соляна Копальня Величка:</b> Відома підземна туристична траса (бл. 15 хвилин на авто окружною).",
                     guideEnergylandia: "🎢 <b>Парк розваг Енерджиландія:</b> Найбільший парк атракціонів у Польщі. Їхати бл. 45–50 хвилин авто.",
-                    contactH: "Контакти Власника",
+                    contactH: "Контакти та Локація",
                     contactP1: "📞 <b>Телефон власника:</b><br><span style='font-size:1.3rem; font-weight:800; color:var(--primary-green);'>+48 508 048 886</span>",
                     contactP2: "💬 Ми до ваших послуг у разі виникнення питань під час вашого перебування!",
                     contactBtn: "Копіювати Номер",
-                    aboutText: "Ласкаво просимо! Ми зробили все, щоб ваше перебування у Кракові було комфортним.<br><br><i>\"You are welcome\"</i>",
-                    mapH: "Локація та Карта",
-                    mapAddr: "📍 <b>Адреса об'єкта:</b><br>ul. Landaua 12, Kraków (Swoszowice)",
-                    mapBtn: "Копіювати Адресу"
+                    aboutText: "Ласкаво просимо! Ми зробили все, щоб ваше перебування у Кракові було комфортним.<br><br><i>\"You are welcome\"</i>"
                 },
-                toasts: {
-                    wifi: "Пароль Wi-Fi скопійовано!",
-                    addr: "Адресу скопійовано!",
-                    phone: "Номер скопійовано!"
-                }
+                toasts: { wifi: "Пароль Wi-Fi скопійовано!", addr: "Адресу скопійовано!", phone: "Номер скопійовано!" }
             },
             de: {
                 code: "DE",
-                greetings: {
-                    morning: "Guten Morgen! Willkommen im Matylda House",
-                    day: "Willkommen im Matylda House",
-                    night: "Guten Abend! Willkommen im Matylda House"
-                },
+                greetings: { morning: "Guten Morgen! Willkommen im Matylda House", day: "Willkommen im Matylda House", night: "Guten Abend! Willkommen im Matylda House" },
                 welcomeSub: "Wir wünschen Ihnen einen angenehmen Aufenthalt",
                 cards: {
-                    wifiTitle: "WLAN", wifiSub: "Schnelles Internet",
-                    gateTitle: "Parkplatz & Tor", gateSub: "Fernbedienung & Taster",
-                    foodTitle: "Essen Bestellen", foodSub: "Adresse & Empfehlungen",
-                    rulesTitle: "Hausregeln & Infos", rulesSub: "Heizung, Müll, Gebühren",
-                    guideTitle: "Krakau Entdecken", guideSub: "Nahegelegene Attraktionen",
-                    contactTitle: "Kontakt", contactSub: "Gastgeber",
-                    mapTitle: "Karte", mapSub: "Lage der Unterkunft"
+                    wifiTitle: "WLAN", wifiSub: "Schnelles Internet", gateTitle: "Parkplatz & Tor", gateSub: "Fernbedienung & Taster",
+                    foodTitle: "Essen Bestellen", foodSub: "Adresse & Empfehlungen", rulesTitle: "Hausregeln & Infos", rulesSub: "Heizung, Müll, Gebühren",
+                    guideTitle: "Krakau Entdecken", guideSub: "Nahegelegene Attraktionen", contactTitle: "Kontakt & Karte", contactSub: "Gastgeber & Standort"
                 },
                 modals: {
                     wifiH: "WLAN-Netzwerk", wifiSsid: "📶 <b>Netzwerkname:</b> Matylda_House", wifiPass: "🔑 <b>Passwort:</b> Domowe_WIFI", wifiBtn: "Passwort Kopieren",
@@ -921,33 +847,22 @@
                     guideWawel: "👑 <b>Wawel-Schloss & Wawel-Drache:</b> Die Königsresidenz und die berühmte Drachenstatue (ca. 30 Minuten Autofahrt).",
                     guideWieliczka: "⛏️ <b>Salzbergwerk Wieliczka:</b> Berühmte unterirdische Salzmine (ca. 15 Minuten über die Umgehungsstraße).",
                     guideEnergylandia: "🎢 <b>Freizeitpark Energylandia:</b> Der größte Freizeitpark in Polen (ca. 45–50 Minuten Autofahrt).",
-                    contactH: "Kontakt zum Gastgeber",
+                    contactH: "Kontakt & Standort",
                     contactP1: "📞 <b>Telefonnummer:</b><br><span style='font-size:1.3rem; font-weight:800; color:var(--primary-green);'>+48 508 048 886</span>",
                     contactP2: "💬 Wir stehen Ihnen bei Fragen jederzeit zur Verfügung!",
                     contactBtn: "Nummer Kopieren",
-                    aboutText: "Willkommen in unserem Apartment! Wir haben alles getan, um Ihren Aufenthalt angenehm zu gestalten.<br><br><i>\"You are welcome\"</i>",
-                    mapH: "Lage & Karte",
-                    mapAddr: "📍 <b>Adresse der Unterkunft:</b><br>ul. Landaua 12, Kraków (Swoszowice)",
-                    mapBtn: "Adresse Kopieren"
+                    aboutText: "Willkommen in unserem Apartment! Wir haben alles getan, um Ihren Aufenthalt angenehm zu gestalten.<br><br><i>\"You are welcome\"</i>"
                 },
                 toasts: { wifi: "Passwort kopiert!", addr: "Adresse kopiert!", phone: "Nummer kopiert!" }
             },
             it: {
                 code: "IT",
-                greetings: {
-                    morning: "Buongiorno! Benvenuti al Matylda House",
-                    day: "Benvenuti al Matylda House",
-                    night: "Buonasera! Benvenuti al Matylda House"
-                },
+                greetings: { morning: "Buongiorno! Benvenuti al Matylda House", day: "Benvenuti al Matylda House", night: "Buonasera! Benvenuti al Matylda House" },
                 welcomeSub: "Vi auguriamo un soggiorno piacevole e rilassante",
                 cards: {
-                    wifiTitle: "Wi-Fi", wifiSub: "Internet veloce",
-                    gateTitle: "Parcheggio & Cancello", gateSub: "Telecomando & pulsante",
-                    foodTitle: "Ordina Cibo", foodSub: "Indirizzo & locali top",
-                    rulesTitle: "Regole della Casa", rulesSub: "Riscaldamento, rifiuti",
-                    guideTitle: "Scopri Cracovia", guideSub: "Attrazioni vicine",
-                    contactTitle: "Contatti", contactSub: "Proprietario",
-                    mapTitle: "Mappa", mapSub: "Posizione"
+                    wifiTitle: "Wi-Fi", wifiSub: "Internet veloce", gateTitle: "Parcheggio & Cancello", gateSub: "Telecomando & pulsante",
+                    foodTitle: "Ordina Cibo", foodSub: "Indirizzo & locali top", rulesTitle: "Regole della Casa", rulesSub: "Riscaldamento, rifiuti",
+                    guideTitle: "Scopri Cracovia", guideSub: "Attrazioni vicine", contactTitle: "Contatti & Mappa", contactSub: "Proprietario e Posizione"
                 },
                 modals: {
                     wifiH: "Rete Wi-Fi", wifiSsid: "📶 <b>Nome Rete:</b> Matylda_House", wifiPass: "🔑 <b>Password:</b> Domowe_WIFI", wifiBtn: "Copia Password",
@@ -978,39 +893,28 @@
                     guideWawel: "👑 <b>Castello del Wawel & Drago del Wawel:</b> Residenza reale e statua del drago sputafuoco (ca. 30 minuti in auto).",
                     guideWieliczka: "⛏️ <b>Miniera di Sale di Wieliczka:</b> Famosa miniera sotterranea (ca. 15 min via tangenziale).",
                     guideEnergylandia: "🎢 <b>Parco Divertimenti Energylandia:</b> Il parco più grande della Polonia (ca. 45–50 minuti in auto).",
-                    contactH: "Contatta il Proprietario",
+                    contactH: "Contatti e Posizione",
                     contactP1: "📞 <b>Telefono Proprietario:</b><br><span style='font-size:1.3rem; font-weight:800; color:var(--primary-green);'>+48 508 048 886</span>",
                     contactP2: "💬 Siamo a vostra disposizione per qualsiasi domanda!",
                     contactBtn: "Copia Numero",
-                    aboutText: "Benvenuti! Abbiamo fatto il massimo per rendere il vostro soggiorno confortevole.<br><br><i>\"You are welcome\"</i>",
-                    mapH: "Posizione e Mappa",
-                    mapAddr: "📍 <b>Indirizzo:</b><br>ul. Landaua 12, Kraków (Swoszowice)",
-                    mapBtn: "Copia Indirizzo"
+                    aboutText: "Benvenuti! Abbiamo fatto il massimo per rendere il vostro soggiorno confortevole.<br><br><i>\"You are welcome\"</i>"
                 },
                 toasts: { wifi: "Password copiata!", addr: "Indirizzo copiato!", phone: "Numero copiato!" }
             },
             es: {
                 code: "ES",
-                greetings: {
-                    morning: "¡Buenos días! Bienvenidos a Matylda House",
-                    day: "Bienvenidos a Matylda House",
-                    night: "¡Buenas noches! Bienvenidos a Matylda House"
-                },
+                greetings: { morning: "¡Buenos días! Bienvenidos a Matylda House", day: "Bienvenidos a Matylda House", night: "¡Buenas noches! Bienvenidos a Matylda House" },
                 welcomeSub: "Les deseamos una estancia agradable y relajante",
                 cards: {
-                    wifiTitle: "Wi-Fi", wifiSub: "Internet rápido",
-                    gateTitle: "Estacionamiento y Puerta", gateSub: "Mando, entrada y botón",
-                    foodTitle: "Pedir Comida", foodSub: "Dirección y restaurantes",
-                    rulesTitle: "Reglas de la Casa", rulesSub: "Calefacción, basura",
-                    guideTitle: "Descubre Cracovia", guideSub: "Atracciones cercanas",
-                    contactTitle: "Contacto", contactSub: "Propietario del lugar",
-                    mapTitle: "Mapa", mapSub: "Ubicación"
+                    wifiTitle: "Wi-Fi", wifiSub: "Internet rápido", gateTitle: "Estacionamiento y Puerta", gateSub: "Mando, entrada y botón",
+                    foodTitle: "Pedir Comida", foodSub: "Dirección y restaurantes", rulesTitle: "Reglas de la Casa", rulesSub: "Calefacción, basura",
+                    guideTitle: "Descubre Cracovia", guideSub: "Atracciones cercanas", contactTitle: "Contacto y Mapa", contactSub: "Propietario y Ubicación"
                 },
                 modals: {
                     wifiH: "Red Wi-Fi", wifiSsid: "📶 <b>Nombre de red:</b> Matylda_House", wifiPass: "🔑 <b>Contraseña:</b> Domowe_WIFI", wifiBtn: "Copiar Contraseña",
                     gateH: "Estacionamiento y Puerta de Entrada",
                     gateP1: "🅿️ <b>Estacionamiento:</b> El lugar de estacionamiento está marcado frente a la entrada del edificio (a la izquierda de la puerta del apartamento).",
-                    gateP2: "🔑 <b>Mando a distancia:</b> En el perchero del pasillo encontrarán un mando. El <b>botón izquierdo</b> opens, detiene y cierra la puerta del recinto.",
+                    gateP2: "🔑 <b>Mando a distancia:</b> En el perchero del pasillo encontrarán un mando. El <b>botón izquierdo</b> abre, detiene y cierra la puerta del recinto.",
                     gateP3: "🔘 <b>Botón en la puerta:</b> La puerta también se puede abrir usando el botón exterior. Se cierra automáticamente después de 2 minutos para permitir su salida.",
                     gateP4: "🚪 <b>Check-out:</b> Por favor, deje el mando en el perchero del pasillo al realizar el check-out.",
                     foodH: "Pedir Comida y Recomendaciones",
@@ -1035,14 +939,11 @@
                     guideWawel: "👑 <b>Castillo de Wawel y Dragón de Wawel:</b> Residencia real y famosa estatua del dragón (aprox. 30 minutos en coche).",
                     guideWieliczka: "⛏️ <b>Mina de Sal de Wieliczka:</b> Famosa ruta subterránea (aprox. 15 minutos en coche).",
                     guideEnergylandia: "🎢 <b>Parque de Atracciones Energylandia:</b> El parque más grande de Polonia (aprox. 45–50 minutos en coche).",
-                    contactH: "Contacto del Propietario",
+                    contactH: "Contacto y Ubicación",
                     contactP1: "📞 <b>Teléfono del Propietario:</b><br><span style='font-size:1.3rem; font-weight:800; color:var(--primary-green);'>+48 508 048 886</span>",
                     contactP2: "💬 ¡Estamos a su disposición si tienen preguntas durante su estancia!",
                     contactBtn: "Copiar Número",
-                    aboutText: "¡Bienvenidos a nuestro apartamento! Hemos hecho todo lo posible para que su estancia sea cómoda.<br><br><i>\"You are welcome\"</i>",
-                    mapH: "Ubicación y Mapa",
-                    mapAddr: "📍 <b>Dirección:</b><br>ul. Landaua 12, Kraków (Swoszowice)",
-                    mapBtn: "Copiar Dirección"
+                    aboutText: "¡Bienvenidos a nuestro apartamento! Hemos hecho todo lo posible para que su estancia sea cómoda.<br><br><i>\"You are welcome\"</i>"
                 },
                 toasts: { wifi: "¡Contraseña copiada!", addr: "¡Dirección copiada!", phone: "¡Número copiado!" }
             }
@@ -1070,10 +971,6 @@
             document.getElementById('card-guide-sub').innerText = l.cards.guideSub;
             document.getElementById('card-contact-title').innerText = l.cards.contactTitle;
             document.getElementById('card-contact-sub').innerText = l.cards.contactSub;
-            
-            // Nowe Kafelki (Mapa)
-            document.getElementById('card-map-title').innerText = l.cards.mapTitle;
-            document.getElementById('card-map-sub').innerText = l.cards.mapSub;
 
             // Modale
             document.getElementById('m-wifi-h').innerText = l.modals.wifiH;
@@ -1118,11 +1015,6 @@
             document.getElementById('m-contact-btn').innerText = l.modals.contactBtn;
 
             document.getElementById('m-about-text').innerHTML = l.modals.aboutText;
-            
-            // Nowy Modal (Mapa)
-            document.getElementById('m-map-h').innerText = l.modals.mapH;
-            document.getElementById('m-map-addr').innerHTML = l.modals.mapAddr;
-            document.getElementById('m-map-btn').innerText = l.modals.mapBtn;
 
             // Ukryj splash screen wyboru języka
             document.getElementById('lang-select-screen').style.display = 'none';
@@ -1160,7 +1052,6 @@
         // POGODA DLA KRAKOWA (Open-Meteo)
         async function fetchWeather() {
             try {
-                // Współrzędne dla Swoszowic, Kraków
                 const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=49.986&longitude=19.937&current_weather=true');
                 const data = await res.json();
                 const temp = Math.round(data.current_weather.temperature);
@@ -1201,7 +1092,6 @@
             navigator.clipboard.writeText(text).then(() => {
                 showToast(dict[currentLang].toasts[type]);
             }).catch(err => {
-                // Fallback (dla starych przeglądarek / kiosk mode bez uprawnień)
                 const textArea = document.createElement("textarea");
                 textArea.value = text;
                 document.body.appendChild(textArea);
