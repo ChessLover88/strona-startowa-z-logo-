@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matylda House - Wygaszacz</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: #000;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        /* Wideo w tle zajmujące cały ekran */
+        video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            min-width: 100%;
+            min-height: 100%;
+            object-fit: cover;
+            z-index: 1;
+        }
+        /* Przyciemniająca i organizująca warstwa nakładki */
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.35);
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        /* Kontener logo - duże, z zieloną poświatą i mniejszym odstępem od dołu */
+        .logo-container {
+            margin-bottom: 18px; /* Zmniejszony odstęp między logo a przyciskiem */
+            animation: logo-pulse 4s infinite ease-in-out;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .logo-container img {
+            max-width: 720px;
+            width: 72vw;
+            height: auto;
+            filter: drop-shadow(0 0 25px rgba(34, 197, 94, 0.45)) drop-shadow(0 15px 35px rgba(0, 0, 0, 0.6));
+        }
+        /* Elegancki, minimalistyczny i mniejszy przycisk */
+        .tap-button {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            color: rgba(255, 255, 255, 0.85);
+            padding: 10px 24px;
+            font-size: 13px;
+            font-weight: 400;
+            letter-spacing: 1.5px;
+            border-radius: 30px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+        .tap-button:active {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(0.97);
+        }
+        /* Animacja pulsowania logo oraz intensywności zielonej poświaty */
+        @keyframes logo-pulse {
+            0%, 100% {
+                transform: scale(1);
+                filter: drop-shadow(0 0 20px rgba(34, 197, 94, 0.3)) drop-shadow(0 10px 25px rgba(0, 0, 0, 0.5));
+            }
+            50% {
+                transform: scale(1.03);
+                filter: drop-shadow(0 0 38px rgba(34, 197, 94, 0.75)) drop-shadow(0 15px 35px rgba(0, 0, 0, 0.6));
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Wideo w tle -->
+    <video autoplay muted loop playsinfile>
+        <source src="wygaszacz.mp4" type="video/mp4">
+    </video>
+
+    <!-- Centralna nakładka z powiększonym logo, zieloną poświatą i zbliżonym przyciskiem -->
+    <div class="overlay" onclick="exitScreensaver()">
+        <div class="logo-container">
+            <img src="Przezroczysty_6.png" alt="Matylda House">
+        </div>
+        <div class="tap-button">Dotknij, aby rozpocząć</div>
+    </div>
+
+    <script>
+        function exitScreensaver() {
+            if (typeof window.fully !== 'undefined' && typeof window.fully.stopScreenSaver === 'function') {
+                window.fully.stopScreenSaver();
+            } else {
+                location.reload();
+            }
+        }
+    </script>
+</body>
+</html>
