@@ -14,7 +14,7 @@
             background: #000;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         }
-        /* Wideo w tle zajmujące cały ekran */
+        /* Wideo w tle zoptymalizowane pod kątem wydajności mobilnej */
         video {
             position: absolute;
             top: 50%;
@@ -24,15 +24,16 @@
             min-height: 100%;
             object-fit: cover;
             z-index: 1;
+            pointer-events: none;
         }
-        /* Przyciemniająca warstwa nakładki */
+        /* Ciemna nakładka bez ciężkich efektów graficznych */
         .overlay {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.4);
+            background: rgba(0, 0, 0, 0.45);
             z-index: 2;
             display: flex;
             flex-direction: column;
@@ -40,59 +41,45 @@
             justify-content: center;
             cursor: pointer;
         }
-        /* Kontener logo - duże, z zieloną poświatą i płynnym pulsowaniem */
+        /* Statyczny kontener logo – brak jakichkolwiek animacji i poświaty, maksymalny rozmiar */
         .logo-container {
-            margin-bottom: 18px;
-            animation: logo-pulse 4s infinite ease-in-out;
+            margin-bottom: 20px;
             display: flex;
             justify-content: center;
             align-items: center;
         }
         .logo-container img {
-            max-width: 720px;
-            width: 72vw;
+            max-width: 850px;
+            width: 85vw;
             height: auto;
-            filter: drop-shadow(0 0 20px rgba(34, 197, 94, 0.4)) drop-shadow(0 10px 20px rgba(0, 0, 0, 0.6));
+            /* Usunięto filtry, poświatę i cienie, aby tablet renderował grafikę całkowicie płynnie */
         }
-        /* Lekki, minimalistyczny przycisk bez ciężkiego rozmycia (w pełni płynny na tablecie) */
+        /* Minimalistyczny, lekki przycisk */
         .tap-button {
-            background: rgba(255, 255, 255, 0.16);
-            border: 1px solid rgba(255, 255, 255, 0.35);
-            color: rgba(255, 255, 255, 0.95);
-            padding: 12px 28px;
-            font-size: 14px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: rgba(255, 255, 255, 0.9);
+            padding: 10px 24px;
+            font-size: 13px;
             font-weight: 400;
             letter-spacing: 1.5px;
             border-radius: 30px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-            transition: transform 0.2s ease, background 0.2s ease;
             text-transform: uppercase;
         }
         .tap-button:active {
-            background: rgba(255, 255, 255, 0.28);
+            background: rgba(255, 255, 255, 0.25);
             transform: scale(0.97);
-        }
-        /* Płynna animacja pulsowania logo oraz intensywności zielonej poświaty */
-        @keyframes logo-pulse {
-            0%, 100% {
-                transform: scale(1);
-                filter: drop-shadow(0 0 15px rgba(34, 197, 94, 0.3)) drop-shadow(0 10px 20px rgba(0, 0, 0, 0.5));
-            }
-            50% {
-                transform: scale(1.02);
-                filter: drop-shadow(0 0 30px rgba(34, 197, 94, 0.65)) drop-shadow(0 12px 25px rgba(0, 0, 0, 0.6));
-            }
         }
     </style>
 </head>
 <body>
 
     <!-- Wideo w tle -->
-    <video autoplay muted loop playsinline>
+    <video autoplay muted loop playsinline webkit-playsinline>
         <source src="wygaszacz.mp4" type="video/mp4">
     </video>
 
-    <!-- Centralna nakładka z powiększonym logo, zieloną poświatą i zoptymalizowanym przyciskiem -->
+    <!-- Centralna nakładka z dużym, czystym logo bez poświaty i animacji -->
     <div class="overlay" onclick="exitScreensaver()">
         <div class="logo-container">
             <img src="Przezroczysty_6.png" alt="Matylda House">
