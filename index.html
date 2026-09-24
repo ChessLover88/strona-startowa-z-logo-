@@ -570,7 +570,7 @@
             <div class="pill-info" id="m-food-nearby">🍽️ <b>W pobliżu (Swoszowice):</b><br><b>Restauracja Szyb Swoszowice</b><br>📍 ul. Szybisko 40 (ok. 1,5 km od apartamentu)</div>
             <div class="pill-info" id="m-food-center">🥩 <b>W centrum Krakowa:</b><br><b>MooMoo Steak & Wine (Mo-Mo Stek)</b><br>📍 ul. Sienna 9 (Stare Miasto)</div>
             <div class="pill-info" id="m-food-rec">🍝 <b>Polecana restauracja:</b><br><b>Restauracja Pół na Pół</b> (kuchnia polsko-włoska)<br>📍 ul. Kosocicka 105A, Kraków</div>
-            <div class="pill-info" id="m-food-fast">🍔 <b>Najbliższy Fast Food:</b><br><b>McDonald's</b><br>📍 ul. Cechowa / ul. Stojałowskiego 2 (ok. 2,5 km od apartamentu)</div>
+            <div class="pill-info" id="m-food-fast">🍔 <b>Najbliższy Fast Food:</b><br><b>McDonald's</b><br>📍 ul. Stojałowskiego 2, Kraków (ok. 2,5 km od apartamentu)</div>
         </div>
     </div>
 
@@ -606,7 +606,7 @@
             <!-- Widok Przewodnika -->
             <div id="guide-content-view" style="display: block;">
                 <div class="pill-info" id="m-guide-park">🌳 <b>Park Zdrojowy w Swoszowicach:</b> Urokliwe, zielone miejsce na spacer tuż obok apartamentu.</div>
-                <div class="pill-info" id="m-guide-view">🌄 <b>Punkt widokowy na Kraków:</b> Okolice Fortu Swoszowice przy ul. Droga Rokadowa – wspaniała panorama miasta z góry, szczególnie ciekawa i efektowna nocą przy dobrej pogodzie.</div>
+                <div class="pill-info" id="m-guide-view">🌄 <b>Punkt widokowy na Kraków:</b> Okolice Fortu 51 Rajsko - Twierdza Kraków przy ul. Droga Rokadowa – wspaniała panorama miasta z góry, szczególnie ciekawa i efektowna nocą przy dobrej pogodzie.</div>
                 <div class="pill-info" id="m-guide-market">🏰 <b>Rynek Główny & Podziemia Rynku:</b> Sercem Krakowa z unikalną podziemną trasą turystyczną pod płytą Rynku (dojazd samochodem zajmuje ok. 30 minut).</div>
                 <div class="pill-info" id="m-guide-wawel">👑 <b>Zamek Królewski na Wawelu & Smok Wawelski:</b> Rezydencja królów oraz słynny ziejący ogniem pomnik Smoka Wawelskiego na bulwarach nad Wisłą (ok. 30 minut autem).</div>
                 <div class="pill-info" id="m-guide-wieliczka">⛏️ <b>Kopalnia Soli w Wieliczce:</b> Słynna podziemna trasa turystyczna (ok. 15 minut jazdy samochodem trasą obwodową).</div>
@@ -743,40 +743,40 @@
                 .addTo(neighborhoodMap)
                 .bindPopup("<b>Matylda House (Apartament)</b><br>ul. Landaua 12, Kraków<br><i>Twój dom podczas pobytu</i>");
 
-            // 2. Centrum Handlowe Swoszowice (ul. Myślenicka 133)
+            // 2. Centrum Handlowe Swoszowice
             L.marker([49.9882, 19.9585], { icon: createPinIcon('🛒', '#3b82f6') })
                 .addTo(neighborhoodMap)
-                .bindPopup("<b>Centrum Handlowe Swoszowice</b><br>ul. Myślenicka 133<br>Supermarket, Rossmann, Apteka, Parter Cafe");
+                .bindPopup("<b>Centrum Handlowe Swoszowice</b><br>Kraków, ul. Myślenicka 133<br>Supermarket, Rossmann, Apteka, Parter Cafe");
 
-            // 3. Punkt widokowy nocą (ul. Droga Rokadowa / przed wjazdem na Fort Swoszowice)
+            // 3. Punkt widokowy nocą (Fort 51 Rajsko)
             L.marker([49.9893, 19.9691], { icon: createPinIcon('🌄', '#8b5cf6') })
                 .addTo(neighborhoodMap)
-                .bindPopup("<b>Punkt widokowy na Kraków</b><br>ul. Droga Rokadowa (Fort Swoszowice)<br>Wspaniała panorama miasta z góry, szczególnie atrakcyjna nocą!");
+                .bindPopup("<b>Punkt widokowy na Kraków</b><br>Kraków, ul. Droga Rokadowa<br>Fort 51 Rajsko - Twierdza Kraków<br>Wspaniała panorama miasta z góry, szczególnie atrakcyjna nocą!");
 
-            // 4. Restauracja Pół na Pół (ul. Kosocicka 105A)
+            // 4. Restauracja Pół na Pół
             L.marker([50.0075, 19.9720], { icon: createPinIcon('🍝', '#f59e0b') })
                 .addTo(neighborhoodMap)
-                .bindPopup("<b>Restauracja Pół na Pół</b><br>ul. Kosocicka 105A<br>Kuchnia polsko-włoska, pizza, obiady");
+                .bindPopup("<b>Restauracja Pół na Pół</b><br>Kraków, ul. Kosocicka 105A<br>Kuchnia polsko-włoska, pizza, obiady");
 
-            // 5. Kebab u Pajdy (ul. Myślenicka 131)
+            // 5. Kebab u Pajdy
             L.marker([49.9885, 19.9582], { icon: createPinIcon('🥙', '#ef4444') })
                 .addTo(neighborhoodMap)
-                .bindPopup("<b>Kebab u Pajdy</b><br>ul. Myślenicka 131<br>Popularny lokal z kebabem");
+                .bindPopup("<b>Kebab u Pajdy</b><br>Kraków, ul. Myślenicka 131<br>Popularny lokal z kebabem");
 
-            // 6. Restauracja McDonald's (ul. Cechowa / Stojałowskiego 2)
+            // 6. Restauracja McDonald's
             L.marker([50.0165, 19.9535], { icon: createPinIcon('🍔', '#eab308') })
                 .addTo(neighborhoodMap)
-                .bindPopup("<b>McDonald's</b><br>ul. Cechowa / ul. Stojałowskiego 2<br>Restauracja i McDrive");
+                .bindPopup("<b>McDonald's</b><br>Kraków, ul. Stojałowskiego 2<br>Restauracja i McDrive");
 
-            // 7. Sklep Carrefour Express (ul. Niewodniczańskiego 75)
+            // 7. Sklep Carrefour Express
             L.marker([49.9920, 19.9710], { icon: createPinIcon('🏪', '#06b6d4') })
                 .addTo(neighborhoodMap)
-                .bindPopup("<b>Carrefour Express</b><br>ul. Niewodniczańskiego 75<br>Sklep convenience z butelkomatem");
+                .bindPopup("<b>Carrefour Express</b><br>Kraków, ul. Niewodniczańskiego 75<br>Sklep convenience z butelkomatem");
 
-            // 8. Fort Swoszowice / Wróblowice (ul. Sawiczewskich 46)
+            // 8. Fort Swoszowice 51 1/2
             L.marker([49.9850, 19.9400], { icon: createPinIcon('🏰', '#64748b') })
                 .addTo(neighborhoodMap)
-                .bindPopup("<b>Fort 51 ½ Swoszowice</b><br>ul. Sawiczewskich 46<br>Zabytkowy fort Twierdzy Kraków");
+                .bindPopup("<b>Fort 51 ½ Swoszowice</b><br>Kraków, ul. Sawiczewskich 46a<br>Zabytkowy fort Twierdzy Kraków");
 
             mapInitialized = true;
         }
@@ -814,7 +814,7 @@
                     foodNearby: "🍽️ <b>W pobliżu (Swoszowice):</b><br><b>Restauracja Szyb Swoszowice</b><br>📍 ul. Szybisko 40 (ok. 1,5 km od apartamentu)",
                     foodCenter: "🥩 <b>W centrum Krakowa:</b><br><b>MooMoo Steak & Wine (Mo-Mo Stek)</b><br>📍 ul. Sienna 9 (Stare Miasto)",
                     foodRec: "🍝 <b>Polecana restauracja:</b><br><b>Restauracja Pół na Pół</b> (kuchnia polsko-włoska)<br>📍 ul. Kosocicka 105A, Kraków",
-                    foodFast: "🍔 <b>Najbliższy Fast Food:</b><br><b>McDonald's</b><br>📍 ul. Cechowa / ul. Stojałowskiego 2 (ok. 2,5 km od apartamentu)",
+                    foodFast: "🍔 <b>Najbliższy Fast Food:</b><br><b>McDonald's</b><br>📍 ul. Stojałowskiego 2, Kraków (ok. 2,5 km od apartamentu)",
                     rulesH: "Wskazówki dla Gości",
                     rulesTime: "⏰ <b>Wymeldowanie:</b> Do 11:00 | 🌙 <b>Cisza nocna:</b> 22:00 – 06:00",
                     rulesHeat: "🔥 <b>Ogrzewanie:</b> Prosimy o nieotwieranie okien i drzwi na dłużej niż w celach przewietrzenia pomieszczeń. W apartamencie działa ogrzewanie, które wyłącza się automatycznie, jeśli okna lub drzwi są uchylone/otwarte przez dłuższy czas.",
@@ -826,7 +826,7 @@
                     tabMap: "🗺️ Mapa Okolicy",
                     mapSub: "Interaktywna mapa okolicy Swoszowic i Krakowa. Kliknij pinezkę, aby zobaczyć szczegóły punktu.",
                     guidePark: "🌳 <b>Park Zdrojowy w Swoszowicach:</b> Urokliwe, zielone miejsce na spacer tuż obok apartamentu.",
-                    guideView: "🌄 <b>Punkt widokowy na Kraków:</b> Okolice Fortu Swoszowice przy ul. Droga Rokadowa – wspaniała panorama miasta z góry, szczególnie ciekawa i efektowna nocą przy dobrej pogodzie.",
+                    guideView: "🌄 <b>Punkt widokowy na Kraków:</b> Okolice Fortu 51 Rajsko - Twierdza Kraków przy ul. Droga Rokadowa – wspaniała panorama miasta z góry, szczególnie ciekawa i efektowna nocą przy dobrej pogodzie.",
                     guideMarket: "🏰 <b>Rynek Główny & Podziemia Rynku:</b> Sercem Krakowa z unikalną podziemną trasą turystyczną pod płytą Rynku (dojazd samochodem zajmuje ok. 30 minut).",
                     guideWawel: "👑 <b>Zamek Królewski na Wawelu & Smok Wawelski:</b> Rezydencja królów oraz słynny ziejący ogniem pomnik Smoka Wawelskiego na bulwarach nad Wisłą (ok. 30 minut autem).",
                     guideWieliczka: "⛏️ <b>Kopalnia Soli w Wieliczce:</b> Słynna podziemna trasa turystyczna (ok. 15 minut jazdy samochodem trasą obwodową).",
@@ -874,7 +874,7 @@
                     foodNearby: "🍽️ <b>Nearby (Swoszowice):</b><br><b>Restauracja Szyb Swoszowice</b><br>📍 ul. Szybisko 40 (approx. 1.5 km from apartment)",
                     foodCenter: "🥩 <b>In City Center:</b><br><b>MooMoo Steak & Wine (Mo-Mo Stek)</b><br>📍 ul. Sienna 9 (Old Town)",
                     foodRec: "🍝 <b>Recommended Restaurant:</b><br><b>Restauracja Pół na Pół</b> (Polish & Italian cuisine)<br>📍 ul. Kosocicka 105A, Kraków",
-                    foodFast: "🍔 <b>Nearest Fast Food:</b><br><b>McDonald's</b><br>📍 ul. Cechowa / ul. Stojałowskiego 2 (approx. 2.5 km from apartment)",
+                    foodFast: "🍔 <b>Nearest Fast Food:</b><br><b>McDonald's</b><br>📍 ul. Stojałowskiego 2, Kraków (approx. 2.5 km from apartment)",
                     rulesH: "Guest Guidelines",
                     rulesTime: "⏰ <b>Check-out:</b> By 11:00 AM | 🌙 <b>Quiet hours:</b> 10:00 PM – 06:00 AM",
                     rulesHeat: "🔥 <b>Heating:</b> Please do not leave windows or doors open longer than needed for airing out. The heating turns off automatically if windows/doors remain open for a prolonged time.",
@@ -886,7 +886,7 @@
                     tabMap: "🗺️ Neighborhood Map",
                     mapSub: "Interactive map of Swoszowice and Kraków area. Click a pin for details.",
                     guidePark: "🌳 <b>Swoszowice Spa Park:</b> Charming green park for a relaxing walk right next door.",
-                    guideView: "🌄 <b>Kraków Viewpoint (Night View):</b> Near Fort Swoszowice at ul. Droga Rokadowa – a wonderful panorama of Kraków from above, especially stunning at night in clear weather.",
+                    guideView: "🌄 <b>Kraków Viewpoint (Night View):</b> Near Fort 51 Rajsko - Twierdza Kraków at ul. Droga Rokadowa – a wonderful panorama of Kraków from above, especially stunning at night in clear weather.",
                     guideMarket: "🏰 <b>Main Market Square & Market Underground:</b> The heart of Kraków with a unique underground exhibition (approx. 30 minutes drive by car).",
                     guideWawel: "👑 <b>Wawel Royal Castle & Wawel Dragon Statue:</b> Historic royal residence and the famous fire-breathing Dragon Statue on the Vistula boulevards (approx. 30 min by car).",
                     guideWieliczka: "⛏️ <b>Wieliczka Salt Mine:</b> Famous UNESCO underground salt mine (approx. 15 minutes drive by car via the bypass).",
@@ -934,7 +934,7 @@
                     foodNearby: "🍽️ <b>Поруч (Свошовіце):</b><br><b>Restauracja Szyb Swoszowice</b><br>📍 ul. Szybisko 40 (бл. 1,5 км від апартаментів)",
                     foodCenter: "🥩 <b>У центрі Кракова:</b><br><b>MooMoo Steak & Wine (Mo-Mo Stek)</b><br>📍 ul. Sienna 9 (Старе Місто)",
                     foodRec: "🍝 <b>Рекомендований ресторан:</b><br><b>Restauracja Pół na Pół</b> (польсько-італійська кухня)<br>📍 ul. Kosocicka 105A, Kraków",
-                    foodFast: "🍔 <b>Найближчий Фастфуд:</b><br><b>McDonald's</b><br>📍 ul. Cechowa / ul. Stojałowskiego 2 (бл. 2,5 км від апартаментів)",
+                    foodFast: "🍔 <b>Найближчий Фастфуд:</b><br><b>McDonald's</b><br>📍 ul. Stojałowskiego 2, Kraków (бл. 2,5 км від апартаментів)",
                     rulesH: "Інформація для Гостей",
                     rulesTime: "⏰ <b>Виїзд:</b> До 11:00 | 🌙 <b>Тихі години:</b> 22:00 – 06:00",
                     rulesHeat: "🔥 <b>Опалення:</b> Просимо не залишати вікна та двері відчиненими довше, ніж для короткого провітрювання. Опалення вимикається автоматично при тривалому відкритті.",
@@ -946,7 +946,7 @@
                     tabMap: "🗺️ Мапа Околиці",
                     mapSub: "Інтерактивна мапа району Свошовіце та Кракова. Натисніть на піін для деталей.",
                     guidePark: "🌳 <b>Курортний Парк Свошовіце:</b> Чудове, зелене місце для прогулянки прямо поруч з апартаментами.",
-                    guideView: "🌄 <b>Оглядовий майданчик Кракова:</b> Поблизу Форту Свошовіце на ul. Droga Rokadowa – чудова панорама міста, особливо гарна вночі.",
+                    guideView: "🌄 <b>Оглядовий майданчик Кракова:</b> Поблизу Форту 51 Райско - Твердиня Краків на ul. Droga Rokadowa – чудова панорама міста, особливо гарна вночі.",
                     guideMarket: "🏰 <b>Головна Площа & Підземелля Ринку:</b> Серце Кракова з унікальною підземною трасою (доїзд авто бл. 30 хвилин).",
                     guideWawel: "👑 <b>Королівський Замок на Вавелі & Вавельський Дракон:</b> Резиденція королів та скульптура Дракона на Віслі (бл. 30 хвилин авто).",
                     guideWieliczka: "⛏️ <b>Соляна Копальня Величка:</b> Відома підземна туристична траса (бл. 15 хвилин на авто окружною).",
@@ -994,7 +994,7 @@
                     foodNearby: "🍽️ <b>In der Nähe (Swoszowice):</b><br><b>Restauracja Szyb Swoszowice</b><br>📍 ul. Szybisko 40 (ca. 1,5 km entfernt)",
                     foodCenter: "🥩 <b>Im Stadtzentrum:</b><br><b>MooMoo Steak & Wine (Mo-Mo Stek)</b><br>📍 ul. Sienna 9 (Altstadt)",
                     foodRec: "🍝 <b>Restaurant Empfehlung:</b><br><b>Restauracja Pół na Pół</b> (Polnisch-Italienische Küche)<br>📍 ul. Kosocicka 105A, Kraków",
-                    foodFast: "🍔 <b>Nächster Fast Food:</b><br><b>McDonald's</b><br>📍 ul. Cechowa / ul. Stojałowskiego 2 (ca. 2,5 km entfernt)",
+                    foodFast: "🍔 <b>Nächster Fast Food:</b><br><b>McDonald's</b><br>📍 ul. Stojałowskiego 2, Kraków (ca. 2,5 km entfernt)",
                     rulesH: "Gästeinformationen",
                     rulesTime: "⏰ <b>Check-out:</b> Bis 11:00 Uhr | 🌙 <b>Nachtruhe:</b> 22:00 – 06:00",
                     rulesHeat: "🔥 <b>Heizung:</b> Bitte lassen Sie Fenster/Türen nicht länger als zum Lüften offen. Die Heizung schaltet sich automatisch ab, wenn sie zu lange offen stehen.",
@@ -1006,7 +1006,7 @@
                     tabMap: "🗺️ Umgebungskarte",
                     mapSub: "Interaktive Karte der Region Swoszowice und Krakau. Klicken Sie auf einen Pin für Details.",
                     guidePark: "🌳 <b>Kurpark Swoszowice:</b> Schöner, grüner Park für einen Spaziergang direkt nebenan.",
-                    guideView: "🌄 <b>Aussichtspunkt Krakau:</b> Nähe Fort Swoszowice an der ul. Droga Rokadowa – wunderbares Panorama, besonders nachts.",
+                    guideView: "🌄 <b>Aussichtspunkt Krakau:</b> Nähe Fort 51 Rajsko - Twierdza Kraków an der ul. Droga Rokadowa – wunderbares Panorama, besonders nachts.",
                     guideMarket: "🏰 <b>Hauptmarkt & Untergrundmuseum:</b> Das Herz von Krakau (ca. 30 Minuten Autofahrt).",
                     guideWawel: "👑 <b>Wawel-Schloss & Wawel-Drache:</b> Die Königsresidenz und die berühmte Drachenstatue (ca. 30 Minuten Autofahrt).",
                     guideWieliczka: "⛏️ <b>Salzbergwerk Wieliczka:</b> Berühmte unterirdische Salzmine (ca. 15 Minuten über die Umgehungsstraße).",
@@ -1049,8 +1049,8 @@
                     foodShop: "🛒 <b>Negozi e Caffè:</b><br><b>Centro commerciale Swoszowice (Supermercato, Rossmann, Farmacia, Parter Cafe)</b><br>📍 ul. Myślenicka 133, Kraków",
                     foodNearby: "🍽️ <b>Nelle vicinanze:</b><br><b>Restauracja Szyb Swoszowice</b><br>📍 ul. Szybisko 40",
                     foodCenter: "🥩 <b>In centro:</b><br><b>MooMoo Steak & Wine</b><br>📍 ul. Sienna 9",
-                    foodRec: "🍝 <b>Ristorante consigliato:</b><br><b>Restauracja Pół na Pół</b><br>📍 ul. Kosocicka 105A",
-                    foodFast: "🍔 <b>Fast Food:</b><br><b>McDonald's</b><br>📍 ul. Cechowa / ul. Stojałowskiego 2",
+                    foodRec: "🍝 <b>Ristorante consigliato:</b><br><b>Restauracja Pół na Pół</b><br>📍 ul. Kosocicka 105A, Kraków",
+                    foodFast: "🍔 <b>Fast Food:</b><br><b>McDonald's</b><br>📍 ul. Stojałowskiego 2, Kraków",
                     rulesH: "Regole per gli Ospiti",
                     rulesTime: "⏰ <b>Check-out:</b> Entro le 11:00 | 🌙 <b>Ore di silenzio:</b> 22:00 – 06:00",
                     rulesHeat: "🔥 <b>Riscaldamento:</b> Si prega di non lasciare finestre aperte a lungo.",
@@ -1062,7 +1062,7 @@
                     tabMap: "🗺️ Mappa della Zona",
                     mapSub: "Mappa interattiva della zona di Swoszowice e Cracovia. Clicca sui marker per i dettagli.",
                     guidePark: "🌳 <b>Parco Termale di Swoszowice:</b> Splendido parco verde ideale per passeggiate.",
-                    guideView: "🌄 <b>Punti panoramici di Cracovia:</b> Vicino al Forte Swoszowice (ul. Droga Rokadowa) – vista magnifica sulla città, soprattutto di notte.",
+                    guideView: "🌄 <b>Punti panoramici di Cracovia:</b> Vicino al Forte 51 Rajsko - Twierdza Kraków (ul. Droga Rokadowa) – vista magnifica sulla città, soprattutto di notte.",
                     guideMarket: "🏰 <b>Piazza del Mercato e Sotterranei:</b> Il cuore di Cracovia (ca. 30 min in auto).",
                     guideWawel: "👑 <b>Castello Reale del Wawel e Drago:</b> Storica residenza reale (ca. 30 min in auto).",
                     guideWieliczka: "⛏️ <b>Miniera di Sale di Wieliczka:</b> Famosa miniera sotterranea UNESCO (ca. 15 min in auto).",
@@ -1101,8 +1101,8 @@
                     foodShop: "🛒 <b>Tiendas y Café:</b><br><b>Pequeño centro comercial (Supermercado, Rossmann, Farmacia, Parter Cafe)</b><br>📍 ul. Myślenicka 133, Kraków",
                     foodNearby: "🍽️ <b>Cerca:</b><br><b>Restauracja Szyb Swoszowice</b><br>📍 ul. Szybisko 40",
                     foodCenter: "🥩 <b>En el centro:</b><br><b>MooMoo Steak & Wine</b><br>📍 ul. Sienna 9",
-                    foodRec: "🍝 <b>Restaurante recomendado:</b><br><b>Restauracja Pół na Pół</b><br>📍 ul. Kosocicka 105A",
-                    foodFast: "🍔 <b>Comida rápida:</b><br><b>McDonald's</b><br>📍 ul. Cechowa / ul. Stojałowskiego 2",
+                    foodRec: "🍝 <b>Restaurante recomendado:</b><br><b>Restauracja Pół na Pół</b><br>📍 ul. Kosocicka 105A, Kraków",
+                    foodFast: "🍔 <b>Comida rápida:</b><br><b>McDonald's</b><br>📍 ul. Stojałowskiego 2, Kraków",
                     rulesH: "Normas para Huéspedes",
                     rulesTime: "⏰ <b>Salida:</b> Hasta las 11:00 | 🌙 <b>Horas de silencio:</b> 22:00 – 06:00",
                     rulesHeat: "🔥 <b>Calefacción:</b> No deje las ventanas abiertas por tiempo prolongado.",
@@ -1114,7 +1114,7 @@
                     tabMap: "🗺️ Mapa de la Zona",
                     mapSub: "Mapa interactivo de Swoszowice y Cracovia. Haga clic en los marcadores para más detalles.",
                     guidePark: "🌳 <b>Parque Balneario de Swoszowice:</b> Hermoso parque verde para pasear.",
-                    guideView: "🌄 <b>Mirador de Cracovia:</b> Cerca del Fuerte Swoszowice (ul. Droga Rokadowa) – maravillosa vista panorámica, especialmente hermosa de noche.",
+                    guideView: "🌄 <b>Mirador de Cracovia:</b> Cerca del Fuerte 51 Rajsko - Twierdza Kraków (ul. Droga Rokadowa) – maravillosa vista panorámica, especialmente hermosa de noche.",
                     guideMarket: "🏰 <b>Plaza del Mercado y Subterráneos:</b> El corazón de Cracovia (aprox. 30 min en coche).",
                     guideWawel: "👑 <b>Castillo Real de Wawel y Dragón:</b> Residencia real histórica (aprox. 30 min en coche).",
                     guideWieliczka: "⛏️ <b>Mina de Sal de Wieliczka:</b> Famosa mina subterránea de la UNESCO (aprox. 15 min en coche).",
