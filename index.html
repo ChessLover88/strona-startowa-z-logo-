@@ -601,7 +601,7 @@
                 <button class="close-btn" onclick="closeModal('modal-rules')">&times;</button>
             </div>
             
-            <!-- NOWY KAFEL Z LINKIEM DO FILMU WIDEO -->
+            <!-- KAFEL Z LINKIEM DO FILMU WIDEO -->
             <div class="pill-info clickable-pill" id="m-rules-video-link" onclick="openModal('modal-video-player')" style="background: rgba(52, 211, 153, 0.12); border-color: var(--primary-green);">
                 🎥 <b>Jak otworzyć i zamknąć drzwi:</b> Kliknij tutaj, aby obejrzeć krótki film instruktażowy z obsługi zamka szyfrowego.
             </div>
@@ -702,7 +702,7 @@
         </div>
     </div>
 
-    <!-- Modal z Odtwarzaczem Wideo (Instrukcja Zamka) -->
+    <!-- Modal z Odtwarzaczem Wideo (Zoptymalizowany pod tablet) -->
     <div id="modal-video-player" class="modal-overlay" style="z-index: 350;" onclick="closeModalOnBg(event, 'modal-video-player')">
         <div class="modal-box" style="max-width: 600px; text-align: center;">
             <div class="modal-header">
@@ -710,7 +710,7 @@
                 <button class="close-btn" onclick="closeModal('modal-video-player')">&times;</button>
             </div>
             <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 12px;" id="m-video-sub">Zobacz, jak w prosty sposób otworzyć i zamknąć drzwi za pomocą kodu.</p>
-            <video controls autoplay playsinline style="width: 100%; max-height: 400px; border-radius: 12px; background: #000;">
+            <video controls playsinline preload="metadata" style="width: 100%; max-height: 400px; border-radius: 12px; background: #000;">
                 <source src="door-guide.mp4" type="video/mp4">
                 Twoja przeglądarka nie obsługuje odtwarzacza wideo.
             </video>
@@ -1278,7 +1278,6 @@
 
         function closeModal(id) {
             document.getElementById(id).style.display = 'none';
-            // Zatrzymanie odtwarzania wideo po zamknięciu modalu
             if (id === 'modal-video-player') {
                 const vid = document.querySelector('#modal-video-player video');
                 if (vid) {
