@@ -527,13 +527,53 @@
         </div>
     </div>
 
-    <!-- Modal Brama i Parking -->
+    <!-- Modal Brama, Parking i Plan Posesji -->
     <div id="modal-gate" class="modal-overlay" onclick="closeModalOnBg(event, 'modal-gate')">
-        <div class="modal-box">
+        <div class="modal-box" style="max-width: 760px;">
             <div class="modal-header">
-                <h2 id="m-gate-h">Parking i Brama Wjazdowa</h2>
+                <h2 id="m-gate-h">Parking, Brama i Plan Posesji</h2>
                 <button class="close-btn" onclick="closeModal('modal-gate')">&times;</button>
             </div>
+            
+            <!-- MAPKA ORIENTACYJNA POSESJI (Wbudowana) -->
+            <div style="background: #090e09; border: 1px solid var(--card-border); border-radius: 16px; padding: 12px; margin-bottom: 14px; display: flex; justify-content: center; align-items: center;">
+                <svg viewBox="0 0 600 450" style="width: 100%; height: auto; max-height: 260px;">
+                    <!-- Tło / Teren zielony -->
+                    <rect width="600" height="450" fill="#111c12" rx="12"/>
+                    <!-- Podjazd / Droga -->
+                    <path d="M 350 450 L 350 300 Q 350 250 400 200 L 550 50 L 600 50 L 600 450 Z" fill="#1b261c" opacity="0.7"/>
+                    <!-- Chodnik -->
+                    <polygon points="380,220 450,180 480,210 410,250" fill="#2b3b2c" />
+                    <!-- Budynek Matylda House -->
+                    <g transform="translate(370, 70)">
+                        <rect width="180" height="150" rx="6" fill="#1f2e20" stroke="#4ade80" stroke-width="2"/>
+                        <polygon points="90,-35 -15,70 195,70" fill="#162417" stroke="#34d399" stroke-width="2"/>
+                        <text x="90" y="80" fill="#f3f4f6" font-size="14" font-weight="700" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif">Matylda House</text>
+                        <text x="90" y="100" fill="#9ca3af" font-size="10" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif">Budynek</text>
+                    </g>
+                    <!-- 1. MIEJSCE PARKINGOWE (Niebieski prostokąt) -->
+                    <g transform="translate(360, 240)">
+                        <rect width="70" height="90" rx="4" fill="rgba(59, 130, 246, 0.2)" stroke="#3b82f6" stroke-width="3" stroke-dasharray="6,4"/>
+                        <rect x="15" y="25" width="40" height="40" rx="8" fill="#3b82f6"/>
+                        <text x="35" y="53" fill="#ffffff" font-size="22" font-weight="800" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif">P</text>
+                        <text x="35" y="-10" fill="#60a5fa" font-size="11" font-weight="700" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif">Parking</text>
+                    </g>
+                    <!-- 2. GRILL ZONE & CHILLOUT (Czerwony prostokąt) -->
+                    <g transform="translate(80, 80)">
+                        <rect width="130" height="230" rx="8" fill="rgba(239, 68, 68, 0.12)" stroke="#ef4444" stroke-width="3"/>
+                        <circle cx="65" cy="115" r="30" fill="rgba(239, 68, 68, 0.2)" stroke="#ef4444" stroke-width="1.5"/>
+                        <text x="65" y="121" font-size="26" text-anchor="middle">🔥</text>
+                        <text x="65" y="-10" fill="#f87171" font-size="12" font-weight="700" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif">Grill & Chill Zone</text>
+                    </g>
+                    <!-- 3. ŚMIETNIKI (Zielona linia) -->
+                    <g transform="translate(345, 120)">
+                        <line x1="0" y1="0" x2="0" y2="70" stroke="#10b981" stroke-width="6" stroke-linecap="round"/>
+                        <text x="-25" y="40" font-size="18">♻️</text>
+                        <text x="-35" y="-10" fill="#34d399" font-size="11" font-weight="700" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif">Śmietniki</text>
+                    </g>
+                </svg>
+            </div>
+
             <div class="pill-info" id="m-gate-p1">🅿️ <b>Parking:</b> Miejsce parkingowe jest oznaczone przed wejściem do budynku, na wprost wjazdu (po lewej stronie od wejścia do apartamentu).</div>
             <div class="pill-info" id="m-gate-p2">🔑 <b>Pilot do bramy:</b> Na wieszaku obok w korytarzu znajduje się pilot do Państwa dyspozycji. <b>Lewy przycisk</b> służy do otwierania, zatrzymywania i zamykania bramy.</div>
             <div class="pill-info" id="m-gate-p3">🔘 <b>Przycisk przy drzwiach:</b> Bramę wjazdową można otworzyć również przyciskiem znajdującym się na zewnątrz obok drzwi wejściowych do apartamentu. Brama zamyka się dopiero po 2 minutach od otwarcia, aby zapewnić czas na spokojny wyjazd.</div>
@@ -812,7 +852,7 @@
                 },
                 modals: {
                     wifiH: "Sieć Wi-Fi", wifiSsid: "📶 <b>Nazwa sieci:</b> Matylda_House", wifiPass: "🔑 <b>Hasło:</b> Domowe_WIFI",
-                    gateH: "Parking i Brama Wjazdowa",
+                    gateH: "Parking, Brama i Plan Posesji",
                     gateP1: "🅿️ <b>Parking:</b> Miejsce parkingowe jest oznaczone przed wejściem do budynku, na wprost wjazdu (po lewej stronie od wejścia do apartamentu).",
                     gateP2: "🔑 <b>Pilot do bramy:</b> Na wieszaku obok w korytarzu znajduje się pilot do Państwa dyspozycji. <b>Lewy przycisk</b> służy do otwierania, zatrzymywania i zamykania bramy.",
                     gateP3: "🔘 <b>Przycisk przy drzwiach:</b> Bramę wjazdową można otworzyć również przyciskiem znajdującym się na zewnątrz obok drzwi wejściowych do apartamentu. Brama zamyka się dopiero po 2 minutach od otwarcia, aby zapewnić czas na spokojny wyjazd.",
@@ -862,7 +902,7 @@
                 },
                 modals: {
                     wifiH: "Wi-Fi Network", wifiSsid: "📶 <b>Network Name:</b> Matylda_House", wifiPass: "🔑 <b>Password:</b> Domowe_WIFI",
-                    gateH: "Parking & Entrance Gate",
+                    gateH: "Parking, Gate & Property Map",
                     gateP1: "🅿️ <b>Parking:</b> Marked parking space is located in front of the building entrance, straight ahead from the driveway.",
                     gateP2: "🔑 <b>Gate Remote:</b> On the rack in the hallway there is a remote control. The <b>left button</b> opens, stops, and closes the gate.",
                     gateP3: "🔘 <b>Door Button:</b> The gate can also be opened using the button outside next to the apartment entrance. The gate closes automatically after 2 minutes.",
@@ -912,7 +952,7 @@
                 },
                 modals: {
                     wifiH: "Мережа Wi-Fi", wifiSsid: "📶 <b>Назва мережі:</b> Matylda_House", wifiPass: "🔑 <b>Пароль:</b> Domowe_WIFI",
-                    gateH: "Паркінг та В'їзні Ворота",
+                    gateH: "Паркінг, Брама та План Території",
                     gateP1: "🅿️ <b>Паркінг:</b> Позначене паркувальне місце знаходиться перед входом у будівлю.",
                     gateP2: "🔑 <b>Пульт від брами:</b> На вішалці у коридорі є пульт. <b>Ліва кнопка</b> відкриває, зупиняє та закриває браму.",
                     gateP3: "🔘 <b>Кнопка біля дверей:</b> Браму можна відкрити кнопкою зовні біля входу. Вона закривається автоматично через 2 хвилини.",
@@ -961,7 +1001,7 @@
                 },
                 modals: {
                     wifiH: "WLAN-Netzwerk", wifiSsid: "📶 <b>Netzwerkname:</b> Matylda_House", wifiPass: "🔑 <b>Passwort:</b> Domowe_WIFI",
-                    gateH: "Parkplatz & Einfahrtstor",
+                    gateH: "Parkplatz, Tor & Lageplan",
                     gateP1: "🅿️ <b>Parkplatz:</b> Der markierte Parkplatz befindet sich direkt vor dem Gebäude, geradeaus von der Einfahrt.",
                     gateP2: "🔑 <b>Tor-Fernbedienung:</b> Am Haken im Flur finden Sie eine Fernbedienung. Die <b>linke Taste</b> öffnet, stoppt und schließt das Tor.",
                     gateP3: "🔘 <b>Türschalter:</b> Das Tor kann auch über den Knopf außen neben der Eingangstür geöffnet werden.",
@@ -1010,7 +1050,7 @@
                 },
                 modals: {
                     wifiH: "Rete Wi-Fi", wifiSsid: "📶 <b>Nome rete:</b> Matylda_House", wifiPass: "🔑 <b>Password:</b> Domowe_WIFI",
-                    gateH: "Parcheggio e Cancello d'Ingresso",
+                    gateH: "Parcheggio, Cancello e Mappa",
                     gateP1: "🅿️ <b>Parcheggio:</b> Il parcheggio riservato si trova di fronte all'ingresso.",
                     gateP2: "🔑 <b>Telecomando:</b> Sul gancio nel corridoio è disponibile il telecomando.",
                     gateP3: "🔘 <b>Pulsante a muro:</b> Il cancello può essere aperto anche dal pulsante esterno.",
@@ -1059,7 +1099,7 @@
                 },
                 modals: {
                     wifiH: "Red Wi-Fi", wifiSsid: "📶 <b>Nombre de red:</b> Matylda_House", wifiPass: "🔑 <b>Contraseña:</b> Domowe_WIFI",
-                    gateH: "Aparcamiento y Portón de Entrada",
+                    gateH: "Aparcamiento, Portón y Plano",
                     gateP1: "🅿️ <b>Aparcamiento:</b> Plaza reservada frente a la entrada del edificio.",
                     gateP2: "🔑 <b>Mando:</b> En el perchero del pasillo hay un mando.",
                     gateP3: "🔘 <b>Botón de pared:</b> El portón también se puede abrir con el botón exterior.",
@@ -1174,7 +1214,7 @@
 
             document.getElementById('m-contact-h').innerText = t.modals.contactH;
             document.getElementById('m-contact-p1').innerHTML = t.modals.contactP1;
-            document.getElementById('m-contact-p2').innerHTML = t.modals.contactP2;
+            document.getElementById('m-contact-p2').innerText = t.modals.contactP2;
             
             document.getElementById('m-contact-emerg').innerText = t.modals.contactEmerg;
             document.getElementById('m-contact-emerg-list').innerHTML = t.modals.contactEmergList;
