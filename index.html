@@ -397,29 +397,6 @@
         }
 
         .btn-action:active { opacity: 0.85; }
-
-        /* TOAST */
-        .toast {
-            position: fixed;
-            bottom: 25px;
-            left: 50%;
-            transform: translateX(-50%) translateY(100px);
-            background: var(--accent-green);
-            color: white;
-            padding: 10px 24px;
-            border-radius: 30px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-            opacity: 0;
-            transition: all 0.3s ease;
-            z-index: 200;
-        }
-
-        .toast.show {
-            transform: translateX(-50%) translateY(0);
-            opacity: 1;
-        }
     </style>
 </head>
 <body>
@@ -547,7 +524,6 @@
             </div>
             <div class="pill-info" id="m-wifi-ssid">📶 <b>Nazwa sieci:</b> Matylda_House</div>
             <div class="pill-info" id="m-wifi-pass">🔑 <b>Hasło:</b> Domowe_WIFI</div>
-            <button class="btn-action" id="m-wifi-btn" onclick="copyText('Domowe_WIFI', 'wifi')">Kopiuj Hasło</button>
         </div>
     </div>
 
@@ -575,8 +551,7 @@
             <p style="color: var(--text-muted); margin-bottom: 6px;" id="m-food-sub">Podaj ten adres podczas zamawiania na Pyszne.pl, UberEats lub Bolt Food:</p>
             
             <div class="pill-info clickable-pill" id="m-food-addr" onclick="showQRCode('https://www.google.com/maps/search/Lwa+Landaua+12+Kraków')">📍 <b>Adres dostawy:</b><br>ul. Lwa Landaua 12, Kraków</div>
-            <button class="btn-action" id="m-food-btn" style="margin-bottom: 14px;" onclick="copyText('ul. Lwa Landaua 12, Kraków', 'addr')">Kopiuj Adres Dostawy</button>
-
+            
             <div class="pill-info clickable-pill" id="m-food-shop" onclick="showQRCode('https://www.google.com/maps/search/Myślenicka+133+Kraków')">🛒 <b>Zakupy i Kawa:</b><br><b>Małe centrum handlowe (Supermarket, Rossmann, Apteka, Parter Cafe)</b><br>📍 ul. Myślenicka 133, Kraków</div>
             <div class="pill-info clickable-pill" id="m-food-nearby" onclick="showQRCode('https://www.google.com/maps/search/Szyb+Swoszowice+Szybisko+40+Kraków')">🍽️ <b>W pobliżu (Swoszowice):</b><br><b>Restauracja Szyb Swoszowice</b><br>📍 ul. Szybisko 40 (ok. 1,5 km od apartamentu)</div>
             <div class="pill-info clickable-pill" id="m-food-center" onclick="showQRCode('https://www.google.com/maps/search/MooMoo+Steak+Wine+Sienna+9+Kraków')">🥩 <b>W centrum Krakowa:</b><br><b>MooMoo Steak & Wine (Mo-Mo Stek)</b><br>📍 ul. Sienna 9 (Stare Miasto)</div>
@@ -615,6 +590,7 @@
 
             <!-- Widok Przewodnika -->
             <div id="guide-content-view" style="display: block;">
+                <div class="pill-info clickable-pill" id="m-guide-bus" onclick="showQRCode('https://www.google.com/maps/search/?api=1&query=49.988428,19.962283')">🚌 <b>Przystanek autobusowy Landaua:</b> Komunikacja miejska ułatwiająca dojazd do centrum.</div>
                 <div class="pill-info clickable-pill" id="m-guide-park" onclick="showQRCode('https://www.google.com/maps/search/Park+Zdrojowy+Swoszowice+Kraków')">🌳 <b>Park Zdrojowy w Swoszowicach:</b> Urokliwe, zielone miejsce na spacer tuż obok apartamentu.</div>
                 <div class="pill-info clickable-pill" id="m-guide-view" onclick="showQRCode('https://www.google.com/maps/search/Fort+51+Rajsko+Kraków')">🌄 <b>Punkt widokowy na Kraków:</b> Fort 51 Rajsko - Twierdza Kraków przy ul. Droga Rokadowa – wspaniała panorama miasta z góry.</div>
                 <div class="pill-info clickable-pill" id="m-guide-market" onclick="showQRCode('https://www.google.com/maps/search/Rynek+Główny+Kraków')">🏰 <b>Rynek Główny & Podziemia Rynku:</b> Sercem Krakowa z unikalną podziemną trasą turystyczną pod płytą Rynku.</div>
@@ -640,7 +616,24 @@
             </div>
             <div class="pill-info" id="m-contact-p1">📞 <b>Telefon do właściciela:</b><br><span style="font-size:1.3rem; font-weight:800; color:var(--primary-green);">+48 508 048 886</span></div>
             <div class="pill-info" id="m-contact-p2">💬 Jesteśmy do Państwa dyspozycji w razie pytań lub wątpliwości podczas pobytu!</div>
-            <button class="btn-action" id="m-contact-btn" onclick="copyText('508048886', 'phone')">Kopiuj Numer Telefonu</button>
+
+            <h3 style="margin-top: 15px; margin-bottom: 5px; color: var(--primary-green); font-size: 1.05rem;" id="m-contact-emerg">🚨 Numery Alarmowe</h3>
+            <div class="pill-info" id="m-contact-emerg-list" style="margin-top: 0;">
+                <b>112</b> - Centrum Powiadamiania Ratunkowego<br>
+                <b>999</b> - Pogotowie Ratunkowe<br>
+                <b>997</b> - Policja<br>
+                <b>998</b> - Straż Pożarna
+            </div>
+
+            <h3 style="margin-top: 15px; margin-bottom: 5px; color: var(--primary-green); font-size: 1.05rem;" id="m-contact-taxi">🚕 Taxi</h3>
+            <div class="pill-info" id="m-contact-taxi-list" style="margin-top: 0;">
+                <b>Mega Taxi:</b> +48 12 400 00 00<br>
+                <b>iTaxi:</b> +48 737 737 737
+            </div>
+
+            <div class="pill-info clickable-pill" id="m-contact-review" style="margin-top: 15px; text-align: center; background: rgba(52,211,153,0.15); border-color: var(--primary-green);" onclick="showQRCode('https://www.google.com/maps/search/?api=1&query=Matylda+House+Krakow', 'review')">
+                ⭐ <b>Oceń nas na Google</b><br>Zeskanuj kod, aby zostawić opinię
+            </div>
         </div>
     </div>
 
@@ -671,8 +664,6 @@
             </div>
         </div>
     </div>
-
-    <div id="toast" class="toast">Komunikat</div>
 
     <script>
         let currentLang = 'pl';
@@ -772,6 +763,10 @@
                 .addTo(neighborhoodMap)
                 .bindPopup(getPopupContent("Matylda House (Apartament)", "ul. Lwa Landaua 12, Kraków", 49.986822, 19.962290));
 
+            L.marker([49.988428, 19.962283], { icon: createPinIcon('🚌', '#0284c7') })
+                .addTo(neighborhoodMap)
+                .bindPopup(getPopupContent("Przystanek Landaua", "Komunikacja miejska", 49.988428, 19.962283));
+
             L.marker([49.994155, 19.946200], { icon: createPinIcon('🛒', '#3b82f6') })
                 .addTo(neighborhoodMap)
                 .bindPopup(getPopupContent("Centrum Handlowe", "ul. Myślenicka 133, Kraków", 49.994155, 19.946200));
@@ -807,6 +802,7 @@
             pl: {
                 code: "PL", qrHint: "Skanuj QR (Google Maps)",
                 qrModal: { title: "Nawigacja Google Maps", sub: "Zeskanuj ten kod telefonem, aby otworzyć nawigację." },
+                qrReviewModal: { title: "Napisz Opinię", sub: "Zeskanuj ten kod telefonem, aby przejść do opinii Google." },
                 greetings: { morning: "Dzień dobry! Witamy w Matylda House", day: "Witamy w Matylda House", night: "Dobry wieczór! Witamy w Matylda House" },
                 welcomeSub: "Życzymy udanego i wypoczynkowego pobytu",
                 cards: {
@@ -815,14 +811,14 @@
                     guideTitle: "Odkryj Kraków", guideSub: "Atrakcje i mapa okolicy", contactTitle: "Kontakt", contactSub: "Właściciel obiektu"
                 },
                 modals: {
-                    wifiH: "Sieć Wi-Fi", wifiSsid: "📶 <b>Nazwa sieci:</b> Matylda_House", wifiPass: "🔑 <b>Hasło:</b> Domowe_WIFI", wifiBtn: "Kopiuj Hasło",
+                    wifiH: "Sieć Wi-Fi", wifiSsid: "📶 <b>Nazwa sieci:</b> Matylda_House", wifiPass: "🔑 <b>Hasło:</b> Domowe_WIFI",
                     gateH: "Parking i Brama Wjazdowa",
                     gateP1: "🅿️ <b>Parking:</b> Miejsce parkingowe jest oznaczone przed wejściem do budynku, na wprost wjazdu (po lewej stronie od wejścia do apartamentu).",
                     gateP2: "🔑 <b>Pilot do bramy:</b> Na wieszaku obok w korytarzu znajduje się pilot do Państwa dyspozycji. <b>Lewy przycisk</b> służy do otwierania, zatrzymywania i zamykania bramy.",
                     gateP3: "🔘 <b>Przycisk przy drzwiach:</b> Bramę wjazdową można otworzyć również przyciskiem znajdującym się na zewnątrz obok drzwi wejściowych do apartamentu. Brama zamyka się dopiero po 2 minutach od otwarcia, aby zapewnić czas na spokojny wyjazd.",
                     gateP4: "🚪 <b>Wymeldowanie:</b> Przy wymeldowaniu prosimy o pozostawienie pilota na wieszaku w korytarzu.",
                     foodH: "Zamów Jedzenie i Polecane Lokale", foodSubText: "Podaj ten adres podczas zamawiania na Pyszne.pl, UberEats lub Bolt Food:",
-                    foodAddr: "📍 <b>Adres dostawy:</b><br>ul. Lwa Landaua 12, Kraków", foodBtn: "Kopiuj Adres Dostawy",
+                    foodAddr: "📍 <b>Adres dostawy:</b><br>ul. Lwa Landaua 12, Kraków",
                     foodShop: "🛒 <b>Zakupy i Kawa:</b><br><b>Małe centrum handlowe (Supermarket, Rossmann, Apteka, Parter Cafe)</b><br>📍 ul. Myślenicka 133, Kraków",
                     foodNearby: "🍽️ <b>W pobliżu (Swoszowice):</b><br><b>Restauracja Szyb Swoszowice</b><br>📍 ul. Szybisko 40 (ok. 1,5 km od apartamentu)",
                     foodCenter: "🥩 <b>W centrum Krakowa:</b><br><b>MooMoo Steak & Wine (Mo-Mo Stek)</b><br>📍 ul. Sienna 9 (Stare Miasto)",
@@ -835,6 +831,7 @@
                     rulesSmoke: "🚭 <b>Zakaz palenia:</b> Palenie wewnątrz apartamentu jest całkowicie zabronione.",
                     guideH: "Odkryj Kraków i Mapa Okolicy", tabGuide: "Przewodnik i Atrakcje", tabMap: "🗺️ Mapa Okolicy",
                     mapSub: "Interaktywna mapa okolicy Swoszowic i Krakowa. Kliknij pinezkę, aby zobaczyć szczegóły punktu.",
+                    guideBus: "🚌 <b>Przystanek autobusowy Landaua:</b> Komunikacja miejska ułatwiająca dojazd do centrum.",
                     guidePark: "🌳 <b>Park Zdrojowy w Swoszowicach:</b> Urokliwe, zielone miejsce na spacer tuż obok apartamentu.",
                     guideView: "🌄 <b>Punkt widokowy na Kraków:</b> Fort 51 Rajsko - Twierdza Kraków przy ul. Droga Rokadowa – wspaniała panorama miasta z góry.",
                     guideMarket: "🏰 <b>Rynek Główny & Podziemia Rynku:</b> Sercem Krakowa z unikalną podziemną trasą turystyczną pod płytą Rynku.",
@@ -843,14 +840,19 @@
                     guideEnergylandia: "🎢 <b>Park Rozrywki Energylandia w Zatorze:</b> Największy park rozrywki w Polsce. Dojazd samochodem zajmuje ok. 45–50 minut.",
                     contactH: "Kontakt do Właściciela",
                     contactP1: "📞 <b>Telefon do właściciela:</b><br><span style='font-size:1.3rem; font-weight:800; color:var(--primary-green);'>+48 508 048 886</span>",
-                    contactP2: "💬 Jesteśmy do Państwa dyspozycji w razie pytań lub wątpliwości podczas pobytu!", contactBtn: "Kopiuj Numer Telefonu",
+                    contactP2: "💬 Jesteśmy do Państwa dyspozycji w razie pytań lub wątpliwości podczas pobytu!",
+                    contactEmerg: "🚨 Numery Alarmowe",
+                    contactEmergList: "<b>112</b> - Centrum Powiadamiania Ratunkowego<br><b>999</b> - Pogotowie Ratunkowe<br><b>997</b> - Policja<br><b>998</b> - Straż Pożarna",
+                    contactTaxi: "🚕 Taxi",
+                    contactTaxiList: "<b>Mega Taxi:</b> +48 12 400 00 00<br><b>iTaxi:</b> +48 737 737 737",
+                    contactReview: "⭐ <b>Oceń nas na Google</b><br>Zeskanuj kod, aby zostawić opinię",
                     aboutText: "Witaj w naszym apartamencie! Zrobiliśmy wszystko, aby Twój pobyt w Krakowie był wyjątkowy i komfortowy.<br><br><i>\"You are welcome\"</i>"
-                },
-                toasts: { wifi: "Skopiowano hasło Wi-Fi!", addr: "Skopiowano adres do schowka!", phone: "Skopiowano numer telefonu!" }
+                }
             },
             en: {
                 code: "EN", qrHint: "Scan QR (Google Maps)",
                 qrModal: { title: "Google Maps Navigation", sub: "Scan this code with your phone to open navigation." },
+                qrReviewModal: { title: "Write a Review", sub: "Scan this code with your phone to open Google Reviews." },
                 greetings: { morning: "Good morning! Welcome to Matylda House", day: "Welcome to Matylda House", night: "Good evening! Welcome to Matylda House" },
                 welcomeSub: "We wish you a pleasant and relaxing stay",
                 cards: {
@@ -859,14 +861,14 @@
                     guideTitle: "Discover Kraków", guideSub: "Attractions & area map", contactTitle: "Contact", contactSub: "Property Owner"
                 },
                 modals: {
-                    wifiH: "Wi-Fi Network", wifiSsid: "📶 <b>Network Name:</b> Matylda_House", wifiPass: "🔑 <b>Password:</b> Domowe_WIFI", wifiBtn: "Copy Password",
+                    wifiH: "Wi-Fi Network", wifiSsid: "📶 <b>Network Name:</b> Matylda_House", wifiPass: "🔑 <b>Password:</b> Domowe_WIFI",
                     gateH: "Parking & Entrance Gate",
                     gateP1: "🅿️ <b>Parking:</b> Marked parking space is located in front of the building entrance, straight ahead from the driveway.",
                     gateP2: "🔑 <b>Gate Remote:</b> On the rack in the hallway there is a remote control. The <b>left button</b> opens, stops, and closes the gate.",
                     gateP3: "🔘 <b>Door Button:</b> The gate can also be opened using the button outside next to the apartment entrance. The gate closes automatically after 2 minutes.",
                     gateP4: "🚪 <b>Check-out:</b> Please leave the gate remote back on the hallway rack upon check-out.",
                     foodH: "Order Food & Recommended Spots", foodSubText: "Provide this address when ordering on UberEats, Bolt Food, or Pyszne.pl:",
-                    foodAddr: "📍 <b>Delivery Address:</b><br>ul. Lwa Landaua 12, Kraków", foodBtn: "Copy Delivery Address",
+                    foodAddr: "📍 <b>Delivery Address:</b><br>ul. Lwa Landaua 12, Kraków",
                     foodShop: "🛒 <b>Shopping & Cafe:</b><br><b>Small shopping center (Supermarket, Rossmann, Pharmacy, Cafe)</b><br>📍 ul. Myślenicka 133, Kraków",
                     foodNearby: "🍽️ <b>Nearby (Swoszowice):</b><br><b>Restauracja Szyb Swoszowice</b><br>📍 ul. Szybisko 40",
                     foodCenter: "🥩 <b>In City Center:</b><br><b>MooMoo Steak & Wine</b><br>📍 ul. Sienna 9 (Old Town)",
@@ -879,6 +881,7 @@
                     rulesSmoke: "🚭 <b>No Smoking:</b> Smoking inside the apartment is strictly prohibited.",
                     guideH: "Discover Kraków & Neighborhood Map", tabGuide: "Guide & Attractions", tabMap: "🗺️ Neighborhood Map",
                     mapSub: "Interactive map of Swoszowice and Kraków area. Click a pin for details.",
+                    guideBus: "🚌 <b>Landaua Bus Stop:</b> Public transport for easy access to the city center.",
                     guidePark: "🌳 <b>Swoszowice Spa Park:</b> Charming green park for a relaxing walk right next door.",
                     guideView: "🌄 <b>Kraków Viewpoint (Night View):</b> Fort 51 Rajsko - Twierdza Kraków at ul. Droga Rokadowa – a wonderful panorama of Kraków.",
                     guideMarket: "🏰 <b>Main Market Square & Market Underground:</b> The heart of Kraków with a unique underground exhibition.",
@@ -887,14 +890,19 @@
                     guideEnergylandia: "🎢 <b>Energylandia Amusement Park in Zator:</b> The largest amusement park in Poland. Approx. 45-50 min by car.",
                     contactH: "Contact Owner",
                     contactP1: "📞 <b>Owner Phone:</b><br><span style='font-size:1.3rem; font-weight:800; color:var(--primary-green);'>+48 508 048 886</span>",
-                    contactP2: "💬 We are at your service if you have any questions during your stay!", contactBtn: "Copy Phone Number",
+                    contactP2: "💬 We are at your service if you have any questions during your stay!",
+                    contactEmerg: "🚨 Emergency Numbers",
+                    contactEmergList: "<b>112</b> - General Emergency<br><b>999</b> - Ambulance<br><b>997</b> - Police<br><b>998</b> - Fire Department",
+                    contactTaxi: "🚕 Taxi Services",
+                    contactTaxiList: "<b>Mega Taxi:</b> +48 12 400 00 00<br><b>iTaxi:</b> +48 737 737 737",
+                    contactReview: "⭐ <b>Rate us on Google</b><br>Scan the code to leave a review",
                     aboutText: "Welcome to our apartment! We made every effort to make your stay in Kraków comfortable.<br><br><i>\"You are welcome\"</i>"
-                },
-                toasts: { wifi: "Wi-Fi password copied!", addr: "Delivery address copied!", phone: "Phone number copied!" }
+                }
             },
             uk: {
                 code: "UK", qrHint: "Сканувати QR (Google Maps)",
                 qrModal: { title: "Навігація Google Maps", sub: "Відскануйте цей код телефоном, щоб відкрити навігацію." },
+                qrReviewModal: { title: "Написати Відгук", sub: "Відскануйте цей код, щоб відкрити відгуки Google." },
                 greetings: { morning: "Доброго ранку! Ласкаво просимо до Matylda House", day: "Ласкаво просимо до Matylda House", night: "Доброго вечора! Ласкаво просимо до Matylda House" },
                 welcomeSub: "Бажаємо вам приємного та комфортного відпочинку",
                 cards: {
@@ -903,14 +911,14 @@
                     guideTitle: "Відкрийте Краків", guideSub: "Пам'ятки та мапа", contactTitle: "Контакти", contactSub: "Власник апартаментів"
                 },
                 modals: {
-                    wifiH: "Мережа Wi-Fi", wifiSsid: "📶 <b>Назва мережі:</b> Matylda_House", wifiPass: "🔑 <b>Пароль:</b> Domowe_WIFI", wifiBtn: "Копіювати Пароль",
+                    wifiH: "Мережа Wi-Fi", wifiSsid: "📶 <b>Назва мережі:</b> Matylda_House", wifiPass: "🔑 <b>Пароль:</b> Domowe_WIFI",
                     gateH: "Паркінг та В'їзні Ворота",
                     gateP1: "🅿️ <b>Паркінг:</b> Позначене паркувальне місце знаходиться перед входом у будівлю.",
                     gateP2: "🔑 <b>Пульт від брами:</b> На вішалці у коридорі є пульт. <b>Ліва кнопка</b> відкриває, зупиняє та закриває браму.",
                     gateP3: "🔘 <b>Кнопка біля дверей:</b> Браму можна відкрити кнопкою зовні біля входу. Вона закривається автоматично через 2 хвилини.",
                     gateP4: "🚪 <b>Виїзд:</b> При виїзді просимо залишити пульт на вішалці у коридорі.",
                     foodH: "Замовлення Їжі та Ресторани", foodSubText: "Вкажіть цю адресу при замовленні доставки:",
-                    foodAddr: "📍 <b>Адреса доставки:</b><br>ul. Lwa Landaua 12, Kraków", foodBtn: "Копіювати Адресу",
+                    foodAddr: "📍 <b>Адреса доставки:</b><br>ul. Lwa Landaua 12, Kraków",
                     foodShop: "🛒 <b>Покупки та Кава:</b><br><b>Невеликий торговий центр (Супермаркет, Rossmann, Аптека)</b><br>📍 ul. Myślenicka 133, Kraków",
                     foodNearby: "🍽️ <b>Поруч (Свошовіце):</b><br><b>Restauracja Szyb Swoszowice</b><br>📍 ul. Szybisko 40",
                     foodCenter: "🥩 <b>У центрі Кракова:</b><br><b>MooMoo Steak & Wine</b><br>📍 ul. Sienna 9 (Старе Місто)",
@@ -923,6 +931,7 @@
                     rulesSmoke: "🚭 <b>Заборона куріння:</b> Куріння всередині апартаментів суворо заборонено.",
                     guideH: "Відкрийте Краків та Мапа Околиці", tabGuide: "Гід та Пам'ятки", tabMap: "🗺️ Мапа Околиці",
                     mapSub: "Інтерактивна мапа району Свошовіце та Кракова. Натисніть на піін для деталей.",
+                    guideBus: "🚌 <b>Автобусна зупинка Landaua:</b> Громадський транспорт для зручного доїзду до центру.",
                     guidePark: "🌳 <b>Курортний Парк Свошовіце:</b> Чудове, зелене місце для прогулянки прямо поруч з апартаментами.",
                     guideView: "🌄 <b>Оглядовий майданчик Кракова:</b> Fort 51 Rajsko на ul. Droga Rokadowa – чудова панорама міста.",
                     guideMarket: "🏰 <b>Головна Площа & Підземелля Ринку:</b> Серце Кракова з унікальною підземною трасою.",
@@ -930,14 +939,19 @@
                     guideWieliczka: "⛏️ <b>Соляна Копальня Величка:</b> Відома підземна туристична траса (бл. 15 хвилин на авто).",
                     guideEnergylandia: "🎢 <b>Парк розваг Енерджиландія:</b> Найбільший парк атракціонів у Польщі. (бл. 45-50 хв на авто).",
                     contactH: "Контакти Власника", contactP1: "📞 <b>Телефон власника:</b><br><span style='font-size:1.3rem; font-weight:800; color:var(--primary-green);'>+48 508 048 886</span>",
-                    contactP2: "💬 Ми до ваших послуг у разі виникнення питань!", contactBtn: "Копіювати Номер",
+                    contactP2: "💬 Ми до ваших послуг у разі виникнення питань!",
+                    contactEmerg: "🚨 Екстрені номери",
+                    contactEmergList: "<b>112</b> - Загальний номер<br><b>999</b> - Швидка допомога<br><b>997</b> - Поліція<br><b>998</b> - Пожежна служба",
+                    contactTaxi: "🚕 Служби таксі",
+                    contactTaxiList: "<b>Mega Taxi:</b> +48 12 400 00 00<br><b>iTaxi:</b> +48 737 737 737",
+                    contactReview: "⭐ <b>Оцініть нас у Google</b><br>Відскануйте код, щоб залишити відгук",
                     aboutText: "Ласкаво просимо! Ми зробили все, щоб ваше перебування у Кракові було комфортним.<br><br><i>\"You are welcome\"</i>"
-                },
-                toasts: { wifi: "Пароль Wi-Fi скопійовано!", addr: "Адресу скопійовано!", phone: "Номер скопійовано!" }
+                }
             },
             de: {
                 code: "DE", qrHint: "QR Scannen (Google Maps)",
                 qrModal: { title: "Google Maps Navigation", sub: "Scannen Sie diesen Code mit Ihrem Telefon, um die Navigation zu öffnen." },
+                qrReviewModal: { title: "Bewertung Schreiben", sub: "Scannen Sie diesen Code, um Google-Bewertungen zu öffnen." },
                 greetings: { morning: "Guten Morgen! Willkommen im Matylda House", day: "Willkommen im Matylda House", night: "Guten Abend! Willkommen im Matylda House" },
                 welcomeSub: "Wir wünschen Ihnen einen angenehmen Aufenthalt",
                 cards: {
@@ -946,14 +960,14 @@
                     guideTitle: "Krakau Entdecken", guideSub: "Attraktionen & Karte", contactTitle: "Kontakt", contactSub: "Gastgeber"
                 },
                 modals: {
-                    wifiH: "WLAN-Netzwerk", wifiSsid: "📶 <b>Netzwerkname:</b> Matylda_House", wifiPass: "🔑 <b>Passwort:</b> Domowe_WIFI", wifiBtn: "Passwort Kopieren",
+                    wifiH: "WLAN-Netzwerk", wifiSsid: "📶 <b>Netzwerkname:</b> Matylda_House", wifiPass: "🔑 <b>Passwort:</b> Domowe_WIFI",
                     gateH: "Parkplatz & Einfahrtstor",
                     gateP1: "🅿️ <b>Parkplatz:</b> Der markierte Parkplatz befindet sich direkt vor dem Gebäude, geradeaus von der Einfahrt.",
                     gateP2: "🔑 <b>Tor-Fernbedienung:</b> Am Haken im Flur finden Sie eine Fernbedienung. Die <b>linke Taste</b> öffnet, stoppt und schließt das Tor.",
                     gateP3: "🔘 <b>Türschalter:</b> Das Tor kann auch über den Knopf außen neben der Eingangstür geöffnet werden.",
                     gateP4: "🚪 <b>Check-out:</b> Bitte lassen Sie die Fernbedienung beim Check-out am Haken im Flur.",
                     foodH: "Essen Bestellen & Empfehlungen", foodSubText: "Geben Sie diese Adresse bei UberEats, Bolt Food etc. an:",
-                    foodAddr: "📍 <b>Lieferadresse:</b><br>ul. Lwa Landaua 12, Kraków", foodBtn: "Lieferadresse Kopieren",
+                    foodAddr: "📍 <b>Lieferadresse:</b><br>ul. Lwa Landaua 12, Kraków",
                     foodShop: "🛒 <b>Einkaufen & Café:</b><br><b>Kleines Einkaufszentrum (Supermarket, Rossmann, Apotheke)</b><br>📍 ul. Myślenicka 133, Kraków",
                     foodNearby: "🍽️ <b>In der Nähe (Swoszowice):</b><br><b>Restauracja Szyb Swoszowice</b><br>📍 ul. Szybisko 40",
                     foodCenter: "🥩 <b>Im Stadtzentrum:</b><br><b>MooMoo Steak & Wine</b><br>📍 ul. Sienna 9",
@@ -966,6 +980,7 @@
                     rulesSmoke: "🚭 <b>Rauchverbot:</b> Das Rauchen im Apartment ist strengstens verboten.",
                     guideH: "Krakau Entdecken & Umgebungskarte", tabGuide: "Guide & Attraktionen", tabMap: "🗺️ Umgebungskarte",
                     mapSub: "Interaktive Karte. Klicken Sie auf einen Pin für Details.",
+                    guideBus: "🚌 <b>Bushaltestelle Landaua:</b> Öffentliche Verkehrsmittel für einfachen Zugang zum Zentrum.",
                     guidePark: "🌳 <b>Kurpark Swoszowice:</b> Schöner, grüner Park für einen Spaziergang direkt nebenan.",
                     guideView: "🌄 <b>Aussichtspunkt Krakau:</b> Fort 51 Rajsko an der ul. Droga Rokadowa – wunderbares Panorama.",
                     guideMarket: "🏰 <b>Hauptmarkt & Untergrundmuseum:</b> Das Herz von Krakau.",
@@ -973,14 +988,19 @@
                     guideWieliczka: "⛏️ <b>Salzbergwerk Wieliczka:</b> Berühmte unterirdische Salzmine (ca. 15 Minuten).",
                     guideEnergylandia: "🎢 <b>Freizeitpark Energylandia:</b> Der größte Freizeitpark in Polen. (ca. 45-50 min).",
                     contactH: "Kontakt zum Gastgeber", contactP1: "📞 <b>Telefonnummer:</b><br><span style='font-size:1.3rem; font-weight:800; color:var(--primary-green);'>+48 508 048 886</span>",
-                    contactP2: "💬 Wir stehen Ihnen bei Fragen jederzeit zur Verfügung!", contactBtn: "Telefonnummer Kopieren",
+                    contactP2: "💬 Wir stehen Ihnen bei Fragen jederzeit zur Verfügung!",
+                    contactEmerg: "🚨 Notrufnummern",
+                    contactEmergList: "<b>112</b> - Allgemeiner Notruf<br><b>999</b> - Krankenwagen<br><b>997</b> - Polizei<br><b>998</b> - Feuerwehr",
+                    contactTaxi: "🚕 Taxi",
+                    contactTaxiList: "<b>Mega Taxi:</b> +48 12 400 00 00<br><b>iTaxi:</b> +48 737 737 737",
+                    contactReview: "⭐ <b>Bewerten Sie uns auf Google</b><br>Scannen Sie den Code für eine Bewertung",
                     aboutText: "Willkommen in unserem Apartment! Wir haben alles getan, damit Ihr Aufenthalt in Krakau unvergesslich wird.<br><br><i>\"You are welcome\"</i>"
-                },
-                toasts: { wifi: "WLAN-Passwort kopiert!", addr: "Lieferadresse kopiert!", phone: "Telefonnummer kopiert!" }
+                }
             },
             it: {
                 code: "IT", qrHint: "Scansiona QR (Google Maps)",
                 qrModal: { title: "Navigazione Google Maps", sub: "Scansiona questo codice con il telefono per aprire la navigazione." },
+                qrReviewModal: { title: "Scrivi una Recensione", sub: "Scansiona questo codice per aprire le recensioni di Google." },
                 greetings: { morning: "Buongiorno! Benvenuti a Matylda House", day: "Benvenuti a Matylda House", night: "Buonasera! Benvenuti a Matylda House" },
                 welcomeSub: "Vi auguriamo un soggiorno piacevole e rilassante",
                 cards: {
@@ -989,14 +1009,14 @@
                     guideTitle: "Scopri Cracovia", guideSub: "Attrazioni e mappa", contactTitle: "Contatti", contactSub: "Proprietario"
                 },
                 modals: {
-                    wifiH: "Rete Wi-Fi", wifiSsid: "📶 <b>Nome rete:</b> Matylda_House", wifiPass: "🔑 <b>Password:</b> Domowe_WIFI", wifiBtn: "Copia Password",
+                    wifiH: "Rete Wi-Fi", wifiSsid: "📶 <b>Nome rete:</b> Matylda_House", wifiPass: "🔑 <b>Password:</b> Domowe_WIFI",
                     gateH: "Parcheggio e Cancello d'Ingresso",
                     gateP1: "🅿️ <b>Parcheggio:</b> Il parcheggio riservato si trova di fronte all'ingresso.",
                     gateP2: "🔑 <b>Telecomando:</b> Sul gancio nel corridoio è disponibile il telecomando.",
                     gateP3: "🔘 <b>Pulsante a muro:</b> Il cancello può essere aperto anche dal pulsante esterno.",
                     gateP4: "🚪 <b>Check-out:</b> Si prega di lasciare il telecomando sul gancio al momento della partenza.",
                     foodH: "Ordina Cibo e Posti Consigliati", foodSubText: "Usa questo indirizzo per le consegne a domicilio:",
-                    foodAddr: "📍 <b>Indirizzo di consegna:</b><br>ul. Lwa Landaua 12, Kraków", foodBtn: "Copia Indirizzo",
+                    foodAddr: "📍 <b>Indirizzo di consegna:</b><br>ul. Lwa Landaua 12, Kraków",
                     foodShop: "🛒 <b>Negozi e Caffè:</b><br><b>Centro commerciale Swoszowice (Supermercato, Rossmann)</b><br>📍 ul. Myślenicka 133",
                     foodNearby: "🍽️ <b>Nelle vicinanze:</b><br><b>Restauracja Szyb Swoszowice</b><br>📍 ul. Szybisko 40",
                     foodCenter: "🥩 <b>In centro:</b><br><b>MooMoo Steak & Wine</b><br>📍 ul. Sienna 9",
@@ -1009,6 +1029,7 @@
                     rulesSmoke: "🚭 <b>Vietato fumare:</b> Vietato fumare all'interno dell'appartamento.",
                     guideH: "Scopri Cracovia e Mappa della Zona", tabGuide: "Guida e Attrazioni", tabMap: "🗺️ Mappa della Zona",
                     mapSub: "Mappa interattiva della zona. Clicca sui marker per i dettagli.",
+                    guideBus: "🚌 <b>Fermata dell'autobus Landaua:</b> Trasporto pubblico per raggiungere facilmente il centro.",
                     guidePark: "🌳 <b>Parco Termale di Swoszowice:</b> Splendido parco verde ideale per passeggiate.",
                     guideView: "🌄 <b>Punti panoramici:</b> Fort 51 Rajsko (ul. Droga Rokadowa) – vista magnifica sulla città.",
                     guideMarket: "🏰 <b>Piazza del Mercato e Sotterranei:</b> Il cuore di Cracovia.",
@@ -1016,14 +1037,19 @@
                     guideWieliczka: "⛏️ <b>Miniera di Sale di Wieliczka:</b> Famosa miniera sotterranea UNESCO.",
                     guideEnergylandia: "🎢 <b>Parco Divertimenti Energylandia:</b> Il parco più grande in Polonia.",
                     contactH: "Contatta il Proprietario", contactP1: "📞 <b>Telefono:</b><br><span style='font-size:1.3rem; font-weight:800; color:var(--primary-green);'>+48 508 048 886</span>",
-                    contactP2: "💬 Siamo a vostra disposizione per qualsiasi domanda!", contactBtn: "Copia Numero",
+                    contactP2: "💬 Siamo a vostra disposizione per qualsiasi domanda!",
+                    contactEmerg: "🚨 Numeri di Emergenza",
+                    contactEmergList: "<b>112</b> - Emergenza Generale<br><b>999</b> - Ambulanza<br><b>997</b> - Polizia<br><b>998</b> - Vigili del Fuoco",
+                    contactTaxi: "🚕 Servizio Taxi",
+                    contactTaxiList: "<b>Mega Taxi:</b> +48 12 400 00 00<br><b>iTaxi:</b> +48 737 737 737",
+                    contactReview: "⭐ <b>Valutaci su Google</b><br>Scansiona il codice per lasciare una recensione",
                     aboutText: "Benvenuti nel nostro appartamento! Faremo in modo che il vostro soggiorno sia perfetto.<br><br><i>\"You are welcome\"</i>"
-                },
-                toasts: { wifi: "Password Wi-Fi copiata!", addr: "Indirizzo copiato!", phone: "Numero copiato!" }
+                }
             },
             es: {
                 code: "ES", qrHint: "Escanear QR (Google Maps)",
                 qrModal: { title: "Navegación en Google Maps", sub: "Escanee este código con su teléfono para abrir la navegación." },
+                qrReviewModal: { title: "Escribe una Reseña", sub: "Escanee este código para abrir las reseñas de Google." },
                 greetings: { morning: "¡Buenos días! Bienvenidos a Matylda House", day: "Bienvenidos a Matylda House", night: "¡Buenas noches! Bienvenidos a Matylda House" },
                 welcomeSub: "Les deseamos una estancia agradable y relajante",
                 cards: {
@@ -1032,14 +1058,14 @@
                     guideTitle: "Descubre Cracovia", guideSub: "Atracciones y mapa", contactTitle: "Contacto", contactSub: "Propietario"
                 },
                 modals: {
-                    wifiH: "Red Wi-Fi", wifiSsid: "📶 <b>Nombre de red:</b> Matylda_House", wifiPass: "🔑 <b>Contraseña:</b> Domowe_WIFI", wifiBtn: "Copiar Contraseña",
+                    wifiH: "Red Wi-Fi", wifiSsid: "📶 <b>Nombre de red:</b> Matylda_House", wifiPass: "🔑 <b>Contraseña:</b> Domowe_WIFI",
                     gateH: "Aparcamiento y Portón de Entrada",
                     gateP1: "🅿️ <b>Aparcamiento:</b> Plaza reservada frente a la entrada del edificio.",
                     gateP2: "🔑 <b>Mando:</b> En el perchero del pasillo hay un mando.",
                     gateP3: "🔘 <b>Botón de pared:</b> El portón también se puede abrir con el botón exterior.",
                     gateP4: "🚪 <b>Salida:</b> Por favor, deje el mando en el perchero al hacer el check-out.",
                     foodH: "Pedir Comida y Sitios Recomendados", foodSubText: "Facilite esta dirección al pedir comida a domicilio:",
-                    foodAddr: "📍 <b>Dirección de entrega:</b><br>ul. Lwa Landaua 12, Kraków", foodBtn: "Copiar Dirección",
+                    foodAddr: "📍 <b>Dirección de entrega:</b><br>ul. Lwa Landaua 12, Kraków",
                     foodShop: "🛒 <b>Tiendas y Café:</b><br><b>Pequeño centro comercial (Supermercado, Rossmann)</b><br>📍 ul. Myślenicka 133",
                     foodNearby: "🍽️ <b>Cerca:</b><br><b>Restauracja Szyb Swoszowice</b><br>📍 ul. Szybisko 40",
                     foodCenter: "🥩 <b>En el centro:</b><br><b>MooMoo Steak & Wine</b><br>📍 ul. Sienna 9",
@@ -1052,6 +1078,7 @@
                     rulesSmoke: "🚭 <b>Prohibido fumar:</b> Está estrictamente prohibido fumar en el apartamento.",
                     guideH: "Descubre Cracovia y Mapa de la Zona", tabGuide: "Guida y Atracciones", tabMap: "🗺️ Mapa de la Zona",
                     mapSub: "Mapa interactivo de la zona. Haga clic en los marcadores para más detalles.",
+                    guideBus: "🚌 <b>Parada de autobús Landaua:</b> Transporte público para llegar fácilmente al centro.",
                     guidePark: "🌳 <b>Parque Balneario de Swoszowice:</b> Hermoso parque verde para pasear.",
                     guideView: "🌄 <b>Mirador de Cracovia:</b> Fort 51 Rajsko – maravillosa vista panorámica.",
                     guideMarket: "🏰 <b>Plaza del Mercado y Subterráneos:</b> El corazón de Cracovia.",
@@ -1059,10 +1086,14 @@
                     guideWieliczka: "⛏️ <b>Mina de Sal de Wieliczka:</b> Famosa mina subterránea de la UNESCO.",
                     guideEnergylandia: "🎢 <b>Parque de Atracciones Energylandia:</b> El parque más grande de Polonia.",
                     contactH: "Contacto del Propietario", contactP1: "📞 <b>Teléfono:</b><br><span style='font-size:1.3rem; font-weight:800; color:var(--primary-green);'>+48 508 048 886</span>",
-                    contactP2: "💬 ¡Estamos a su disposición para cualquier duda durante su estancia!", contactBtn: "Copiar Teléfono",
+                    contactP2: "💬 ¡Estamos a su disposición para cualquier duda durante su estancia!",
+                    contactEmerg: "🚨 Números de Emergencia",
+                    contactEmergList: "<b>112</b> - Emergencias<br><b>999</b> - Ambulancia<br><b>997</b> - Policía<br><b>998</b> - Bomberos",
+                    contactTaxi: "🚕 Servicio de Taxi",
+                    contactTaxiList: "<b>Mega Taxi:</b> +48 12 400 00 00<br><b>iTaxi:</b> +48 737 737 737",
+                    contactReview: "⭐ <b>Valóranos en Google</b><br>Escanea el código para dejar una reseña",
                     aboutText: "¡Bienvenidos a nuestro apartamento! Haremos que vuestra estancia sea inolvidable.<br><br><i>\"You are welcome\"</i>"
-                },
-                toasts: { wifi: "¡Contraseña Wi-Fi copiada!", addr: "¡Dirección copiada!", phone: "¡Teléfono copiado!" }
+                }
             }
         };
 
@@ -1104,7 +1135,6 @@
             document.getElementById('m-wifi-h').innerText = t.modals.wifiH;
             document.getElementById('m-wifi-ssid').innerHTML = t.modals.wifiSsid;
             document.getElementById('m-wifi-pass').innerHTML = t.modals.wifiPass;
-            document.getElementById('m-wifi-btn').innerText = t.modals.wifiBtn;
 
             document.getElementById('m-gate-h').innerText = t.modals.gateH;
             document.getElementById('m-gate-p1').innerHTML = t.modals.gateP1;
@@ -1114,7 +1144,6 @@
 
             document.getElementById('m-food-h').innerText = t.modals.foodH;
             document.getElementById('m-food-sub').innerText = t.modals.foodSubText;
-            document.getElementById('m-food-btn').innerText = t.modals.foodBtn;
             
             appendQRHint('m-food-addr', t.modals.foodAddr);
             appendQRHint('m-food-shop', t.modals.foodShop);
@@ -1135,6 +1164,7 @@
             document.getElementById('tab-map-btn').innerText = t.modals.tabMap;
             document.getElementById('m-map-sub').innerText = t.modals.mapSub;
             
+            appendQRHint('m-guide-bus', t.modals.guideBus);
             appendQRHint('m-guide-park', t.modals.guidePark);
             appendQRHint('m-guide-view', t.modals.guideView);
             appendQRHint('m-guide-market', t.modals.guideMarket);
@@ -1145,7 +1175,12 @@
             document.getElementById('m-contact-h').innerText = t.modals.contactH;
             document.getElementById('m-contact-p1').innerHTML = t.modals.contactP1;
             document.getElementById('m-contact-p2').innerText = t.modals.contactP2;
-            document.getElementById('m-contact-btn').innerText = t.modals.contactBtn;
+            
+            document.getElementById('m-contact-emerg').innerText = t.modals.contactEmerg;
+            document.getElementById('m-contact-emerg-list').innerHTML = t.modals.contactEmergList;
+            document.getElementById('m-contact-taxi').innerText = t.modals.contactTaxi;
+            document.getElementById('m-contact-taxi-list').innerHTML = t.modals.contactTaxiList;
+            document.getElementById('m-contact-review').innerHTML = t.modals.contactReview;
 
             document.getElementById('m-about-text').innerHTML = t.modals.aboutText;
         }
@@ -1171,35 +1206,16 @@
             }
         }
 
-        // FUNKCJA: Wyświetlanie Kodu QR z Google Maps
-        function showQRCode(mapsUrl) {
+        // FUNKCJA: Wyświetlanie Kodu QR
+        function showQRCode(mapsUrl, type = 'map') {
             const url = encodeURIComponent(mapsUrl);
             document.getElementById('qr-code-img').src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${url}`;
             
-            const t = dict[currentLang].qrModal;
+            const t = type === 'review' ? dict[currentLang].qrReviewModal : dict[currentLang].qrModal;
             document.getElementById('m-qr-h').innerText = t.title;
             document.getElementById('m-qr-sub').innerText = t.sub;
             
             document.getElementById('modal-qr').style.display = 'flex';
-        }
-
-        function copyText(text, type) {
-            navigator.clipboard.writeText(text).then(() => {
-                const t = dict[currentLang].toasts;
-                let msg = t.wifi;
-                if (type === 'addr') msg = t.addr;
-                if (type === 'phone') msg = t.phone;
-                showToast(msg);
-            });
-        }
-
-        function showToast(message) {
-            const toast = document.getElementById('toast');
-            toast.innerText = message;
-            toast.classList.add('show');
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 3000);
         }
 
         // ZEGAR I DATA
