@@ -36,6 +36,7 @@
             padding: 0;
             user-select: none;
             -webkit-user-select: none;
+            -webkit-tap-highlight-color: transparent; /* Wyłącza domyślne niebieskie podświetlenie systemu Android */
             font-family: 'Plus Jakarta Sans', sans-serif;
         }
 
@@ -237,7 +238,7 @@
             50% { opacity: 0.95; transform: translateY(-1px); }
         }
 
-        /* GRID MENU Z NOWOCZESNĄ ANIMACJĄ (MICRO-INTERACTION) */
+        /* GRID MENU Z ANIMACJĄ (MICRO-INTERACTION) */
         .grid-menu {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -471,7 +472,7 @@
         <p class="welcome-sub" id="welcome-sub-text">Życzymy udanego i wypoczynkowego pobytu</p>
     </div>
 
-    <!-- KAFELKI INTERAKTYWNE Z NOWOCZESNYMI IKONAMI KONTUROWYMI -->
+    <!-- KAFELKI INTERAKTYWNE -->
     <div class="grid-menu">
         <div class="card" onclick="openModal('modal-wifi')">
             <div class="card-icon">
