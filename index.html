@@ -1174,7 +1174,7 @@
 
             document.getElementById('m-contact-h').innerText = t.modals.contactH;
             document.getElementById('m-contact-p1').innerHTML = t.modals.contactP1;
-            document.getElementById('m-contact-p2').innerText = t.modals.contactP2;
+            document.getElementById('m-contact-p2').innerHTML = t.modals.contactP2;
             
             document.getElementById('m-contact-emerg').innerText = t.modals.contactEmerg;
             document.getElementById('m-contact-emerg-list').innerHTML = t.modals.contactEmergList;
@@ -1183,6 +1183,9 @@
             document.getElementById('m-contact-review').innerHTML = t.modals.contactReview;
 
             document.getElementById('m-about-text').innerHTML = t.modals.aboutText;
+
+            // Natychmiastowe odświeżenie daty po zmianie języka
+            updateClock();
         }
 
         function showLanguageSelect() {
@@ -1225,8 +1228,19 @@
             const minutes = String(now.getMinutes()).padStart(2, '0');
             document.getElementById('clock').innerText = `${hours}:${minutes}`;
 
+            // Mapowanie wybranego języka na odpowiedni region (locale) dla daty
+            const localesMap = {
+                'pl': 'pl-PL',
+                'en': 'en-GB',
+                'uk': 'uk-UA',
+                'de': 'de-DE',
+                'it': 'it-IT',
+                'es': 'es-ES'
+            };
+
+            const locale = localesMap[currentLang] || 'pl-PL';
             const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-            let dateStr = now.toLocaleDateString(currentLang === 'pl' ? 'pl-PL' : (currentLang === 'en' ? 'en-US' : 'uk-UA'), options);
+            let dateStr = now.toLocaleDateString(locale, options);
             document.getElementById('date').innerText = dateStr;
         }
         setInterval(updateClock, 1000);
