@@ -535,37 +535,30 @@
                 <button class="close-btn" onclick="closeModal('modal-gate')">&times;</button>
             </div>
             
-            <!-- MAPKA ORIENTACYJNA POSESJI (Wbudowana - Zmniejszone puste pole od dołu, równe marginesy) -->
+            <!-- MAPKA ORIENTACYJNA POSESJI -->
             <div style="background: #090e09; border: 1px solid var(--card-border); border-radius: 16px; padding: 12px; margin-bottom: 14px; display: flex; justify-content: center; align-items: center;">
                 <svg viewBox="0 0 400 365" style="width: 100%; height: auto; max-height: 260px;">
-                    <!-- Tło / Teren zielony -->
                     <rect width="400" height="365" fill="#111c12" rx="12"/>
-                    <!-- Podjazd / Droga -->
                     <path d="M 130 365 L 130 300 Q 130 250 180 200 L 330 50 L 380 50 L 380 365 Z" fill="#1b261c" opacity="0.7"/>
-                    <!-- Chodnik -->
                     <polygon points="160,220 230,180 260,210 190,250" fill="#2b3b2c" />
-                    <!-- Budynek Matylda House -->
                     <g transform="translate(150, 70)">
                         <rect width="180" height="150" rx="6" fill="#1f2e20" stroke="#4ade80" stroke-width="2"/>
                         <polygon points="90,-35 -15,70 195,70" fill="#162417" stroke="#34d399" stroke-width="2"/>
                         <text x="90" y="80" fill="#f3f4f6" font-size="14" font-weight="700" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif">Matylda House</text>
                         <text x="90" y="100" fill="#9ca3af" font-size="10" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif">Budynek</text>
                     </g>
-                    <!-- 1. MIEJSCE PARKINGOWE (Niebieski prostokąt) -->
                     <g transform="translate(140, 240)">
                         <rect width="70" height="90" rx="4" fill="rgba(59, 130, 246, 0.2)" stroke="#3b82f6" stroke-width="3" stroke-dasharray="6,4"/>
                         <rect x="15" y="25" width="40" height="40" rx="8" fill="#3b82f6"/>
                         <text x="35" y="53" fill="#ffffff" font-size="22" font-weight="800" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif">P</text>
                         <text x="35" y="-10" fill="#60a5fa" font-size="11" font-weight="700" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif">Parking</text>
                     </g>
-                    <!-- 2. GRILL ZONE & CHILLOUT (Czerwony prostokąt przy budynku) -->
                     <g transform="translate(25, 75)">
                         <rect width="120" height="150" rx="8" fill="rgba(239, 68, 68, 0.12)" stroke="#ef4444" stroke-width="3"/>
                         <circle cx="60" cy="75" r="25" fill="rgba(239, 68, 68, 0.2)" stroke="#ef4444" stroke-width="1.5"/>
                         <text x="60" y="82" font-size="24" text-anchor="middle">🔥</text>
                         <text x="60" y="-10" fill="#f87171" font-size="12" font-weight="700" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif">Grill & Chill Zone</text>
                     </g>
-                    <!-- 3. ŚMIETNIKI (Zielona linia) -->
                     <g transform="translate(125, 120)">
                         <line x1="0" y1="0" x2="0" y2="70" stroke="#10b981" stroke-width="6" stroke-linecap="round"/>
                         <text x="-25" y="40" font-size="18">♻️</text>
@@ -607,6 +600,12 @@
                 <h2 id="m-rules-h">Wskazówki dla Gości</h2>
                 <button class="close-btn" onclick="closeModal('modal-rules')">&times;</button>
             </div>
+            
+            <!-- NOWY KAFEL Z LINKIEM DO FILMU WIDEO -->
+            <div class="pill-info clickable-pill" id="m-rules-video-link" onclick="openModal('modal-video-player')" style="background: rgba(52, 211, 153, 0.12); border-color: var(--primary-green);">
+                🎥 <b>Jak otworzyć i zamknąć drzwi:</b> Kliknij tutaj, aby obejrzeć krótki film instruktażowy z obsługi zamka szyfrowego.
+            </div>
+
             <div class="pill-info" id="m-rules-time">⏰ <b>Wymeldowanie:</b> Do 11:00 | 🌙 <b>Cisza nocna:</b> 22:00 – 06:00</div>
             <div class="pill-info" id="m-rules-heat">🔥 <b>Ogrzewanie:</b> Prosimy o nieotwieranie okien i drzwi na dłużej niż w celach przewietrzenia pomieszczeń. W apartamencie działa ogrzewanie, które wyłącza się automatycznie, jeśli okna lub drzwi są uchylone/otwarte przez dłuższy czas.</div>
             <div class="pill-info" id="m-rules-trash">♻️ <b>Śmieci:</b> Pojemniki na śmieci znajdują się od południowej strony budynku. Wychodząc z apartamentu należy pójść w prawo i za rogiem znajdują się pojemniki.</div>
@@ -628,7 +627,6 @@
                 <button id="tab-map-btn" class="btn-action" style="margin-top:0; background: var(--card-bg); border: 1px solid var(--primary-green); color: var(--primary-green);" onclick="switchGuideTab('map')">🗺️ Mapa Okolicy</button>
             </div>
 
-            <!-- Widok Przewodnika -->
             <div id="guide-content-view" style="display: block;">
                 <div class="pill-info clickable-pill" id="m-guide-bus" onclick="showQRCode('https://www.google.com/maps/search/?api=1&query=49.988428,19.962283')">🚌 <b>Przystanek autobusowy Landaua:</b> Komunikacja miejska ułatwiająca dojazd do centrum.</div>
                 <div class="pill-info clickable-pill" id="m-guide-park" onclick="showQRCode('https://www.google.com/maps/search/Park+Zdrojowy+Swoszowice+Kraków')">🌳 <b>Park Zdrojowy w Swoszowicach:</b> Urokliwe, zielone miejsce na spacer tuż obok apartamentu.</div>
@@ -639,7 +637,6 @@
                 <div class="pill-info clickable-pill" id="m-guide-energylandia" onclick="showQRCode('https://www.google.com/maps/search/Energylandia+Zator')">🎢 <b>Park Rozrywki Energylandia w Zatorze:</b> Największy park rozrywki w Polsce. Dojazd ok. 45–50 minut.</div>
             </div>
 
-            <!-- Widok Mapy Okolicy -->
             <div id="map-content-view" style="display: none;">
                 <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 10px;" id="m-map-sub">Interaktywna mapa okolicy Swoszowic i Krakowa. Kliknij pinezkę, aby zobaczyć szczegóły punktu.</p>
                 <div id="neighborhood-map" style="width: 100%; height: 420px; border-radius: 16px; border: 1px solid var(--card-border); z-index: 10; background: #121912;"></div>
@@ -705,6 +702,21 @@
         </div>
     </div>
 
+    <!-- Modal z Odtwarzaczem Wideo (Instrukcja Zamka) -->
+    <div id="modal-video-player" class="modal-overlay" style="z-index: 350;" onclick="closeModalOnBg(event, 'modal-video-player')">
+        <div class="modal-box" style="max-width: 600px; text-align: center;">
+            <div class="modal-header">
+                <h2 id="m-video-h">Instrukcja zamka do drzwi</h2>
+                <button class="close-btn" onclick="closeModal('modal-video-player')">&times;</button>
+            </div>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 12px;" id="m-video-sub">Zobacz, jak w prosty sposób otworzyć i zamknąć drzwi za pomocą kodu.</p>
+            <video controls autoplay playsinline style="width: 100%; max-height: 400px; border-radius: 12px; background: #000;">
+                <source src="door-guide.mp4" type="video/mp4">
+                Twoja przeglądarka nie obsługuje odtwarzacza wideo.
+            </video>
+        </div>
+    </div>
+
     <script>
         let currentLang = 'pl';
         let currentFontSize = 24; 
@@ -753,7 +765,6 @@
             }
         }
         
-        // Generator zawartości Popup na mapie z wbudowanym kodem QR
         function getPopupContent(title, subtitle, lat, lng) {
             const url = encodeURIComponent(`https://www.google.com/maps?q=${lat},${lng}`);
             const hintText = dict[currentLang] ? dict[currentLang].qrHint : "Skanuj QR (Google Maps)";
@@ -864,7 +875,11 @@
                     foodCenter: "🥩 <b>W centrum Krakowa:</b><br><b>MooMoo Steak & Wine (Mo-Mo Stek)</b><br>📍 ul. Sienna 9 (Stare Miasto)",
                     foodRec: "🍝 <b>Polecana restauracja:</b><br><b>Restauracja Pół na Pół</b> (kuchnia polsko-włoska)<br>📍 ul. Kosocicka 105A, Kraków",
                     foodFast: "🍔 <b>Najbliższy Fast Food:</b><br><b>McDonald's</b><br>📍 ul. Cechowa / ul. Stojałowskiego 2 (ok. 2,5 km od apartamentu)",
-                    rulesH: "Wskazówki dla Gości", rulesTime: "⏰ <b>Wymeldowanie:</b> Do 11:00 | 🌙 <b>Cisza nocna:</b> 22:00 – 06:00",
+                    rulesH: "Wskazówki dla Gości",
+                    rulesVideo: "🎥 <b>Jak otworzyć i zamknąć drzwi:</b> Kliknij tutaj, aby obejrzeć krótki film instruktażowy z obsługi zamka szyfrowego.",
+                    videoModalH: "Instrukcja zamka do drzwi",
+                    videoModalSub: "Zobacz, jak w prosty sposób otworzyć i zamknąć drzwi za pomocą kodu.",
+                    rulesTime: "⏰ <b>Wymeldowanie:</b> Do 11:00 | 🌙 <b>Cisza nocna:</b> 22:00 – 06:00",
                     rulesHeat: "🔥 <b>Ogrzewanie:</b> Prosimy o nieotwieranie okien i drzwi na dłużej niż w celach przewietrzenia pomieszczeń. W apartamencie działa ogrzewanie, które wyłącza się automatycznie, jeśli okna lub drzwi są uchylone/otwarte przez dłuższy czas.",
                     rulesTrash: "♻️ <b>Śmieci:</b> Pojemniki na śmieci znajdują się od południowej strony budynku. Wychodząc z apartamentu należy pójść w prawo i za rogiem znajdują się pojemniki.",
                     rulesFees: "💳 <b>Opłaty dodatkowe:</b> Dokwaterowanie dodatkowej osoby (ponad ujęte w rezerwacji): 150 zł / dobę.<br>Pobyt zwierzęcia: 50 zł / dobę za zwierzę.",
@@ -914,7 +929,11 @@
                     foodCenter: "🥩 <b>In City Center:</b><br><b>MooMoo Steak & Wine</b><br>📍 ul. Sienna 9 (Old Town)",
                     foodRec: "🍝 <b>Recommended Restaurant:</b><br><b>Restauracja Pół na Pół</b> (Polish & Italian cuisine)<br>📍 ul. Kosocicka 105A, Kraków",
                     foodFast: "🍔 <b>Nearest Fast Food:</b><br><b>McDonald's</b><br>📍 ul. Cechowa / ul. Stojałowskiego 2",
-                    rulesH: "Guest Guidelines", rulesTime: "⏰ <b>Check-out:</b> By 11:00 AM | 🌙 <b>Quiet hours:</b> 10:00 PM – 06:00 AM",
+                    rulesH: "Guest Guidelines",
+                    rulesVideo: "🎥 <b>How to open and close the door:</b> Click here to watch a short video tutorial on using the code lock.",
+                    videoModalH: "Door Lock Guide",
+                    videoModalSub: "See how easily you can open and close the door using the code.",
+                    rulesTime: "⏰ <b>Check-out:</b> By 11:00 AM | 🌙 <b>Quiet hours:</b> 10:00 PM – 06:00 AM",
                     rulesHeat: "🔥 <b>Heating:</b> Please do not leave windows or doors open longer than needed for airing out. The heating turns off automatically if left open.",
                     rulesTrash: "♻️ <b>Trash:</b> Waste containers are located on the south side of the building. Exit the apartment, turn right, and they are around the corner.",
                     rulesFees: "💳 <b>Extra Fees:</b> Additional guest: 150 PLN / night.<br>Pet stay: 50 PLN / night per pet.",
@@ -964,7 +983,11 @@
                     foodCenter: "🥩 <b>У центрі Кракова:</b><br><b>MooMoo Steak & Wine</b><br>📍 ul. Sienna 9 (Старе Місто)",
                     foodRec: "🍝 <b>Рекомендований ресторан:</b><br><b>Restauracja Pół na Pół</b><br>📍 ul. Kosocicka 105A",
                     foodFast: "🍔 <b>Найближчий Фастфуд:</b><br><b>McDonald's</b><br>📍 ul. Cechowa / ul. Stojałowskiego 2",
-                    rulesH: "Інформація для Гостей", rulesTime: "⏰ <b>Виїзд:</b> До 11:00 | 🌙 <b>Тихі години:</b> 22:00 – 06:00",
+                    rulesH: "Інформація для Гостей",
+                    rulesVideo: "🎥 <b>Як відкрити та закрити двері:</b> Натисніть тут, щоб переглянути коротке відеоінструктаж з користування кодовим замком.",
+                    videoModalH: "Інструкція до замка",
+                    videoModalSub: "Подивіться, як легко відкрити та закрити двері за допомогою коду.",
+                    rulesTime: "⏰ <b>Виїзд:</b> До 11:00 | 🌙 <b>Тихі години:</b> 22:00 – 06:00",
                     rulesHeat: "🔥 <b>Опалення:</b> Просимо не залишати вікна та двері відчиненими довше, ніж для короткого провітрювання.",
                     rulesTrash: "♻️ <b>Сміття:</b> Сміттєві контейнери розташовані з південного боку будівлі.",
                     rulesFees: "💳 <b>Додаткові збори:</b> Додатковий гість: 150 PLN / добу.<br>Проживання тварин: 50 PLN / добу.",
@@ -1013,7 +1036,11 @@
                     foodCenter: "🥩 <b>Im Stadtzentrum:</b><br><b>MooMoo Steak & Wine</b><br>📍 ul. Sienna 9",
                     foodRec: "🍝 <b>Restaurant Empfehlung:</b><br><b>Restauracja Pół na Pół</b><br>📍 ul. Kosocicka 105A, Kraków",
                     foodFast: "🍔 <b>Nächster Fast Food:</b><br><b>McDonald's</b><br>📍 ul. Cechowa / ul. Stojałowskiego 2",
-                    rulesH: "Gästeinformationen", rulesTime: "⏰ <b>Check-out:</b> Bis 11:00 Uhr | 🌙 <b>Nachtruhe:</b> 22:00 – 06:00",
+                    rulesH: "Gästeinformationen",
+                    rulesVideo: "🎥 <b>Tür öffnen und schließen:</b> Klicken Sie hier, um ein kurzes Video zur Bedienung des Zahlenschlosses anzusehen.",
+                    videoModalH: "Türschloss-Anleitung",
+                    videoModalSub: "Sehen Sie, wie Sie die Tür ganz einfach mit einem Code öffnen und schließen.",
+                    rulesTime: "⏰ <b>Check-out:</b> Bis 11:00 Uhr | 🌙 <b>Nachtruhe:</b> 22:00 – 06:00",
                     rulesHeat: "🔥 <b>Heizung:</b> Bitte lassen Sie Fenster/Türen nicht länger als zum Lüften offen.",
                     rulesTrash: "♻️ <b>Müll:</b> Mülltonnen befinden sich auf der Südseite des Gebäudes.",
                     rulesFees: "💳 <b>Zusatzkosten:</b> Zusätzlicher Gast: 150 PLN / Nacht.<br>Haustier: 50 PLN / Nacht.",
@@ -1062,7 +1089,11 @@
                     foodCenter: "🥩 <b>In centro:</b><br><b>MooMoo Steak & Wine</b><br>📍 ul. Sienna 9",
                     foodRec: "🍝 <b>Ristorante consigliato:</b><br><b>Restauracja Pół na Pół</b><br>📍 ul. Kosocicka 105A",
                     foodFast: "🍔 <b>Fast Food:</b><br><b>McDonald's</b><br>📍 ul. Cechowa / ul. Stojałowskiego 2",
-                    rulesH: "Regole per gli Ospiti", rulesTime: "⏰ <b>Check-out:</b> Entro le 11:00 | 🌙 <b>Ore di silenzio:</b> 22:00 – 06:00",
+                    rulesH: "Regole per gli Ospiti",
+                    rulesVideo: "🎥 <b>Come aprire e chiudere la porta:</b> Clicca qui per guardare un breve video tutorial sull'uso della serratura a codice.",
+                    videoModalH: "Guida serratura",
+                    videoModalSub: "Scopri quanto è semplice aprire e chiudere la porta usando il codice.",
+                    rulesTime: "⏰ <b>Check-out:</b> Entro le 11:00 | 🌙 <b>Ore di silenzio:</b> 22:00 – 06:00",
                     rulesHeat: "🔥 <b>Riscaldamento:</b> Si prega di non lasciare finestre aperte a lungo.",
                     rulesTrash: "♻️ <b>Rifiuti:</b> I contenitori si trovano sul lato sud dell'edificio.",
                     rulesFees: "💳 <b>Costi extra:</b> Ospite aggiuntivo: 150 PLN/notte | Animale: 50 PLN/notte.",
@@ -1111,7 +1142,11 @@
                     foodCenter: "🥩 <b>En el centro:</b><br><b>MooMoo Steak & Wine</b><br>📍 ul. Sienna 9",
                     foodRec: "🍝 <b>Restaurante recomendado:</b><br><b>Restauracja Pół na Pół</b><br>📍 ul. Kosocicka 105A",
                     foodFast: "🍔 <b>Comida rápida:</b><br><b>McDonald's</b><br>📍 ul. Cechowa / ul. Stojałowskiego 2",
-                    rulesH: "Normas para Huéspedes", rulesTime: "⏰ <b>Salida:</b> Hasta las 11:00 | 🌙 <b>Horas de silencio:</b> 22:00 – 06:00",
+                    rulesH: "Normas para Huéspedes",
+                    rulesVideo: "🎥 <b>Cómo abrir y cerrar la puerta:</b> Haga clic aquí para ver un breve videotutorial sobre el uso de la cerradura con código.",
+                    videoModalH: "Guía de cerradura",
+                    videoModalSub: "Vea lo fácil que es abrir y cerrar la puerta usando el código.",
+                    rulesTime: "⏰ <b>Salida:</b> Hasta las 11:00 | 🌙 <b>Horas de silencio:</b> 22:00 – 06:00",
                     rulesHeat: "🔥 <b>Calefacción:</b> No deje las ventanas abiertas por tiempo prolongado.",
                     rulesTrash: "♻️ <b>Basura:</b> Los contenedores están en el lado sur del edificio.",
                     rulesFees: "💳 <b>Tarifas extra:</b> Huésped adicional: 150 PLN/noche | Mascota: 50 PLN/noche.",
@@ -1125,7 +1160,7 @@
                     guideWawel: "👑 <b>Castillo Real de Wawel y Dragón:</b> Residencia real histórica.",
                     guideWieliczka: "⛏️ <b>Mina de Sal de Wieliczka:</b> Famosa mina subterránea de la UNESCO.",
                     guideEnergylandia: "🎢 <b>Parque de Atracciones Energylandia:</b> El parque más grande de Polonia.",
-                    contactH: "Contacto del Propietario", contactP1: "📞 <b>Teléfono:</b><br><span style='font-size:1.3rem; font-weight:800; color:var(--primary-green);'>+48 508 048 886</span>",
+                    contactH: "Contacto del Propietario", contactP1: "📞 <b>Telefono:</b><br><span style='font-size:1.3rem; font-weight:800; color:var(--primary-green);'>+48 508 048 886</span>",
                     contactP2: "💬 ¡Estamos a su disposición para cualquier duda durante su estancia!",
                     contactEmerg: "🚨 Números de Emergencia",
                     contactEmergList: "<b>112</b> - Emergencias<br><b>999</b> - Ambulancia<br><b>997</b> - Policía<br><b>998</b> - Bomberos",
@@ -1193,6 +1228,9 @@
             appendQRHint('m-food-fast', t.modals.foodFast);
 
             document.getElementById('m-rules-h').innerText = t.modals.rulesH;
+            document.getElementById('m-rules-video-link').innerHTML = t.modals.rulesVideo;
+            document.getElementById('m-video-h').innerText = t.modals.videoModalH;
+            document.getElementById('m-video-sub').innerText = t.modals.videoModalSub;
             document.getElementById('m-rules-time').innerHTML = t.modals.rulesTime;
             document.getElementById('m-rules-heat').innerHTML = t.modals.rulesHeat;
             document.getElementById('m-rules-trash').innerHTML = t.modals.rulesTrash;
@@ -1224,7 +1262,6 @@
 
             document.getElementById('m-about-text').innerHTML = t.modals.aboutText;
 
-            // Natychmiastowe odświeżenie daty po zmianie języka
             updateClock();
         }
 
@@ -1241,6 +1278,14 @@
 
         function closeModal(id) {
             document.getElementById(id).style.display = 'none';
+            // Zatrzymanie odtwarzania wideo po zamknięciu modalu
+            if (id === 'modal-video-player') {
+                const vid = document.querySelector('#modal-video-player video');
+                if (vid) {
+                    vid.pause();
+                    vid.currentTime = 0;
+                }
+            }
         }
 
         function closeModalOnBg(event, id) {
@@ -1249,7 +1294,6 @@
             }
         }
 
-        // FUNKCJA: Wyświetlanie Kodu QR
         function showQRCode(mapsUrl, type = 'map') {
             const url = encodeURIComponent(mapsUrl);
             document.getElementById('qr-code-img').src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${url}`;
@@ -1261,14 +1305,12 @@
             document.getElementById('modal-qr').style.display = 'flex';
         }
 
-        // ZEGAR I DATA
         function updateClock() {
             const now = new Date();
             const hours = String(now.getHours()).padStart(2, '0');
             const minutes = String(now.getMinutes()).padStart(2, '0');
             document.getElementById('clock').innerText = `${hours}:${minutes}`;
 
-            // Mapowanie wybranego języka na odpowiedni region (locale) dla daty
             const localesMap = {
                 'pl': 'pl-PL',
                 'en': 'en-GB',
@@ -1286,7 +1328,6 @@
         setInterval(updateClock, 1000);
         updateClock();
 
-        // POGODA
         async function fetchWeather() {
             try {
                 const response = await fetch('https://api.open-meteo.com/v1/forecast?latitude=49.9839&longitude=19.9702&current=temperature_2m,weather_code&timezone=Europe%2FWarsaw');
