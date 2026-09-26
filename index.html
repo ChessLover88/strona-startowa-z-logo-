@@ -535,7 +535,7 @@
                 <button class="close-btn" onclick="closeModal('modal-gate')">&times;</button>
             </div>
             
-            <!-- MAPKA ORIENTACYJNA POSESJI (Wbudowana) -->
+            <!-- MAPKA ORIENTACYJNA POSESJI (Wbudowana - Grill Zone przybliżona do budynku) -->
             <div style="background: #090e09; border: 1px solid var(--card-border); border-radius: 16px; padding: 12px; margin-bottom: 14px; display: flex; justify-content: center; align-items: center;">
                 <svg viewBox="0 0 600 450" style="width: 100%; height: auto; max-height: 260px;">
                     <!-- Tło / Teren zielony -->
@@ -558,12 +558,12 @@
                         <text x="35" y="53" fill="#ffffff" font-size="22" font-weight="800" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif">P</text>
                         <text x="35" y="-10" fill="#60a5fa" font-size="11" font-weight="700" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif">Parking</text>
                     </g>
-                    <!-- 2. GRILL ZONE & CHILLOUT (Czerwony prostokąt) -->
-                    <g transform="translate(80, 80)">
-                        <rect width="130" height="230" rx="8" fill="rgba(239, 68, 68, 0.12)" stroke="#ef4444" stroke-width="3"/>
-                        <circle cx="65" cy="115" r="30" fill="rgba(239, 68, 68, 0.2)" stroke="#ef4444" stroke-width="1.5"/>
-                        <text x="65" y="121" font-size="26" text-anchor="middle">🔥</text>
-                        <text x="65" y="-10" fill="#f87171" font-size="12" font-weight="700" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif">Grill & Chill Zone</text>
+                    <!-- 2. GRILL ZONE & CHILLOUT (Czerwony prostokąt - przesunięty tuż przy lewą ścianę budynku) -->
+                    <g transform="translate(245, 75)">
+                        <rect width="120" height="150" rx="8" fill="rgba(239, 68, 68, 0.12)" stroke="#ef4444" stroke-width="3"/>
+                        <circle cx="60" cy="75" r="25" fill="rgba(239, 68, 68, 0.2)" stroke="#ef4444" stroke-width="1.5"/>
+                        <text x="60" y="82" font-size="24" text-anchor="middle">🔥</text>
+                        <text x="60" y="-10" fill="#f87171" font-size="12" font-weight="700" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif">Grill & Chill Zone</text>
                     </g>
                     <!-- 3. ŚMIETNIKI (Zielona linia) -->
                     <g transform="translate(345, 120)">
@@ -1089,7 +1089,7 @@
             es: {
                 code: "ES", qrHint: "Escanear QR (Google Maps)",
                 qrModal: { title: "Navegación en Google Maps", sub: "Escanee este código con su teléfono para abrir la navegación." },
-                qrReviewModal: { title: "Escribe una Reseña", sub: "Escanee este código para abrir las reseñas de Google." },
+                qrReviewModal: { title: "Escribe una Reseña", sub: "Scanee este código para abrir las reseñas de Google." },
                 greetings: { morning: "¡Buenos días! Bienvenidos a Matylda House", day: "Bienvenidos a Matylda House", night: "¡Buenas noches! Bienvenidos a Matylda House" },
                 welcomeSub: "Les deseamos una estancia agradable y relajante",
                 cards: {
