@@ -546,6 +546,10 @@
             </div>
             <div class="pill-info" id="m-wifi-ssid">📶 <b>Nazwa sieci:</b> Matylda_House</div>
             <div class="pill-info" id="m-wifi-pass">🔑 <b>Hasło:</b> Domowe_WIFI</div>
+            
+            <div class="pill-info clickable-pill" id="m-wifi-qr-btn" style="margin-top: 15px; text-align: center; background: rgba(52,211,153,0.15); border-color: var(--primary-green);" onclick="showQRCode('WIFI:S:Matylda_House;T:WPA;P:Domowe_WIFI;;', 'wifi')">
+                📱 <b>Szybkie łączenie z Wi-Fi</b><br>Zeskanuj kod, aby połączyć się automatycznie
+            </div>
         </div>
     </div>
 
@@ -893,6 +897,7 @@
                 code: "PL", qrHint: "Skanuj QR (Google Maps)",
                 qrModal: { title: "Nawigacja Google Maps", sub: "Zeskanuj ten kod telefonem, aby otworzyć nawigację." },
                 qrReviewModal: { title: "Napisz Opinię", sub: "Zeskanuj ten kod telefonem, aby przejść do opinii Google." },
+                qrWifiModal: { title: "Połącz z Wi-Fi", sub: "Zeskanuj ten kod telefonem, aby połączyć się z siecią." },
                 greetings: { morning: "Dzień dobry! Witamy w Matylda House", day: "Witamy w Matylda House", night: "Dobry wieczór! Witamy w Matylda House" },
                 welcomeSub: "Życzymy udanego i wypoczynkowego pobytu",
                 cards: {
@@ -905,6 +910,7 @@
                 },
                 modals: {
                     wifiH: "Sieć Wi-Fi", wifiSsid: "📶 <b>Nazwa sieci:</b> Matylda_House", wifiPass: "🔑 <b>Hasło:</b> Domowe_WIFI",
+                    wifiQrBtn: "📱 <b>Szybkie łączenie z Wi-Fi</b><br>Zeskanuj kod, aby połączyć się automatycznie",
                     gateH: "Parking, Brama i Plan Posesji",
                     gateP1: "🅿️ <b>Parking:</b> Miejsce parkingowe jest oznaczone przed wejściem do budynku, na wprost wjazdu (po lewej stronie od wejścia do apartamentu).",
                     gateP2: "🔑 <b>Pilot do bramy:</b> Na wieszaku obok w korytarzu znajduje się pilot do Państwa dyspozycji. <b>Lewy przycisk</b> służy do otwierania, zatrzymywania i zamykania bramy.",
@@ -951,6 +957,7 @@
                 code: "EN", qrHint: "Scan QR (Google Maps)",
                 qrModal: { title: "Google Maps Navigation", sub: "Scan this code with your phone to open navigation." },
                 qrReviewModal: { title: "Write a Review", sub: "Scan this code with your phone to open Google Reviews." },
+                qrWifiModal: { title: "Connect to Wi-Fi", sub: "Scan this code with your phone to connect to the network." },
                 greetings: { morning: "Good morning! Welcome to Matylda House", day: "Welcome to Matylda House", night: "Good evening! Welcome to Matylda House" },
                 welcomeSub: "We wish you a pleasant and relaxing stay",
                 cards: {
@@ -963,6 +970,7 @@
                 },
                 modals: {
                     wifiH: "Wi-Fi Network", wifiSsid: "📶 <b>Network Name:</b> Matylda_House", wifiPass: "🔑 <b>Password:</b> Domowe_WIFI",
+                    wifiQrBtn: "📱 <b>Quick Wi-Fi Connect</b><br>Scan the code to connect automatically",
                     gateH: "Parking, Gate & Property Map",
                     gateP1: "🅿️ <b>Parking:</b> Marked parking space is located in front of the building entrance, straight ahead from the driveway.",
                     gateP2: "🔑 <b>Gate Remote:</b> On the rack in the hallway there is a remote control. The <b>left button</b> opens, stops, and closes the gate.",
@@ -1009,6 +1017,7 @@
                 code: "UK", qrHint: "Сканувати QR (Google Maps)",
                 qrModal: { title: "Навігація Google Maps", sub: "Відскануйте цей код телефоном, щоб відкрити навігацію." },
                 qrReviewModal: { title: "Написати Відгук", sub: "Відскануйте цей код, щоб відкрити відгуки Google." },
+                qrWifiModal: { title: "Підключитись до Wi-Fi", sub: "Відскануйте цей код телефоном, щоб підключитися до мережі." },
                 greetings: { morning: "Доброго ранку! Ласкаво просимо до Matylda House", day: "Ласкаво просимо до Matylda House", night: "Доброго вечора! Ласкаво просимо до Matylda House" },
                 welcomeSub: "Бажаємо вам приємного та комфортного відпочинку",
                 cards: {
@@ -1021,6 +1030,7 @@
                 },
                 modals: {
                     wifiH: "Мережа Wi-Fi", wifiSsid: "📶 <b>Назва мережі:</b> Matylda_House", wifiPass: "🔑 <b>Пароль:</b> Domowe_WIFI",
+                    wifiQrBtn: "📱 <b>Швидке підключення до Wi-Fi</b><br>Відскануйте код, щоб підключитися автоматично",
                     gateH: "Паркінг, Брама та План Території",
                     gateP1: "🅿️ <b>Паркінг:</b> Позначене паркувальне місце знаходиться перед входом у будівлю.",
                     gateP2: "🔑 <b>Пульт від брами:</b> На вішалці у коридорі є пульт. <b>Ліва кнопка</b> відкриває, зупиняє та закриває браму.",
@@ -1067,6 +1077,7 @@
                 code: "DE", qrHint: "QR Scannen (Google Maps)",
                 qrModal: { title: "Google Maps Navigation", sub: "Scannen Sie diesen Code mit Ihrem Telefon, um die Navigation zu öffnen." },
                 qrReviewModal: { title: "Bewertung Schreiben", sub: "Scannen Sie diesen Code, um Google-Bewertungen zu öffnen." },
+                qrWifiModal: { title: "Mit WLAN verbinden", sub: "Scannen Sie diesen Code mit Ihrem Telefon, um sich mit dem Netzwerk zu verbinden." },
                 greetings: { morning: "Guten Morgen! Willkommen im Matylda House", day: "Willkommen im Matylda House", night: "Guten Abend! Willkommen im Matylda House" },
                 welcomeSub: "Wir wünschen Ihnen einen angenehmen Aufenthalt",
                 cards: {
@@ -1079,6 +1090,7 @@
                 },
                 modals: {
                     wifiH: "WLAN-Netzwerk", wifiSsid: "📶 <b>Netzwerkname:</b> Matylda_House", wifiPass: "🔑 <b>Passwort:</b> Domowe_WIFI",
+                    wifiQrBtn: "📱 <b>Schnelle WLAN-Verbindung</b><br>Code scannen, um automatisch zu verbinden",
                     gateH: "Parkplatz, Tor & Lageplan",
                     gateP1: "🅿️ <b>Parkplatz:</b> Der markierte Parkplatz befindet sich direkt vor dem Gebäude, geradeaus von der Einfahrt.",
                     gateP2: "🔑 <b>Tor-Fernbedienung:</b> Am Haken im Flur finden Sie eine Fernbedienung. Die <b>linke Taste</b> öffnet, stoppt und schließt das Tor.",
@@ -1125,6 +1137,7 @@
                 code: "IT", qrHint: "Scansiona QR (Google Maps)",
                 qrModal: { title: "Navigazione Google Maps", sub: "Scansiona questo codice con il telefono per aprire la navigazione." },
                 qrReviewModal: { title: "Scrivi una Recensione", sub: "Scansiona questo codice per aprire le recensioni di Google." },
+                qrWifiModal: { title: "Connettiti al Wi-Fi", sub: "Scansiona questo codice con il telefono per connetterti alla rete." },
                 greetings: { morning: "Buongiorno! Benvenuti a Matylda House", day: "Benvenuti a Matylda House", night: "Buonasera! Benvenuti a Matylda House" },
                 welcomeSub: "Vi auguriamo un soggiorno piacevole e rilassante",
                 cards: {
@@ -1137,6 +1150,7 @@
                 },
                 modals: {
                     wifiH: "Rete Wi-Fi", wifiSsid: "📶 <b>Nome rete:</b> Matylda_House", wifiPass: "🔑 <b>Password:</b> Domowe_WIFI",
+                    wifiQrBtn: "📱 <b>Connessione rapida Wi-Fi</b><br>Scansiona il codice per connetterti automaticamente",
                     gateH: "Parcheggio, Cancello e Mappa",
                     gateP1: "🅿️ <b>Parcheggio:</b> Il parcheggio riservato si trova di fronte all'ingresso.",
                     gateP2: "🔑 <b>Telecomando:</b> Sul gancio nel corridoio è disponibile il telecomando.",
@@ -1183,6 +1197,7 @@
                 code: "ES", qrHint: "Escanear QR (Google Maps)",
                 qrModal: { title: "Navegación en Google Maps", sub: "Escanee este código con su teléfono para abrir la navegación." },
                 qrReviewModal: { title: "Escribe una Reseña", sub: "Scanee este código para abrir las reseñas de Google." },
+                qrWifiModal: { title: "Conectarse al Wi-Fi", sub: "Escanee este código con su teléfono para conectarse a la red." },
                 greetings: { morning: "¡Buenos días! Bienvenidos a Matylda House", day: "Bienvenidos a Matylda House", night: "¡Buenas noches! Bienvenidos a Matylda House" },
                 welcomeSub: "Les deseamos una estancia agradable y relajante",
                 cards: {
@@ -1195,6 +1210,7 @@
                 },
                 modals: {
                     wifiH: "Red Wi-Fi", wifiSsid: "📶 <b>Nombre de red:</b> Matylda_House", wifiPass: "🔑 <b>Contraseña:</b> Domowe_WIFI",
+                    wifiQrBtn: "📱 <b>Conexión rápida Wi-Fi</b><br>Escanee el código para conectarse automáticamente",
                     gateH: "Aparcamiento, Portón y Plano",
                     gateP1: "🅿️ <b>Aparcamiento:</b> Plaza reservada frente a la entrada del edificio.",
                     gateP2: "🔑 <b>Mando:</b> En el perchero del pasillo hay un mando.",
@@ -1277,6 +1293,7 @@
             document.getElementById('m-wifi-h').innerText = t.modals.wifiH;
             document.getElementById('m-wifi-ssid').innerHTML = t.modals.wifiSsid;
             document.getElementById('m-wifi-pass').innerHTML = t.modals.wifiPass;
+            document.getElementById('m-wifi-qr-btn').innerHTML = t.modals.wifiQrBtn;
 
             document.getElementById('m-gate-h').innerText = t.modals.gateH;
             document.getElementById('m-gate-p1').innerHTML = t.modals.gateP1;
@@ -1371,11 +1388,19 @@
             }
         }
 
-        function showQRCode(mapsUrl, type = 'map') {
-            const url = encodeURIComponent(mapsUrl);
+        function showQRCode(dataString, type = 'map') {
+            const url = encodeURIComponent(dataString);
             document.getElementById('qr-code-img').src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${url}`;
             
-            const t = type === 'review' ? dict[currentLang].qrReviewModal : dict[currentLang].qrModal;
+            let t;
+            if (type === 'review') {
+                t = dict[currentLang].qrReviewModal;
+            } else if (type === 'wifi') {
+                t = dict[currentLang].qrWifiModal;
+            } else {
+                t = dict[currentLang].qrModal;
+            }
+            
             document.getElementById('m-qr-h').innerText = t.title;
             document.getElementById('m-qr-sub').innerText = t.sub;
             
@@ -1422,12 +1447,13 @@
                     else if (code >= 95) icon = '⚡';
                     document.getElementById('w-icon').innerText = icon;
                 }
-            } catch (e) {
-                console.log('Nie udało się pobrać pogody', e);
+            } catch (error) {
+                console.error("Błąd pobierania pogody", error);
             }
         }
         fetchWeather();
-        setInterval(fetchWeather, 30 * 60 * 1000);
+        setInterval(fetchWeather, 3600000); // Odśwież co godzinę
+        setLanguage(currentLang);
     </script>
 </body>
 </html>
