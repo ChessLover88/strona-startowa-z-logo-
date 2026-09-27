@@ -419,6 +419,29 @@
         }
 
         .btn-action:active { opacity: 0.8; }
+
+        /* STYLE PRZYCISKÓW KONTROLI POWIĘKSZENIA PLANU POSESJI */
+        .plan-zoom-btn {
+            background: rgba(22, 32, 23, 0.9);
+            border: 1px solid var(--card-border);
+            color: var(--primary-green);
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            font-weight: 800;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+            transition: background 0.2s ease, transform 0.1s ease;
+        }
+
+        .plan-zoom-btn:active {
+            background: rgba(52, 211, 153, 0.3);
+            transform: scale(0.92);
+        }
     </style>
 </head>
 <body>
@@ -546,10 +569,6 @@
             </div>
             <div class="pill-info" id="m-wifi-ssid">📶 <b>Nazwa sieci:</b> Matylda_House</div>
             <div class="pill-info" id="m-wifi-pass">🔑 <b>Hasło:</b> Domowe_WIFI</div>
-            
-            <div class="pill-info clickable-pill" id="m-wifi-qr-btn" style="margin-top: 15px; text-align: center; background: rgba(52,211,153,0.15); border-color: var(--primary-green);" onclick="showQRCode('WIFI:S:Matylda_House;T:WPA;P:Domowe_WIFI;;', 'wifi')">
-                📱 <b>Szybkie łączenie z Wi-Fi</b><br>Zeskanuj kod, aby połączyć się automatycznie
-            </div>
         </div>
     </div>
 
@@ -561,36 +580,50 @@
                 <button class="close-btn" onclick="closeModal('modal-gate')">&times;</button>
             </div>
             
-            <!-- MAPKA ORIENTACYJNA POSESJI -->
-            <div style="background: #090e09; border: 1px solid var(--card-border); border-radius: 16px; padding: 12px; margin-bottom: 14px; display: flex; justify-content: center; align-items: center;">
-                <svg viewBox="0 0 400 365" style="width: 100%; height: auto; max-height: 260px;">
-                    <rect width="400" height="365" fill="#111c12" rx="12"/>
-                    <path d="M 130 365 L 130 300 Q 130 250 180 200 L 330 50 L 380 50 L 380 365 Z" fill="#1b261c" opacity="0.7"/>
-                    <polygon points="160,220 230,180 260,210 190,250" fill="#2b3b2c" />
-                    <g transform="translate(150, 70)">
-                        <rect width="180" height="150" rx="6" fill="#1f2e20" stroke="#4ade80" stroke-width="2"/>
-                        <polygon points="90,-35 -15,70 195,70" fill="#162417" stroke="#34d399" stroke-width="2"/>
-                        <text x="90" y="80" fill="#f3f4f6" font-size="14" font-weight="700" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif">Matylda House</text>
-                        <text x="90" y="100" fill="#9ca3af" font-size="10" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif">Budynek</text>
-                    </g>
-                    <g transform="translate(140, 240)">
-                        <rect width="70" height="90" rx="4" fill="rgba(59, 130, 246, 0.2)" stroke="#3b82f6" stroke-width="3" stroke-dasharray="6,4"/>
-                        <rect x="15" y="25" width="40" height="40" rx="8" fill="#3b82f6"/>
-                        <text x="35" y="53" fill="#ffffff" font-size="22" font-weight="800" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif">P</text>
-                        <text x="35" y="-10" fill="#60a5fa" font-size="11" font-weight="700" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif">Parking</text>
-                    </g>
-                    <g transform="translate(25, 75)">
-                        <rect width="120" height="150" rx="8" fill="rgba(239, 68, 68, 0.12)" stroke="#ef4444" stroke-width="3"/>
-                        <circle cx="60" cy="75" r="25" fill="rgba(239, 68, 68, 0.2)" stroke="#ef4444" stroke-width="1.5"/>
-                        <text x="60" y="82" font-size="24" text-anchor="middle">🔥</text>
-                        <text x="60" y="-10" fill="#f87171" font-size="12" font-weight="700" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif">Grill & Chill Zone</text>
-                    </g>
-                    <g transform="translate(125, 120)">
-                        <line x1="0" y1="0" x2="0" y2="70" stroke="#10b981" stroke-width="6" stroke-linecap="round"/>
-                        <text x="-25" y="40" font-size="18">♻️</text>
-                        <text x="-35" y="-10" fill="#34d399" font-size="11" font-weight="700" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif">Śmietniki</text>
-                    </g>
-                </svg>
+            <!-- MAPKA ORIENTACYJNA POSESJI (Z OBSŁUGĄ POWIĘKSZANIA DWOMA PALCAMI) -->
+            <div id="plan-map-container" style="background: #090e09; border: 1px solid var(--card-border); border-radius: 16px; margin-bottom: 14px; position: relative; overflow: hidden; height: 300px; touch-action: none; display: flex; justify-content: center; align-items: center;">
+                
+                <!-- Przycisk resetu i powiększania w narożniku -->
+                <div style="position: absolute; top: 10px; right: 10px; z-index: 25; display: flex; gap: 8px;">
+                    <button class="plan-zoom-btn" onclick="zoomPlan(0.25)" title="Powiększ">+</button>
+                    <button class="plan-zoom-btn" onclick="zoomPlan(-0.25)" title="Pomniejsz">-</button>
+                    <button class="plan-zoom-btn" onclick="resetPlanZoom()" style="font-size: 0.85rem; width: auto; padding: 0 10px;" title="Resetuj">↺ Reset</button>
+                </div>
+
+                <div style="position: absolute; bottom: 8px; left: 12px; z-index: 25; font-size: 0.72rem; color: var(--primary-green); background: rgba(13,18,13,0.85); padding: 4px 10px; border-radius: 8px; border: 1px solid rgba(74,222,128,0.2); pointer-events: none;">
+                    🔍 Rozsuń dwa palce, aby powiększyć
+                </div>
+
+                <div id="plan-map-wrapper" style="transform-origin: center center; transition: transform 0.05s ease-out; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;">
+                    <svg viewBox="0 0 400 365" style="width: 100%; height: 100%; max-height: 280px; pointer-events: none;">
+                        <rect width="400" height="365" fill="#111c12" rx="12"/>
+                        <path d="M 130 365 L 130 300 Q 130 250 180 200 L 330 50 L 380 50 L 380 365 Z" fill="#1b261c" opacity="0.7"/>
+                        <polygon points="160,220 230,180 260,210 190,250" fill="#2b3b2c" />
+                        <g transform="translate(150, 70)">
+                            <rect width="180" height="150" rx="6" fill="#1f2e20" stroke="#4ade80" stroke-width="2"/>
+                            <polygon points="90,-35 -15,70 195,70" fill="#162417" stroke="#34d399" stroke-width="2"/>
+                            <text x="90" y="80" fill="#f3f4f6" font-size="14" font-weight="700" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif">Matylda House</text>
+                            <text x="90" y="100" fill="#9ca3af" font-size="10" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif">Budynek</text>
+                        </g>
+                        <g transform="translate(140, 240)">
+                            <rect width="70" height="90" rx="4" fill="rgba(59, 130, 246, 0.2)" stroke="#3b82f6" stroke-width="3" stroke-dasharray="6,4"/>
+                            <rect x="15" y="25" width="40" height="40" rx="8" fill="#3b82f6"/>
+                            <text x="35" y="53" fill="#ffffff" font-size="22" font-weight="800" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif">P</text>
+                            <text x="35" y="-10" fill="#60a5fa" font-size="11" font-weight="700" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif">Parking</text>
+                        </g>
+                        <g transform="translate(25, 75)">
+                            <rect width="120" height="150" rx="8" fill="rgba(239, 68, 68, 0.12)" stroke="#ef4444" stroke-width="3"/>
+                            <circle cx="60" cy="75" r="25" fill="rgba(239, 68, 68, 0.2)" stroke="#ef4444" stroke-width="1.5"/>
+                            <text x="60" y="82" font-size="24" text-anchor="middle">🔥</text>
+                            <text x="60" y="-10" fill="#f87171" font-size="12" font-weight="700" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif">Grill & Chill Zone</text>
+                        </g>
+                        <g transform="translate(125, 120)">
+                            <line x1="0" y1="0" x2="0" y2="70" stroke="#10b981" stroke-width="6" stroke-linecap="round"/>
+                            <text x="-25" y="40" font-size="18">♻️</text>
+                            <text x="-35" y="-10" fill="#34d399" font-size="11" font-weight="700" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif">Śmietniki</text>
+                        </g>
+                    </svg>
+                </div>
             </div>
 
             <div class="pill-info" id="m-gate-p1">🅿️ <b>Parking:</b> Miejsce parkingowe jest oznaczone przed wejściem do budynku, na wprost wjazdu (po lewej stronie od wejścia do apartamentu).</div>
@@ -749,6 +782,40 @@
         let neighborhoodMap = null;
         let mapInitialized = false;
 
+        /* LOGIKA POWIĘKSZANIA PLANU POSESJI DWOMA PALCAMI (PINCH-TO-ZOOM / PAN) */
+        let planScale = 1;
+        let planPosX = 0;
+        let planPosY = 0;
+        let planStartTouchX = 0;
+        let planStartTouchY = 0;
+        let planIsDragging = false;
+        let planInitialPinchDist = 0;
+        let planInitialScale = 1;
+
+        function updatePlanTransform() {
+            planScale = Math.min(Math.max(1, planScale), 4); // Ograniczenie powiększenia od 1x do 4x
+            if (planScale === 1) {
+                planPosX = 0;
+                planPosY = 0;
+            }
+            const wrapper = document.getElementById('plan-map-wrapper');
+            if (wrapper) {
+                wrapper.style.transform = `translate(${planPosX}px, ${planPosY}px) scale(${planScale})`;
+            }
+        }
+
+        function zoomPlan(delta) {
+            planScale += delta;
+            updatePlanTransform();
+        }
+
+        function resetPlanZoom() {
+            planScale = 1;
+            planPosX = 0;
+            planPosY = 0;
+            updatePlanTransform();
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             const doorVideo = document.getElementById('door-video');
             if (doorVideo) {
@@ -761,6 +828,53 @@
                         } else if (doorVideo.msRequestFullscreen) {
                             doorVideo.msRequestFullscreen();
                         }
+                    }
+                });
+            }
+
+            // Inicjalizacja gestów dotykowych dla planu posesji
+            const planContainer = document.getElementById('plan-map-container');
+            if (planContainer) {
+                planContainer.addEventListener('touchstart', (e) => {
+                    if (e.touches.length === 1 && planScale > 1) {
+                        planIsDragging = true;
+                        planStartTouchX = e.touches[0].clientX - planPosX;
+                        planStartTouchY = e.touches[0].clientY - planPosY;
+                    } else if (e.touches.length === 2) {
+                        planIsDragging = false;
+                        planInitialPinchDist = Math.hypot(
+                            e.touches[0].clientX - e.touches[1].clientX,
+                            e.touches[0].clientY - e.touches[1].clientY
+                        );
+                        planInitialScale = planScale;
+                    }
+                }, { passive: true });
+
+                planContainer.addEventListener('touchmove', (e) => {
+                    if (e.touches.length === 1 && planIsDragging) {
+                        e.preventDefault();
+                        planPosX = e.touches[0].clientX - planStartTouchX;
+                        planPosY = e.touches[0].clientY - planStartTouchY;
+                        updatePlanTransform();
+                    } else if (e.touches.length === 2) {
+                        e.preventDefault();
+                        const currentDist = Math.hypot(
+                            e.touches[0].clientX - e.touches[1].clientX,
+                            e.touches[0].clientY - e.touches[1].clientY
+                        );
+                        if (planInitialPinchDist > 0) {
+                            planScale = planInitialScale * (currentDist / planInitialPinchDist);
+                            updatePlanTransform();
+                        }
+                    }
+                }, { passive: false });
+
+                planContainer.addEventListener('touchend', (e) => {
+                    if (e.touches.length < 2) {
+                        planInitialPinchDist = 0;
+                    }
+                    if (e.touches.length === 0) {
+                        planIsDragging = false;
                     }
                 });
             }
@@ -897,7 +1011,6 @@
                 code: "PL", qrHint: "Skanuj QR (Google Maps)",
                 qrModal: { title: "Nawigacja Google Maps", sub: "Zeskanuj ten kod telefonem, aby otworzyć nawigację." },
                 qrReviewModal: { title: "Napisz Opinię", sub: "Zeskanuj ten kod telefonem, aby przejść do opinii Google." },
-                qrWifiModal: { title: "Połącz z Wi-Fi", sub: "Zeskanuj ten kod telefonem, aby połączyć się z siecią." },
                 greetings: { morning: "Dzień dobry! Witamy w Matylda House", day: "Witamy w Matylda House", night: "Dobry wieczór! Witamy w Matylda House" },
                 welcomeSub: "Życzymy udanego i wypoczynkowego pobytu",
                 cards: {
@@ -910,7 +1023,6 @@
                 },
                 modals: {
                     wifiH: "Sieć Wi-Fi", wifiSsid: "📶 <b>Nazwa sieci:</b> Matylda_House", wifiPass: "🔑 <b>Hasło:</b> Domowe_WIFI",
-                    wifiQrBtn: "📱 <b>Szybkie łączenie z Wi-Fi</b><br>Zeskanuj kod, aby połączyć się automatycznie",
                     gateH: "Parking, Brama i Plan Posesji",
                     gateP1: "🅿️ <b>Parking:</b> Miejsce parkingowe jest oznaczone przed wejściem do budynku, na wprost wjazdu (po lewej stronie od wejścia do apartamentu).",
                     gateP2: "🔑 <b>Pilot do bramy:</b> Na wieszaku obok w korytarzu znajduje się pilot do Państwa dyspozycji. <b>Lewy przycisk</b> służy do otwierania, zatrzymywania i zamykania bramy.",
@@ -957,7 +1069,6 @@
                 code: "EN", qrHint: "Scan QR (Google Maps)",
                 qrModal: { title: "Google Maps Navigation", sub: "Scan this code with your phone to open navigation." },
                 qrReviewModal: { title: "Write a Review", sub: "Scan this code with your phone to open Google Reviews." },
-                qrWifiModal: { title: "Connect to Wi-Fi", sub: "Scan this code with your phone to connect to the network." },
                 greetings: { morning: "Good morning! Welcome to Matylda House", day: "Welcome to Matylda House", night: "Good evening! Welcome to Matylda House" },
                 welcomeSub: "We wish you a pleasant and relaxing stay",
                 cards: {
@@ -970,7 +1081,6 @@
                 },
                 modals: {
                     wifiH: "Wi-Fi Network", wifiSsid: "📶 <b>Network Name:</b> Matylda_House", wifiPass: "🔑 <b>Password:</b> Domowe_WIFI",
-                    wifiQrBtn: "📱 <b>Quick Wi-Fi Connect</b><br>Scan the code to connect automatically",
                     gateH: "Parking, Gate & Property Map",
                     gateP1: "🅿️ <b>Parking:</b> Marked parking space is located in front of the building entrance, straight ahead from the driveway.",
                     gateP2: "🔑 <b>Gate Remote:</b> On the rack in the hallway there is a remote control. The <b>left button</b> opens, stops, and closes the gate.",
@@ -1017,7 +1127,6 @@
                 code: "UK", qrHint: "Сканувати QR (Google Maps)",
                 qrModal: { title: "Навігація Google Maps", sub: "Відскануйте цей код телефоном, щоб відкрити навігацію." },
                 qrReviewModal: { title: "Написати Відгук", sub: "Відскануйте цей код, щоб відкрити відгуки Google." },
-                qrWifiModal: { title: "Підключитись до Wi-Fi", sub: "Відскануйте цей код телефоном, щоб підключитися до мережі." },
                 greetings: { morning: "Доброго ранку! Ласкаво просимо до Matylda House", day: "Ласкаво просимо до Matylda House", night: "Доброго вечора! Ласкаво просимо до Matylda House" },
                 welcomeSub: "Бажаємо вам приємного та комфортного відпочинку",
                 cards: {
@@ -1030,7 +1139,6 @@
                 },
                 modals: {
                     wifiH: "Мережа Wi-Fi", wifiSsid: "📶 <b>Назва мережі:</b> Matylda_House", wifiPass: "🔑 <b>Пароль:</b> Domowe_WIFI",
-                    wifiQrBtn: "📱 <b>Швидке підключення до Wi-Fi</b><br>Відскануйте код, щоб підключитися автоматично",
                     gateH: "Паркінг, Брама та План Території",
                     gateP1: "🅿️ <b>Паркінг:</b> Позначене паркувальне місце знаходиться перед входом у будівлю.",
                     gateP2: "🔑 <b>Пульт від брами:</b> На вішалці у коридорі є пульт. <b>Ліва кнопка</b> відкриває, зупиняє та закриває браму.",
@@ -1077,7 +1185,6 @@
                 code: "DE", qrHint: "QR Scannen (Google Maps)",
                 qrModal: { title: "Google Maps Navigation", sub: "Scannen Sie diesen Code mit Ihrem Telefon, um die Navigation zu öffnen." },
                 qrReviewModal: { title: "Bewertung Schreiben", sub: "Scannen Sie diesen Code, um Google-Bewertungen zu öffnen." },
-                qrWifiModal: { title: "Mit WLAN verbinden", sub: "Scannen Sie diesen Code mit Ihrem Telefon, um sich mit dem Netzwerk zu verbinden." },
                 greetings: { morning: "Guten Morgen! Willkommen im Matylda House", day: "Willkommen im Matylda House", night: "Guten Abend! Willkommen im Matylda House" },
                 welcomeSub: "Wir wünschen Ihnen einen angenehmen Aufenthalt",
                 cards: {
@@ -1090,7 +1197,6 @@
                 },
                 modals: {
                     wifiH: "WLAN-Netzwerk", wifiSsid: "📶 <b>Netzwerkname:</b> Matylda_House", wifiPass: "🔑 <b>Passwort:</b> Domowe_WIFI",
-                    wifiQrBtn: "📱 <b>Schnelle WLAN-Verbindung</b><br>Code scannen, um automatisch zu verbinden",
                     gateH: "Parkplatz, Tor & Lageplan",
                     gateP1: "🅿️ <b>Parkplatz:</b> Der markierte Parkplatz befindet sich direkt vor dem Gebäude, geradeaus von der Einfahrt.",
                     gateP2: "🔑 <b>Tor-Fernbedienung:</b> Am Haken im Flur finden Sie eine Fernbedienung. Die <b>linke Taste</b> öffnet, stoppt und schließt das Tor.",
@@ -1137,7 +1243,6 @@
                 code: "IT", qrHint: "Scansiona QR (Google Maps)",
                 qrModal: { title: "Navigazione Google Maps", sub: "Scansiona questo codice con il telefono per aprire la navigazione." },
                 qrReviewModal: { title: "Scrivi una Recensione", sub: "Scansiona questo codice per aprire le recensioni di Google." },
-                qrWifiModal: { title: "Connettiti al Wi-Fi", sub: "Scansiona questo codice con il telefono per connetterti alla rete." },
                 greetings: { morning: "Buongiorno! Benvenuti a Matylda House", day: "Benvenuti a Matylda House", night: "Buonasera! Benvenuti a Matylda House" },
                 welcomeSub: "Vi auguriamo un soggiorno piacevole e rilassante",
                 cards: {
@@ -1150,7 +1255,6 @@
                 },
                 modals: {
                     wifiH: "Rete Wi-Fi", wifiSsid: "📶 <b>Nome rete:</b> Matylda_House", wifiPass: "🔑 <b>Password:</b> Domowe_WIFI",
-                    wifiQrBtn: "📱 <b>Connessione rapida Wi-Fi</b><br>Scansiona il codice per connetterti automaticamente",
                     gateH: "Parcheggio, Cancello e Mappa",
                     gateP1: "🅿️ <b>Parcheggio:</b> Il parcheggio riservato si trova di fronte all'ingresso.",
                     gateP2: "🔑 <b>Telecomando:</b> Sul gancio nel corridoio è disponibile il telecomando.",
@@ -1197,7 +1301,6 @@
                 code: "ES", qrHint: "Escanear QR (Google Maps)",
                 qrModal: { title: "Navegación en Google Maps", sub: "Escanee este código con su teléfono para abrir la navegación." },
                 qrReviewModal: { title: "Escribe una Reseña", sub: "Scanee este código para abrir las reseñas de Google." },
-                qrWifiModal: { title: "Conectarse al Wi-Fi", sub: "Escanee este código con su teléfono para conectarse a la red." },
                 greetings: { morning: "¡Buenos días! Bienvenidos a Matylda House", day: "Bienvenidos a Matylda House", night: "¡Buenas noches! Bienvenidos a Matylda House" },
                 welcomeSub: "Les deseamos una estancia agradable y relajante",
                 cards: {
@@ -1210,7 +1313,6 @@
                 },
                 modals: {
                     wifiH: "Red Wi-Fi", wifiSsid: "📶 <b>Nombre de red:</b> Matylda_House", wifiPass: "🔑 <b>Contraseña:</b> Domowe_WIFI",
-                    wifiQrBtn: "📱 <b>Conexión rápida Wi-Fi</b><br>Escanee el código para conectarse automáticamente",
                     gateH: "Aparcamiento, Portón y Plano",
                     gateP1: "🅿️ <b>Aparcamiento:</b> Plaza reservada frente a la entrada del edificio.",
                     gateP2: "🔑 <b>Mando:</b> En el perchero del pasillo hay un mando.",
@@ -1293,7 +1395,6 @@
             document.getElementById('m-wifi-h').innerText = t.modals.wifiH;
             document.getElementById('m-wifi-ssid').innerHTML = t.modals.wifiSsid;
             document.getElementById('m-wifi-pass').innerHTML = t.modals.wifiPass;
-            document.getElementById('m-wifi-qr-btn').innerHTML = t.modals.wifiQrBtn;
 
             document.getElementById('m-gate-h').innerText = t.modals.gateH;
             document.getElementById('m-gate-p1').innerHTML = t.modals.gateP1;
@@ -1356,6 +1457,9 @@
 
         function openModal(id) {
             document.getElementById(id).style.display = 'flex';
+            if (id === 'modal-gate') {
+                resetPlanZoom();
+            }
             if (id === 'modal-guide') {
                 switchGuideTab('guide');
             }
@@ -1388,19 +1492,11 @@
             }
         }
 
-        function showQRCode(dataString, type = 'map') {
-            const url = encodeURIComponent(dataString);
+        function showQRCode(mapsUrl, type = 'map') {
+            const url = encodeURIComponent(mapsUrl);
             document.getElementById('qr-code-img').src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${url}`;
             
-            let t;
-            if (type === 'review') {
-                t = dict[currentLang].qrReviewModal;
-            } else if (type === 'wifi') {
-                t = dict[currentLang].qrWifiModal;
-            } else {
-                t = dict[currentLang].qrModal;
-            }
-            
+            const t = type === 'review' ? dict[currentLang].qrReviewModal : dict[currentLang].qrModal;
             document.getElementById('m-qr-h').innerText = t.title;
             document.getElementById('m-qr-sub').innerText = t.sub;
             
@@ -1447,13 +1543,12 @@
                     else if (code >= 95) icon = '⚡';
                     document.getElementById('w-icon').innerText = icon;
                 }
-            } catch (error) {
-                console.error("Błąd pobierania pogody", error);
+            } catch (e) {
+                console.log('Nie udało się pobrać pogody', e);
             }
         }
         fetchWeather();
-        setInterval(fetchWeather, 3600000); // Odśwież co godzinę
-        setLanguage(currentLang);
+        setInterval(fetchWeather, 30 * 60 * 1000);
     </script>
 </body>
 </html>
