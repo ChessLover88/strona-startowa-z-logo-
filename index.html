@@ -733,6 +733,19 @@
                 <b>998</b> - Straż Pożarna
             </div>
 
+            <h3 style="margin-top: 15px; margin-bottom: 5px; color: var(--primary-green); font-size: 1.05rem;" id="m-contact-rides">🚗 Aplikacje Przewozowe</h3>
+            <div class="pill-info" id="m-contact-rides-list" style="margin-top: 0; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
+                <span>Możesz skorzystać z aplikacji:</span>
+                <div style="display: flex; gap: 8px;">
+                    <span style="background: rgba(0,0,0,0.3); padding: 4px 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); font-weight: 700; display: inline-flex; align-items: center; gap: 4px;">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg> Uber
+                    </span>
+                    <span style="background: rgba(16,185,129,0.15); padding: 4px 10px; border-radius: 8px; border: 1px solid rgba(74,222,128,0.2); font-weight: 700; display: inline-flex; align-items: center; gap: 4px; color: #34d399;">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M11 2L2 13h9l-1 9 11-11h-9l1-9z"/></svg> Bolt
+                    </span>
+                </div>
+            </div>
+
             <h3 style="margin-top: 15px; margin-bottom: 5px; color: var(--primary-green); font-size: 1.05rem;" id="m-contact-taxi">🚕 Taxi</h3>
             <div class="pill-info" id="m-contact-taxi-list" style="margin-top: 0;">
                 <b>Mega Taxi:</b> +48 12 400 00 00<br>
@@ -852,7 +865,6 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             fetchWeather();
-            // Odświeżaj pogodę co 30 minut
             setInterval(fetchWeather, 30 * 60 * 1000);
 
             const doorVideo = document.getElementById('door-video');
@@ -1099,6 +1111,8 @@
                     contactP2: "💬 Jesteśmy do Państwa dyspozycji w razie pytań lub wątpliwości podczas pobytu!",
                     contactEmerg: "🚨 Numery Alarmowe",
                     contactEmergList: "<b>112</b> - Centrum Powiadamiania Ratunkowego<br><b>999</b> - Pogotowie Ratunkowe<br><b>997</b> - Policja<br><b>998</b> - Straż Pożarna",
+                    contactRides: "🚗 Aplikacje Przewozowe",
+                    contactRidesList: "Możesz skorzystać z aplikacji:",
                     contactTaxi: "🚕 Taxi",
                     contactTaxiList: "<b>Mega Taxi:</b> +48 12 400 00 00<br><b>iTaxi:</b> +48 737 737 737",
                     contactReview: "⭐ <b>Oceń nas na Google</b><br>Zeskanuj kod, aby zostawić opinię",
@@ -1160,6 +1174,8 @@
                     contactP2: "💬 We are at your service if you have any questions during your stay!",
                     contactEmerg: "🚨 Emergency Numbers",
                     contactEmergList: "<b>112</b> - General Emergency<br><b>999</b> - Ambulance<br><b>997</b> - Police<br><b>998</b> - Fire Department",
+                    contactRides: "🚗 Ride-sharing Apps",
+                    contactRidesList: "You can use the apps:",
                     contactTaxi: "🚕 Taxi Services",
                     contactTaxiList: "<b>Mega Taxi:</b> +48 12 400 00 00<br><b>iTaxi:</b> +48 737 737 737",
                     contactReview: "⭐ <b>Rate us on Google</b><br>Scan the code to leave a review",
@@ -1221,6 +1237,8 @@
                     contactP2: "💬 Ми до ваших послуг у разі виникнення питань!",
                     contactEmerg: "🚨 Екстрені номери",
                     contactEmergList: "<b>112</b> - Загальний номер<br><b>999</b> - Швидка допомога<br><b>997</b> - Поліція<br><b>998</b> - Пожежна служба",
+                    contactRides: "🚗 Додатки для поїздок",
+                    contactRidesList: "Ви можете скористатися додатками:",
                     contactTaxi: "🚕 Служби таксі",
                     contactTaxiList: "<b>Mega Taxi:</b> +48 12 400 00 00<br><b>iTaxi:</b> +48 737 737 737",
                     contactReview: "⭐ <b>Оцініть нас у Google</b><br>Відскануйте код, щоб залишити відгук",
@@ -1282,6 +1300,8 @@
                     contactP2: "💬 Wir stehen Ihnen bei Fragen jederzeit zur Verfügung!",
                     contactEmerg: "🚨 Notrufnummern",
                     contactEmergList: "<b>112</b> - Allgemeiner Notruf<br><b>999</b> - Krankenwagen<br><b>997</b> - Polizei<br><b>998</b> - Feuerwehr",
+                    contactRides: "🚗 Fahrdienste",
+                    contactRidesList: "Sie können folgende Apps nutzen:",
                     contactTaxi: "🚕 Taxi",
                     contactTaxiList: "<b>Mega Taxi:</b> +48 12 400 00 00<br><b>iTaxi:</b> +48 737 737 737",
                     contactReview: "⭐ <b>Bewerten Sie uns auf Google</b><br>Scannen Sie den Code für eine Bewertung",
@@ -1343,6 +1363,8 @@
                     contactP2: "💬 Siamo a vostra disposizione per qualsiasi domanda!",
                     contactEmerg: "🚨 Numeri di Emergenza",
                     contactEmergList: "<b>112</b> - Emergenza Generale<br><b>999</b> - Ambulanza<br><b>997</b> - Polizia<br><b>998</b> - Vigili del Fuoco",
+                    contactRides: "🚗 App di trasporto",
+                    contactRidesList: "Puoi usare le app:",
                     contactTaxi: "🚕 Servizio Taxi",
                     contactTaxiList: "<b>Mega Taxi:</b> +48 12 400 00 00<br><b>iTaxi:</b> +48 737 737 737",
                     contactReview: "⭐ <b>Valutaci su Google</b><br>Scansiona il codice per lasciare una recensione",
@@ -1404,6 +1426,8 @@
                     contactP2: "💬 ¡Estamos a su disposición para cualquier duda durante su estancia!",
                     contactEmerg: "🚨 Números de Emergencia",
                     contactEmergList: "<b>112</b> - Emergencias<br><b>999</b> - Ambulancia<br><b>997</b> - Policía<br><b>998</b> - Bomberos",
+                    contactRides: "🚗 Apps de transporte",
+                    contactRidesList: "Puedes usar las aplicaciones:",
                     contactTaxi: "🚕 Servicio de Taxi",
                     contactTaxiList: "<b>Mega Taxi:</b> +48 12 400 00 00<br><b>iTaxi:</b> +48 737 737 737",
                     contactReview: "⭐ <b>Valóranos en Google</b><br>Escanea el código para dejar una reseña",
@@ -1425,6 +1449,13 @@
             
             const t = dict[lang];
             if (!t) return;
+
+            // Przypisanie właściwego pliku wideo dla wybranego języka
+            const doorVideo = document.getElementById('door-video');
+            if (doorVideo) {
+                doorVideo.src = `door-guide-${lang}.mp4`;
+                doorVideo.load();
+            }
 
             const hour = new Date().getHours();
             let greetText = t.greetings.day;
@@ -1465,12 +1496,12 @@
             // Food
             document.getElementById('m-food-h').innerText = t.modals.foodH;
             document.getElementById('m-food-sub').innerText = t.modals.foodSubText;
-            appendQRHint('m-food-addr', t.modals.foodAddr);
-            appendQRHint('m-food-shop', t.modals.foodShop);
-            appendQRHint('m-food-nearby', t.modals.foodNearby);
-            appendQRHint('m-food-center', t.modals.foodCenter);
-            appendQRHint('m-food-rec', t.modals.foodRec);
-            appendQRHint('m-food-fast', t.modals.foodFast);
+            document.getElementById('m-food-addr').innerHTML = t.modals.foodAddr;
+            document.getElementById('m-food-shop').innerHTML = t.modals.foodShop;
+            document.getElementById('m-food-nearby').innerHTML = t.modals.foodNearby;
+            document.getElementById('m-food-center').innerHTML = t.modals.foodCenter;
+            document.getElementById('m-food-rec').innerHTML = t.modals.foodRec;
+            document.getElementById('m-food-fast').innerHTML = t.modals.foodFast;
 
             // Rules
             document.getElementById('m-rules-h').innerText = t.modals.rulesH;
@@ -1489,33 +1520,42 @@
             document.getElementById('tab-guide-btn').innerText = t.modals.tabGuide;
             document.getElementById('tab-map-btn').innerText = t.modals.tabMap;
             document.getElementById('m-map-sub').innerText = t.modals.mapSub;
-            appendQRHint('m-guide-bus', t.modals.guideBus);
-            appendQRHint('m-guide-park', t.modals.guidePark);
-            appendQRHint('m-guide-view', t.modals.guideView);
-            appendQRHint('m-guide-market', t.modals.guideMarket);
-            appendQRHint('m-guide-wawel', t.modals.guideWawel);
-            appendQRHint('m-guide-wieliczka', t.modals.guideWieliczka);
-            appendQRHint('m-guide-energylandia', t.modals.guideEnergylandia);
+            document.getElementById('m-guide-bus').innerHTML = t.modals.guideBus;
+            document.getElementById('m-guide-park').innerHTML = t.modals.guidePark;
+            document.getElementById('m-guide-view').innerHTML = t.modals.guideView;
+            document.getElementById('m-guide-market').innerHTML = t.modals.guideMarket;
+            document.getElementById('m-guide-wawel').innerHTML = t.modals.guideWawel;
+            document.getElementById('m-guide-wieliczka').innerHTML = t.modals.guideWieliczka;
+            document.getElementById('m-guide-energylandia').innerHTML = t.modals.guideEnergylandia;
 
             // Contact
             document.getElementById('m-contact-h').innerText = t.modals.contactH;
             document.getElementById('m-contact-p1').innerHTML = t.modals.contactP1;
-            document.getElementById('m-contact-p2').innerText = t.modals.contactP2;
+            document.getElementById('m-contact-p2').innerHTML = t.modals.contactP2;
             document.getElementById('m-contact-emerg').innerText = t.modals.contactEmerg;
             document.getElementById('m-contact-emerg-list').innerHTML = t.modals.contactEmergList;
+            document.getElementById('m-contact-rides').innerText = t.modals.contactRides;
+            
+            // Zachowanie ikon Uber i Bolt przy tłumaczeniu wiersza przewozowego
+            const ridesListEl = document.getElementById('m-contact-rides-list');
+            if (ridesListEl) {
+                const iconsHtml = `
+                    <span>${t.modals.contactRidesList}</span>
+                    <div style="display: flex; gap: 8px;">
+                        <span style="background: rgba(0,0,0,0.3); padding: 4px 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); font-weight: 700; display: inline-flex; align-items: center; gap: 4px;">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg> Uber
+                        </span>
+                        <span style="background: rgba(16,185,129,0.15); padding: 4px 10px; border-radius: 8px; border: 1px solid rgba(74,222,128,0.2); font-weight: 700; display: inline-flex; align-items: center; gap: 4px; color: #34d399;">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M11 2L2 13h9l-1 9 11-11h-9l1-9z"/></svg> Bolt
+                        </span>
+                    </div>`;
+                ridesListEl.innerHTML = iconsHtml;
+            }
+
             document.getElementById('m-contact-taxi').innerText = t.modals.contactTaxi;
             document.getElementById('m-contact-taxi-list').innerHTML = t.modals.contactTaxiList;
             document.getElementById('m-contact-review').innerHTML = t.modals.contactReview;
-
-            // About
             document.getElementById('m-about-text').innerHTML = t.modals.aboutText;
-
-            // Dynamiczne ustawianie pliku wideo w zależności od wybranego języka
-            const doorVideo = document.getElementById('door-video');
-            if (doorVideo) {
-                doorVideo.src = `door-guide-${lang}.mp4`;
-                doorVideo.load();
-            }
         }
 
         function showLanguageSelect() {
@@ -1524,6 +1564,13 @@
 
         function openModal(modalId) {
             document.getElementById(modalId).style.display = 'flex';
+            if (modalId === 'modal-video-player') {
+                const doorVideo = document.getElementById('door-video');
+                if (doorVideo && (!doorVideo.src || doorVideo.src === '')) {
+                    doorVideo.src = `door-guide-${currentLang}.mp4`;
+                    doorVideo.load();
+                }
+            }
         }
 
         function closeModal(modalId) {
@@ -1532,33 +1579,36 @@
                 const doorVideo = document.getElementById('door-video');
                 if (doorVideo) {
                     doorVideo.pause();
-                    doorVideo.currentTime = 0;
                 }
             }
         }
 
         function closeModalOnBg(event, modalId) {
-            if (event.target === document.getElementById(modalId)) {
+            if (event.target.id === modalId) {
                 closeModal(modalId);
             }
         }
 
         function showQRCode(url, type = 'map') {
-            const qrImg = document.getElementById('qr-code-img');
-            qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(url)}`;
-            
-            const t = dict[currentLang] || dict.pl;
+            const modalQR = document.getElementById('modal-qr');
+            const img = document.getElementById('qr-code-img');
+            const titleEl = document.getElementById('m-qr-h');
+            const subEl = document.getElementById('m-qr-sub');
+            const t = dict[currentLang];
+
             if (type === 'review') {
-                document.getElementById('m-qr-h').innerText = t.qrReviewModal.title;
-                document.getElementById('m-qr-sub').innerText = t.qrReviewModal.sub;
+                titleEl.innerText = t.qrReviewModal.title;
+                subEl.innerText = t.qrReviewModal.sub;
             } else {
-                document.getElementById('m-qr-h').innerText = t.qrModal.title;
-                document.getElementById('m-qr-sub').innerText = t.qrModal.sub;
+                titleEl.innerText = t.qrModal.title;
+                subEl.innerText = t.qrModal.sub;
             }
-            openModal('modal-qr');
+
+            img.src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(url)}`;
+            modalQR.style.display = 'flex';
         }
 
-        // Zegar
+        // Zegar czasu rzeczywistego
         function updateClock() {
             const now = new Date();
             const hours = String(now.getHours()).padStart(2, '0');
@@ -1566,8 +1616,10 @@
             document.getElementById('clock').innerText = `${hours}:${minutes}`;
 
             const options = { weekday: 'long', day: 'numeric', month: 'long' };
-            document.getElementById('date').innerText = now.toLocaleDateString(currentLang === 'pl' ? 'pl-PL' : (currentLang === 'de' ? 'de-DE' : (currentLang === 'es' ? 'es-ES' : (currentLang === 'it' ? 'it-IT' : (currentLang === 'uk' ? 'uk-UA' : 'en-US')))), options);
+            let dateStr = now.toLocaleDateString(currentLang === 'pl' ? 'pl-PL' : (currentLang === 'en' ? 'en-US' : currentLang), options);
+            document.getElementById('date').innerText = dateStr;
         }
+
         setInterval(updateClock, 1000);
         updateClock();
     </script>
