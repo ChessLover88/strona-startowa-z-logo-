@@ -583,8 +583,8 @@
                 <button class="close-btn" onclick="closeModal('modal-wifi-qr')">&times;</button>
             </div>
             <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px;" id="m-wifi-qr-sub">Zeskanuj ten kod aparatem w telefonie, aby automatycznie połączyć się z siecią.</p>
-            <div style="background: white; padding: 20px; border-radius: 16px; display: inline-block;">
-                <img src="Wi-Fi_QR_code_Matylda_House_4.jpg" alt="Wi-Fi QR Code" style="width: 250px; height: 250px; display: block; border-radius: 8px;">
+            <div style="width: 100%; border-radius: 16px; overflow: hidden;">
+                <img src="Wi-Fi_QR_code_Matylda_House_4.jpg" alt="Wi-Fi QR Code" style="width: 100%; height: auto; display: block; border-radius: 12px;">
             </div>
         </div>
     </div>
@@ -1474,7 +1474,7 @@
 
             // Rules
             document.getElementById('m-rules-h').innerText = t.modals.rulesH;
-            document.getElementById('m-rules-video-link').innerHTML = t.modals.rulesVideo;
+            if(document.getElementById('m-rules-video-link')) document.getElementById('m-rules-video-link').innerHTML = t.modals.rulesVideo;
             document.getElementById('m-video-h').innerText = t.modals.videoModalH;
             document.getElementById('m-video-sub').innerText = t.modals.videoModalSub;
             document.getElementById('m-rules-time').innerHTML = t.modals.rulesTime;
@@ -1509,67 +1509,76 @@
 
             // About
             document.getElementById('m-about-text').innerHTML = t.modals.aboutText;
-
-            // Dynamiczne ustawianie pliku wideo w zależności od wybranego języka
-            const doorVideo = document.getElementById('door-video');
-            if (doorVideo) {
-                doorVideo.src = `door-guide-${lang}.mp4`;
-                doorVideo.load();
-            }
         }
 
         function showLanguageSelect() {
             document.getElementById('lang-select-screen').style.display = 'flex';
         }
 
-        function openModal(modalId) {
-            document.getElementById(modalId).style.display = 'flex';
-        }
-
-        function closeModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
-            if (modalId === 'modal-video-player') {
-                const doorVideo = document.getElementById('door-video');
-                if (doorVideo) {
-                    doorVideo.pause();
-                    doorVideo.currentTime = 0;
-                }
-            }
-        }
-
-        function closeModalOnBg(event, modalId) {
-            if (event.target === document.getElementById(modalId)) {
-                closeModal(modalId);
-            }
-        }
-
-        function showQRCode(url, type = 'map') {
-            const qrImg = document.getElementById('qr-code-img');
-            qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(url)}`;
-            
-            const t = dict[currentLang] || dict.pl;
-            if (type === 'review') {
-                document.getElementById('m-qr-h').innerText = t.qrReviewModal.title;
-                document.getElementById('m-qr-sub').innerText = t.qrReviewModal.sub;
-            } else {
-                document.getElementById('m-qr-h').innerText = t.qrModal.title;
-                document.getElementById('m-qr-sub').innerText = t.qrModal.sub;
-            }
-            openModal('modal-qr');
-        }
-
-        // Zegar
         function updateClock() {
             const now = new Date();
             const hours = String(now.getHours()).padStart(2, '0');
             const minutes = String(now.getMinutes()).padStart(2, '0');
             document.getElementById('clock').innerText = `${hours}:${minutes}`;
 
-            const options = { weekday: 'long', day: 'numeric', month: 'long' };
-            document.getElementById('date').innerText = now.toLocaleDateString(currentLang === 'pl' ? 'pl-PL' : (currentLang === 'de' ? 'de-DE' : (currentLang === 'es' ? 'es-ES' : (currentLang === 'it' ? 'it-IT' : (currentLang === 'uk' ? 'uk-UA' : 'en-US')))), options);
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            let dateStr = now.toLocaleDateString(currentLang === 'pl' ? 'pl-PL' : currentLang, options);
+            document.getElementById('date').innerText = dateStr;
         }
         setInterval(updateClock, 1000);
         updateClock();
+
+        function openModal(modalId) {
+            if (modalId === 'modal-video-player') {
+                const doorVideo = document.getElementById('door-video');
+                if (doorVideo) {
+                    doorVideo.src = 'door_opening.mp4';
+                    doorVideo.load();
+                }
+            }
+            document.getElementById(modalId).style.display = 'flex';
+        }
+
+        function closeModal(modalId) {
+            if (modalId === 'modal-video-player') {
+                const doorVideo = document.getElementById('door-video');
+                if (doorVideo) {
+                    doorVideo.pause();
+                    doorVideo.currentTime = 0;
+                }
+                if (document.fullscreenElement || document.webkitFullscreenElement) {
+                    if (document.exitFullscreen) {
+                        document.exitFullscreen();
+                    } else if (document.webkitExitFullscreen) {
+                        document.webkitExitFullscreen();
+                    }
+                }
+            }
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        function closeModalOnBg(event, modalId) {
+            if (event.target.classList.contains('modal-overlay')) {
+                closeModal(modalId);
+            }
+        }
+
+        function showQRCode(mapsUrl, type = 'map') {
+            const img = document.getElementById('qr-code-img');
+            const titleEl = document.getElementById('m-qr-h');
+            const subEl = document.getElementById('m-qr-sub');
+            
+            if (type === 'review') {
+                titleEl.innerText = dict[currentLang].qrReviewModal.title;
+                subEl.innerText = dict[currentLang].qrReviewModal.sub;
+            } else {
+                titleEl.innerText = dict[currentLang].qrModal.title;
+                subEl.innerText = dict[currentLang].qrModal.sub;
+            }
+
+            img.src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(mapsUrl)}`;
+            openModal('modal-qr');
+        }
     </script>
 </body>
 </html>
