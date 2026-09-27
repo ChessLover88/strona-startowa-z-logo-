@@ -569,7 +569,6 @@
             <div class="pill-info" id="m-wifi-ssid">📶 <b>Nazwa sieci:</b> Matylda_House</div>
             <div class="pill-info" id="m-wifi-pass">🔑 <b>Hasło:</b> Domowe_WIFI</div>
             
-            <!-- NOWY KAFELEK DO SKANOWANIA KODU QR -->
             <div class="pill-info clickable-pill" id="m-wifi-qr-link" onclick="openModal('modal-wifi-qr')" style="background: rgba(52, 211, 153, 0.12); border-color: var(--primary-green); text-align: center; margin-top: 15px;">
                 📱 <b>Zeskanuj kod QR</b><br>Kliknij tutaj, aby wyświetlić kod do skanowania
             </div>
@@ -598,7 +597,6 @@
                 <button class="close-btn" onclick="closeModal('modal-gate')">&times;</button>
             </div>
             
-            <!-- MAPKA ORIENTACYJNA POSESJI -->
             <div id="plan-map-container" style="background: #090e09; border: 1px solid var(--card-border); border-radius: 16px; margin-bottom: 14px; position: relative; overflow: hidden; height: 300px; touch-action: none; display: flex; justify-content: center; align-items: center;">
                 <div style="position: absolute; top: 10px; right: 10px; z-index: 25; display: flex; gap: 8px;">
                     <button class="plan-zoom-btn" onclick="zoomPlan(0.25)" title="Powiększ">+</button>
@@ -804,6 +802,30 @@
         let planInitialPinchDist = 0;
         let planInitialScale = 1;
 
+        // Funkcja pobierająca aktualną pogodę (Kraków - Swoszowice)
+        function fetchWeather() {
+            fetch('https://api.open-meteo.com/v1/forecast?latitude=49.9868&longitude=19.9622&current=temperature_2m,weather_code')
+                .then(response => response.json())
+                .then(data => {
+                    if (data && data.current) {
+                        const temp = Math.round(data.current.temperature_2m);
+                        document.getElementById('w-temp').innerText = temp + '°C';
+                        const code = data.current.weather_code;
+                        let icon = '🌤️';
+                        if (code === 0) icon = '☀️';
+                        else if (code >= 1 && code <= 3) icon = '⛅';
+                        else if (code === 45 || code === 48) icon = '🌫️';
+                        else if ((code >= 51 && code <= 67) || (code >= 80 && code <= 82)) icon = '🌧️';
+                        else if (code >= 71 && code <= 77) icon = '❄️';
+                        else if (code >= 95) icon = '⛈️';
+                        document.getElementById('w-icon').innerText = icon;
+                    }
+                })
+                .catch(err => {
+                    console.error('Błąd pobierania pogody:', err);
+                });
+        }
+
         function updatePlanTransform() {
             planScale = Math.min(Math.max(1, planScale), 4);
             if (planScale === 1) {
@@ -829,6 +851,10 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
+            fetchWeather();
+            // Odświeżaj pogodę co 30 minut
+            setInterval(fetchWeather, 30 * 60 * 1000);
+
             const doorVideo = document.getElementById('door-video');
             if (doorVideo) {
                 doorVideo.addEventListener('play', () => {
@@ -1371,7 +1397,7 @@
                     guideView: "🌄 <b>Mirador de Cracovia:</b> Fort 51 Rajsko – maravillosa vista panorámica.",
                     guideMarket: "🏰 <b>Plaza del Mercado y Subterráneos:</b> El corazón de Cracovia.",
                     guideWawel: "👑 <b>Castillo Real de Wawel y Dragón:</b> Residencia real histórica.",
-                    guideWieliczka: "⛏️ <b>Mina de Sal de Wieliczka:</b> Famosa mina subterránea de la UNESCO.",
+                    guideWieliczka: "⛏️ <b>Mina de Sale de Wieliczka:</b> Famosa mina subterránea de la UNESCO.",
                     guideEnergylandia: "🎢 <b>Parque de Atracciones Energylandia:</b> El parque más grande en Polonia.",
                     contactH: "Contacto y Ayuda", 
                     contactP1: "📞 <b>Telefono:</b><br><span style='font-size:1.3rem; font-weight:800; color:var(--primary-green);'>+48 508 048 886</span>",
@@ -1474,7 +1500,7 @@
             // Contact
             document.getElementById('m-contact-h').innerText = t.modals.contactH;
             document.getElementById('m-contact-p1').innerHTML = t.modals.contactP1;
-            document.getElementById('m-contact-p2').innerHTML = t.modals.contactP2;
+            document.getElementById('m-contact-p2').innerText = t.modals.contactP2;
             document.getElementById('m-contact-emerg').innerText = t.modals.contactEmerg;
             document.getElementById('m-contact-emerg-list').innerHTML = t.modals.contactEmergList;
             document.getElementById('m-contact-taxi').innerText = t.modals.contactTaxi;
@@ -1483,27 +1509,37 @@
 
             // About
             document.getElementById('m-about-text').innerHTML = t.modals.aboutText;
+
+            // Dynamiczne ustawianie pliku wideo w zależności od wybranego języka
+            const doorVideo = document.getElementById('door-video');
+            if (doorVideo) {
+                doorVideo.src = `door-guide-${lang}.mp4`;
+                doorVideo.load();
+            }
         }
 
         function showLanguageSelect() {
             document.getElementById('lang-select-screen').style.display = 'flex';
         }
 
-        function openModal(id) {
-            document.getElementById(id).style.display = 'flex';
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'flex';
         }
 
-        function closeModal(id) {
-            document.getElementById(id).style.display = 'none';
-            if(id === 'modal-video-player') {
-                const video = document.getElementById('door-video');
-                if(video) video.pause();
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+            if (modalId === 'modal-video-player') {
+                const doorVideo = document.getElementById('door-video');
+                if (doorVideo) {
+                    doorVideo.pause();
+                    doorVideo.currentTime = 0;
+                }
             }
         }
 
-        function closeModalOnBg(event, id) {
-            if (event.target.id === id) {
-                closeModal(id);
+        function closeModalOnBg(event, modalId) {
+            if (event.target === document.getElementById(modalId)) {
+                closeModal(modalId);
             }
         }
 
@@ -1511,31 +1547,27 @@
             const qrImg = document.getElementById('qr-code-img');
             qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(url)}`;
             
-            const t = dict[currentLang].modals;
-            if(type === 'review') {
-                document.getElementById('m-qr-h').innerText = dict[currentLang].qrReviewModal.title;
-                document.getElementById('m-qr-sub').innerText = dict[currentLang].qrReviewModal.sub;
+            const t = dict[currentLang] || dict.pl;
+            if (type === 'review') {
+                document.getElementById('m-qr-h').innerText = t.qrReviewModal.title;
+                document.getElementById('m-qr-sub').innerText = t.qrReviewModal.sub;
             } else {
-                document.getElementById('m-qr-h').innerText = dict[currentLang].qrModal.title;
-                document.getElementById('m-qr-sub').innerText = dict[currentLang].qrModal.sub;
+                document.getElementById('m-qr-h').innerText = t.qrModal.title;
+                document.getElementById('m-qr-sub').innerText = t.qrModal.sub;
             }
             openModal('modal-qr');
         }
 
+        // Zegar
         function updateClock() {
             const now = new Date();
-            let h = now.getHours().toString().padStart(2, '0');
-            let m = now.getMinutes().toString().padStart(2, '0');
-            document.getElementById('clock').innerText = `${h}:${m}`;
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            document.getElementById('clock').innerText = `${hours}:${minutes}`;
 
             const options = { weekday: 'long', day: 'numeric', month: 'long' };
-            let locale = currentLang;
-            if(locale === 'en') locale = 'en-GB';
-            if(locale === 'uk') locale = 'uk-UA';
-            
-            document.getElementById('date').innerText = now.toLocaleDateString(locale, options);
+            document.getElementById('date').innerText = now.toLocaleDateString(currentLang === 'pl' ? 'pl-PL' : (currentLang === 'de' ? 'de-DE' : (currentLang === 'es' ? 'es-ES' : (currentLang === 'it' ? 'it-IT' : (currentLang === 'uk' ? 'uk-UA' : 'en-US')))), options);
         }
-
         setInterval(updateClock, 1000);
         updateClock();
     </script>
