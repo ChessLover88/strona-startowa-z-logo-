@@ -722,6 +722,7 @@
                 <h2 id="m-contact-h">Kontakt do Właściciela</h2>
                 <button class="close-btn" onclick="closeModal('modal-contact')">&times;</button>
             </div>
+            <div class="pill-info" id="m-contact-address">📍 <b>Adres apartamentu:</b><br>Kraków ul. Landaua 12</div>
             <div class="pill-info" id="m-contact-p1">📞 <b>Telefon do właściciela:</b><br><span style="font-size:1.3rem; font-weight:800; color:var(--primary-green);">+48 508 048 886</span></div>
             <div class="pill-info" id="m-contact-p2">💬 Jesteśmy do Państwa dyspozycji w razie pytań lub wątpliwości podczas pobytu!</div>
 
@@ -736,7 +737,8 @@
             <h3 style="margin-top: 15px; margin-bottom: 5px; color: var(--primary-green); font-size: 1.05rem;" id="m-contact-taxi">🚕 Taxi</h3>
             <div class="pill-info" id="m-contact-taxi-list" style="margin-top: 0;">
                 <b>Mega Taxi:</b> +48 12 400 00 00<br>
-                <b>iTaxi:</b> +48 737 737 737
+                <b>iTaxi:</b> +48 737 737 737<br>
+                <span style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px; display: inline-block;">Pod lokalizacją apartamentu działają również aplikacje przewoźników UBER i BOLT</span>
             </div>
 
             <div class="pill-info clickable-pill" id="m-contact-review" style="margin-top: 15px; text-align: center; background: rgba(52,211,153,0.15); border-color: var(--primary-green);" onclick="showQRCode('https://www.google.com/maps/search/?api=1&query=Matylda+House+Krakow', 'review')">
@@ -1095,12 +1097,13 @@
                     guideWieliczka: "⛏️ <b>Kopalnia Soli w Wieliczce:</b> Słynna podziemna trasa turystyczna (ok. 15 minut jazdy samochodem trasą obwodową).",
                     guideEnergylandia: "🎢 <b>Park Rozrywki Energylandia w Zatorze:</b> Największy park rozrywki w Polsce. Dojazd samochodem zajmuje ok. 45–50 minut.",
                     contactH: "Kontakt i Pomoc",
+                    contactAddress: "📍 <b>Adres apartamentu:</b><br>Kraków ul. Landaua 12",
                     contactP1: "📞 <b>Telefon do właściciela:</b><br><span style='font-size:1.3rem; font-weight:800; color:var(--primary-green);'>+48 508 048 886</span>",
                     contactP2: "💬 Jesteśmy do Państwa dyspozycji w razie pytań lub wątpliwości podczas pobytu!",
                     contactEmerg: "🚨 Numery Alarmowe",
                     contactEmergList: "<b>112</b> - Centrum Powiadamiania Ratunkowego<br><b>999</b> - Pogotowie Ratunkowe<br><b>997</b> - Policja<br><b>998</b> - Straż Pożarna",
                     contactTaxi: "🚕 Taxi",
-                    contactTaxiList: "<b>Mega Taxi:</b> +48 12 400 00 00<br><b>iTaxi:</b> +48 737 737 737",
+                    contactTaxiList: "<b>Mega Taxi:</b> +48 12 400 00 00<br><b>iTaxi:</b> +48 737 737 737<br><span style='font-size: 0.85rem; color: var(--text-muted); margin-top: 4px; display: inline-block;'>Pod lokalizacją apartamentu działają również aplikacje przewoźników UBER i BOLT</span>",
                     contactReview: "⭐ <b>Oceń nas na Google</b><br>Zeskanuj kod, aby zostawić opinię",
                     aboutText: "Witaj w naszym apartamencie! Zrobiliśmy wszystko, aby Twój pobyt w Krakowie był wyjątkowy i komfortowy.<br><br><i>\"You are welcome\"</i>"
                 }
@@ -1156,12 +1159,13 @@
                     guideWieliczka: "⛏️ <b>Wieliczka Salt Mine:</b> Famous UNESCO underground salt mine (approx. 15 minutes drive).",
                     guideEnergylandia: "🎢 <b>Energylandia Amusement Park in Zator:</b> The largest amusement park in Poland. Approx. 45-50 min by car.",
                     contactH: "Contact & Help",
+                    contactAddress: "📍 <b>Apartment Address:</b><br>Kraków ul. Landaua 12",
                     contactP1: "📞 <b>Owner Phone:</b><br><span style='font-size:1.3rem; font-weight:800; color:var(--primary-green);'>+48 508 048 886</span>",
                     contactP2: "💬 We are at your service if you have any questions during your stay!",
                     contactEmerg: "🚨 Emergency Numbers",
                     contactEmergList: "<b>112</b> - General Emergency<br><b>999</b> - Ambulance<br><b>997</b> - Police<br><b>998</b> - Fire Department",
                     contactTaxi: "🚕 Taxi Services",
-                    contactTaxiList: "<b>Mega Taxi:</b> +48 12 400 00 00<br><b>iTaxi:</b> +48 737 737 737",
+                    contactTaxiList: "<b>Mega Taxi:</b> +48 12 400 00 00<br><b>iTaxi:</b> +48 737 737 737<br><span style='font-size: 0.85rem; color: var(--text-muted); margin-top: 4px; display: inline-block;'>UBER and BOLT ride-sharing apps also operate at the apartment's location</span>",
                     contactReview: "⭐ <b>Rate us on Google</b><br>Scan the code to leave a review",
                     aboutText: "Welcome to our apartment! We made every effort to make your stay in Kraków comfortable.<br><br><i>\"You are welcome\"</i>"
                 }
@@ -1217,12 +1221,13 @@
                     guideWieliczka: "⛏️ <b>Соляна Копальня Величка:</b> Відома підземна туристична траса (бл. 15 хвилин на авто).",
                     guideEnergylandia: "🎢 <b>Парк розваг Енерджиландія:</b> Найбільший парк атракціонів у Польщі. (бл. 45-50 хв на авто).",
                     contactH: "Контакти та Допомога", 
+                    contactAddress: "📍 <b>Адреса апартаментів:</b><br>Kraków ul. Landaua 12",
                     contactP1: "📞 <b>Телефон власника:</b><br><span style='font-size:1.3rem; font-weight:800; color:var(--primary-green);'>+48 508 048 886</span>",
                     contactP2: "💬 Ми до ваших послуг у разі виникнення питань!",
                     contactEmerg: "🚨 Екстрені номери",
                     contactEmergList: "<b>112</b> - Загальний номер<br><b>999</b> - Швидка допомога<br><b>997</b> - Поліція<br><b>998</b> - Пожежна служба",
                     contactTaxi: "🚕 Служби таксі",
-                    contactTaxiList: "<b>Mega Taxi:</b> +48 12 400 00 00<br><b>iTaxi:</b> +48 737 737 737",
+                    contactTaxiList: "<b>Mega Taxi:</b> +48 12 400 00 00<br><b>iTaxi:</b> +48 737 737 737<br><span style='font-size: 0.85rem; color: var(--text-muted); margin-top: 4px; display: inline-block;'>Під локацією апартаментів працюють також додатки перевізників UBER та BOLT</span>",
                     contactReview: "⭐ <b>Оцініть нас у Google</b><br>Відскануйте код, щоб залишити відгук",
                     aboutText: "Ласкаво просимо! Ми зробили все, щоб ваше перебування у Кракові було комфортним.<br><br><i>\"You are welcome\"</i>"
                 }
@@ -1278,12 +1283,13 @@
                     guideWieliczka: "⛏️ <b>Salzbergwerk Wieliczka:</b> Berühmte unterirdische Salzmine (ca. 15 Minuten).",
                     guideEnergylandia: "🎢 <b>Freizeitpark Energylandia:</b> Der größte Freizeitpark in Polen. (ca. 45-50 min).",
                     contactH: "Kontakt & Hilfe", 
+                    contactAddress: "📍 <b>Apartment-Adresse:</b><br>Kraków ul. Landaua 12",
                     contactP1: "📞 <b>Telefonnummer:</b><br><span style='font-size:1.3rem; font-weight:800; color:var(--primary-green);'>+48 508 048 886</span>",
                     contactP2: "💬 Wir stehen Ihnen bei Fragen jederzeit zur Verfügung!",
                     contactEmerg: "🚨 Notrufnummern",
                     contactEmergList: "<b>112</b> - Allgemeiner Notruf<br><b>999</b> - Krankenwagen<br><b>997</b> - Polizei<br><b>998</b> - Feuerwehr",
                     contactTaxi: "🚕 Taxi",
-                    contactTaxiList: "<b>Mega Taxi:</b> +48 12 400 00 00<br><b>iTaxi:</b> +48 737 737 737",
+                    contactTaxiList: "<b>Mega Taxi:</b> +48 12 400 00 00<br><b>iTaxi:</b> +48 737 737 737<br><span style='font-size: 0.85rem; color: var(--text-muted); margin-top: 4px; display: inline-block;'>Die Fahrdienst-Apps UBER und BOLT sind ebenfalls am Standort des Apartments verfügbar</span>",
                     contactReview: "⭐ <b>Bewerten Sie uns auf Google</b><br>Scannen Sie den Code für eine Bewertung",
                     aboutText: "Willkommen in unserem Apartment! Wir haben alles getan, damit Ihr Aufenthalt in Krakau unvergesslich wird.<br><br><i>\"You are welcome\"</i>"
                 }
@@ -1339,12 +1345,13 @@
                     guideWieliczka: "⛏️ <b>Miniera di Sale di Wieliczka:</b> Famosa miniera sotterranea UNESCO.",
                     guideEnergylandia: "🎢 <b>Parco Divertimenti Energylandia:</b> Il parco più grande in Polonia.",
                     contactH: "Contatti e Aiuto", 
+                    contactAddress: "📍 <b>Indirizzo dell'appartamento:</b><br>Kraków ul. Landaua 12",
                     contactP1: "📞 <b>Telefono:</b><br><span style='font-size:1.3rem; font-weight:800; color:var(--primary-green);'>+48 508 048 886</span>",
                     contactP2: "💬 Siamo a vostra disposizione per qualsiasi domanda!",
                     contactEmerg: "🚨 Numeri di Emergenza",
                     contactEmergList: "<b>112</b> - Emergenza Generale<br><b>999</b> - Ambulanza<br><b>997</b> - Polizia<br><b>998</b> - Vigili del Fuoco",
                     contactTaxi: "🚕 Servizio Taxi",
-                    contactTaxiList: "<b>Mega Taxi:</b> +48 12 400 00 00<br><b>iTaxi:</b> +48 737 737 737",
+                    contactTaxiList: "<b>Mega Taxi:</b> +48 12 400 00 00<br><b>iTaxi:</b> +48 737 737 737<br><span style='font-size: 0.85rem; color: var(--text-muted); margin-top: 4px; display: inline-block;'>Le app di trasporto UBER e BOLT operano anche presso la posizione dell'appartamento</span>",
                     contactReview: "⭐ <b>Valutaci su Google</b><br>Scansiona il codice per lasciare una recensione",
                     aboutText: "Benvenuti nel nostro appartamento! Faremo in modo che il vostro soggiorno sia perfetto.<br><br><i>\"You are welcome\"</i>"
                 }
@@ -1375,7 +1382,7 @@
                     gateP4: "🚪 <b>Salida:</b> Por favor, deje el mando en el perchero al hacer el check-out.",
                     foodH: "Comida, Compras y Sitios Recomendados", foodSubText: "Facilite esta dirección al pedir comida a domicilio:",
                     foodAddr: "📍 <b>Dirección de entrega:</b><br>ul. Lwa Landaua 12, Kraków",
-                    foodShop: "🛒 <b>Tiendas y Café:</b><br><b>Pequeño centro comercial (Supermercado, Rossmann)</b><br>📍 ul. Myślenicka 133",
+                    foodShop: "🛒 <b>Tiendas y Café:</b><br><b>Pequeño centro comercial (Supermarket, Rossmann)</b><br>📍 ul. Myślenicka 133",
                     foodNearby: "🍽️ <b>Cerca:</b><br><b>Restauracja Szyb Swoszowice</b><br>📍 ul. Szybisko 40",
                     foodCenter: "🥩 <b>En el centro:</b><br><b>MooMoo Steak & Wine</b><br>📍 ul. Sienna 9",
                     foodRec: "🍝 <b>Restaurante recomendado:</b><br><b>Restauracja Pół na Pół</b><br>📍 ul. Kosocicka 105A",
@@ -1400,12 +1407,13 @@
                     guideWieliczka: "⛏️ <b>Mina de Sale de Wieliczka:</b> Famosa mina subterránea de la UNESCO.",
                     guideEnergylandia: "🎢 <b>Parque de Atracciones Energylandia:</b> El parque más grande en Polonia.",
                     contactH: "Contacto y Ayuda", 
+                    contactAddress: "📍 <b>Dirección del apartamento:</b><br>Kraków ul. Landaua 12",
                     contactP1: "📞 <b>Telefono:</b><br><span style='font-size:1.3rem; font-weight:800; color:var(--primary-green);'>+48 508 048 886</span>",
                     contactP2: "💬 ¡Estamos a su disposición para cualquier duda durante su estancia!",
                     contactEmerg: "🚨 Números de Emergencia",
                     contactEmergList: "<b>112</b> - Emergencias<br><b>999</b> - Ambulancia<br><b>997</b> - Policía<br><b>998</b> - Bomberos",
                     contactTaxi: "🚕 Servicio de Taxi",
-                    contactTaxiList: "<b>Mega Taxi:</b> +48 12 400 00 00<br><b>iTaxi:</b> +48 737 737 737",
+                    contactTaxiList: "<b>Mega Taxi:</b> +48 12 400 00 00<br><b>iTaxi:</b> +48 737 737 737<br><span style='font-size: 0.85rem; color: var(--text-muted); margin-top: 4px; display: inline-block;'>Las aplicaciones de transporte UBER y BOLT también operan en la ubicación del apartamento</span>",
                     contactReview: "⭐ <b>Valóranos en Google</b><br>Escanea el código para dejar una reseña",
                     aboutText: "¡Bienvenidos a nuestro apartamento! Haremos que vuestra estancia sea inolvidable.<br><br><i>\"You are welcome\"</i>"
                 }
@@ -1499,23 +1507,18 @@
 
             // Contact
             document.getElementById('m-contact-h').innerText = t.modals.contactH;
+            if(document.getElementById('m-contact-address')) document.getElementById('m-contact-address').innerHTML = t.modals.contactAddress;
             document.getElementById('m-contact-p1').innerHTML = t.modals.contactP1;
-            document.getElementById('m-contact-p2').innerText = t.modals.contactP2;
+            document.getElementById('m-contact-p2').innerHTML = t.modals.contactP2;
             document.getElementById('m-contact-emerg').innerText = t.modals.contactEmerg;
             document.getElementById('m-contact-emerg-list').innerHTML = t.modals.contactEmergList;
             document.getElementById('m-contact-taxi').innerText = t.modals.contactTaxi;
             document.getElementById('m-contact-taxi-list').innerHTML = t.modals.contactTaxiList;
             document.getElementById('m-contact-review').innerHTML = t.modals.contactReview;
 
-            // About
             document.getElementById('m-about-text').innerHTML = t.modals.aboutText;
-
-            // Dynamiczne ustawianie pliku wideo w zależności od wybranego języka
-            const doorVideo = document.getElementById('door-video');
-            if (doorVideo) {
-                doorVideo.src = `door-guide-${lang}.mp4`;
-                doorVideo.load();
-            }
+            document.getElementById('m-qr-h').innerText = t.qrModal.title;
+            document.getElementById('m-qr-sub').innerText = t.qrModal.sub;
         }
 
         function showLanguageSelect() {
@@ -1524,41 +1527,53 @@
 
         function openModal(modalId) {
             document.getElementById(modalId).style.display = 'flex';
+            if (modalId === 'modal-wifi-qr') {
+                const video = document.getElementById('door-video');
+                if (video) video.pause();
+            }
+            if (modalId === 'modal-video-player') {
+                const video = document.getElementById('door-video');
+                if (video) {
+                    video.src = 'door_instruction.mp4';
+                    video.play().catch(e => console.log("Autoplay zablokowany:", e));
+                }
+            }
         }
 
         function closeModal(modalId) {
             document.getElementById(modalId).style.display = 'none';
             if (modalId === 'modal-video-player') {
-                const doorVideo = document.getElementById('door-video');
-                if (doorVideo) {
-                    doorVideo.pause();
-                    doorVideo.currentTime = 0;
-                }
+                const video = document.getElementById('door-video');
+                if (video) video.pause();
             }
         }
 
         function closeModalOnBg(event, modalId) {
-            if (event.target === document.getElementById(modalId)) {
+            if (event.target.id === modalId) {
                 closeModal(modalId);
             }
         }
 
         function showQRCode(url, type = 'map') {
-            const qrImg = document.getElementById('qr-code-img');
-            qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(url)}`;
+            const img = document.getElementById('qr-code-img');
+            img.src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(url)}`;
             
-            const t = dict[currentLang] || dict.pl;
+            const titleEl = document.getElementById('m-qr-h');
+            const subEl = document.getElementById('m-qr-sub');
+            const t = dict[currentLang] || dict['pl'];
+
             if (type === 'review') {
-                document.getElementById('m-qr-h').innerText = t.qrReviewModal.title;
-                document.getElementById('m-qr-sub').innerText = t.qrReviewModal.sub;
+                titleEl.innerText = t.qrReviewModal.title;
+                subEl.innerText = t.qrReviewModal.sub;
             } else {
-                document.getElementById('m-qr-h').innerText = t.qrModal.title;
-                document.getElementById('m-qr-sub').innerText = t.qrModal.sub;
+                titleEl.innerText = t.qrModal.title;
+                subEl.innerText = t.qrModal.sub;
             }
+
             openModal('modal-qr');
         }
 
-        // Zegar
+        // Zegar w czasie rzeczywistym
         function updateClock() {
             const now = new Date();
             const hours = String(now.getHours()).padStart(2, '0');
@@ -1566,8 +1581,10 @@
             document.getElementById('clock').innerText = `${hours}:${minutes}`;
 
             const options = { weekday: 'long', day: 'numeric', month: 'long' };
-            document.getElementById('date').innerText = now.toLocaleDateString(currentLang === 'pl' ? 'pl-PL' : (currentLang === 'de' ? 'de-DE' : (currentLang === 'es' ? 'es-ES' : (currentLang === 'it' ? 'it-IT' : (currentLang === 'uk' ? 'uk-UA' : 'en-US')))), options);
+            let dateStr = now.toLocaleDateString(currentLang === 'pl' ? 'pl-PL' : (currentLang === 'en' ? 'en-US' : 'pl-PL'), options);
+            document.getElementById('date').innerText = dateStr;
         }
+
         setInterval(updateClock, 1000);
         updateClock();
     </script>
