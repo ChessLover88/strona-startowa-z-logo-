@@ -44,6 +44,7 @@
             background: radial-gradient(circle at 50% 20%, #172618 0%, #080c08 100%);
             color: var(--text-main);
             height: 100vh;
+            height: 100dvh;
             width: 100vw;
             overflow: hidden;
             display: flex;
@@ -59,6 +60,7 @@
             left: 0;
             width: 100vw;
             height: 100vh;
+            height: 100dvh;
             background: rgba(8, 12, 8, 0.94);
             backdrop-filter: blur(20px);
             z-index: 1000;
@@ -314,6 +316,7 @@
             left: 0;
             width: 100vw;
             height: 100vh;
+            height: 100dvh;
             background: rgba(0, 0, 0, 0.8);
             backdrop-filter: blur(12px);
             display: none;
@@ -392,6 +395,16 @@
             background: rgba(52, 211, 153, 0.15);
             border-color: var(--primary-green);
         }
+
+        body.night { filter: brightness(0.6); }
+        .accessibility-btn, .lang-switch-btn, .weather-card { min-height: 48px; }
+        .accessibility-btn { min-width: 52px; justify-content: center; }
+        .close-btn { width: 48px; height: 48px; }
+        .plan-zoom-btn { width: 44px; height: 44px; }
+        .card:focus-visible, .clickable-pill:focus-visible, .lang-btn:focus-visible { outline: 2px solid var(--primary-green); outline-offset: 2px; }
+
+        .leaflet-control-attribution { display: none !important; }
+        .leaflet-container a { pointer-events: none; }
 
         .qr-hint {
             display: inline-block;
@@ -480,7 +493,7 @@
 
         <div class="clock-card">
             <div class="clock-time" id="clock">00:00</div>
-            <div class="clock-date" id="date">Ładowanie...</div>
+            <div class="clock-date" id="date"></div>
         </div>
     </header>
 
@@ -603,8 +616,8 @@
                     <button class="plan-zoom-btn" onclick="zoomPlan(-0.25)" title="Pomniejsz">-</button>
                     <button class="plan-zoom-btn" onclick="resetPlanZoom()" style="font-size: 0.85rem; width: auto; padding: 0 10px;" title="Resetuj">↺ Reset</button>
                 </div>
-                <div style="position: absolute; bottom: 8px; left: 12px; z-index: 25; font-size: 0.72rem; color: var(--primary-green); background: rgba(13,18,13,0.85); padding: 4px 10px; border-radius: 8px; border: 1px solid rgba(74,222,128,0.2); pointer-events: none;">
-                    🔍 Rozsuń dwa palce, aby powiększyć
+                <div id="plan-hint" style="position: absolute; bottom: 8px; left: 12px; z-index: 25; font-size: 0.72rem; color: var(--primary-green); background: rgba(13,18,13,0.85); padding: 4px 10px; border-radius: 8px; border: 1px solid rgba(74,222,128,0.2); pointer-events: none;">
+                    <span id="plan-hint-text">🔍 Rozsuń dwa palce, aby powiększyć</span>
                 </div>
                 <div id="plan-map-wrapper" style="transform-origin: center center; transition: transform 0.05s ease-out; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;">
                     <svg viewBox="0 0 400 365" style="width: 100%; height: 100%; max-height: 280px; pointer-events: none;">
@@ -615,13 +628,13 @@
                             <rect width="180" height="150" rx="6" fill="#1f2e20" stroke="#4ade80" stroke-width="2"/>
                             <polygon points="90,-35 -15,70 195,70" fill="#162417" stroke="#34d399" stroke-width="2"/>
                             <text x="90" y="80" fill="#f3f4f6" font-size="14" font-weight="700" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif">Matylda House</text>
-                            <text x="90" y="100" fill="#9ca3af" font-size="10" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif">Budynek</text>
+                            <text x="90" y="100" fill="#9ca3af" font-size="10" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif" id="plan-building">Budynek</text>
                         </g>
                         <g transform="translate(140, 240)">
                             <rect width="70" height="90" rx="4" fill="rgba(59, 130, 246, 0.2)" stroke="#3b82f6" stroke-width="3" stroke-dasharray="6,4"/>
                             <rect x="15" y="25" width="40" height="40" rx="8" fill="#3b82f6"/>
                             <text x="35" y="53" fill="#ffffff" font-size="22" font-weight="800" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif">P</text>
-                            <text x="35" y="-10" fill="#60a5fa" font-size="11" font-weight="700" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif">Parking</text>
+                            <text x="35" y="-10" fill="#60a5fa" font-size="11" font-weight="700" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif" id="plan-parking">Parking</text>
                         </g>
                         <g transform="translate(25, 75)">
                             <rect width="120" height="150" rx="8" fill="rgba(239, 68, 68, 0.12)" stroke="#ef4444" stroke-width="3"/>
@@ -632,7 +645,7 @@
                         <g transform="translate(125, 120)">
                             <line x1="0" y1="0" x2="0" y2="70" stroke="#10b981" stroke-width="6" stroke-linecap="round"/>
                             <text x="-25" y="40" font-size="18">♻️</text>
-                            <text x="-35" y="-10" fill="#34d399" font-size="11" font-weight="700" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif">Śmietniki</text>
+                            <text x="-35" y="-10" fill="#34d399" font-size="11" font-weight="700" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif" id="plan-bins">Śmietniki</text>
                         </g>
                     </svg>
                 </div>
@@ -653,6 +666,7 @@
                 <button class="close-btn" onclick="closeModal('modal-food')">&times;</button>
             </div>
             <p style="color: var(--text-muted); margin-bottom: 6px;" id="m-food-sub">Podaj ten adres podczas zamawiania na Pyszne.pl, UberEats lub Bolt Food:</p>
+            <p class="qr-hint" id="m-food-hint" style="display:block; margin: 0 0 6px 0;">👆 Kliknij w wybrane miejsce, a pojawi się kod QR do zeskanowania telefonem – otworzy nawigację Google Maps do tego punktu.</p>
             
             <div class="pill-info clickable-pill" id="m-food-addr" onclick="showQRCode('https://www.google.com/maps/search/Lwa+Landaua+12+Kraków')">📍 <b>Adres dostawy:</b><br>ul. Lwa Landaua 12, Kraków</div>
             
@@ -699,6 +713,7 @@
             </div>
 
             <div id="guide-content-view" style="display: block;">
+                <p class="qr-hint" id="m-guide-hint" style="display:block; margin: 0 0 6px 0;">👆 Kliknij w wybraną atrakcję, a pojawi się kod QR do zeskanowania telefonem – otworzy nawigację Google Maps do tego punktu.</p>
                 <div class="pill-info clickable-pill" id="m-guide-bus" onclick="showQRCode('https://www.google.com/maps/search/?api=1&query=49.988428,19.962283')">🚌 <b>Przystanek autobusowy Landaua:</b> Komunikacja miejska ułatwiająca dojazd do centrum.</div>
                 <div class="pill-info clickable-pill" id="m-guide-park" onclick="showQRCode('https://www.google.com/maps/search/Park+Zdrojowy+Swoszowice+Kraków')">🌳 <b>Park Zdrojowy w Swoszowicach:</b> Urokliwe, zielone miejsce na spacer tuż obok apartamentu.</div>
                 <div class="pill-info clickable-pill" id="m-guide-view" onclick="showQRCode('https://www.google.com/maps/search/Fort+51+Rajsko+Kraków')">🌄 <b>Punkt widokowy na Kraków:</b> Fort 51 Rajsko - Twierdza Kraków przy ul. Droga Rokadowa – wspaniała panorama miasta z góry.</div>
@@ -711,6 +726,7 @@
             <div id="map-content-view" style="display: none;">
                 <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 10px;" id="m-map-sub">Interaktywna mapa okolicy Swoszowic i Krakowa. Kliknij pinezkę, aby zobaczyć szczegóły punktu.</p>
                 <div id="neighborhood-map" style="width: 100%; height: 420px; border-radius: 16px; border: 1px solid var(--card-border); z-index: 10; background: #121912;"></div>
+                <p style="color: var(--text-muted); font-size: 0.65rem; margin-top: 6px; text-align: right;">Map data © OpenStreetMap contributors © CARTO</p>
             </div>
         </div>
     </div>
@@ -723,6 +739,7 @@
                 <button class="close-btn" onclick="closeModal('modal-contact')">&times;</button>
             </div>
             <div class="pill-info" id="m-contact-p1">📞 <b>Telefon do właściciela:</b><br><span style="font-size:1.3rem; font-weight:800; color:var(--primary-green);">+48 508 048 886</span></div>
+            <div class="pill-info clickable-pill" id="m-contact-whats" style="text-align: center; background: rgba(52,211,153,0.12); border-color: var(--primary-green);" onclick="showQRCode('https://wa.me/48508048886', 'whatsapp')">💬 <b>Napisz do nas na WhatsApp</b><br>Kliknij tutaj, aby wyświetlić kod QR do czatu z właścicielem</div>
             <div class="pill-info" id="m-contact-p2">💬 Jesteśmy do Państwa dyspozycji w razie pytań lub wątpliwości podczas pobytu!</div>
 
             <h3 style="margin-top: 15px; margin-bottom: 5px; color: var(--primary-green); font-size: 1.05rem;" id="m-contact-emerg">🚨 Numery Alarmowe</h3>
@@ -829,13 +846,15 @@
                         else if (code >= 1 && code <= 3) icon = '⛅';
                         else if (code === 45 || code === 48) icon = '🌫️';
                         else if ((code >= 51 && code <= 67) || (code >= 80 && code <= 82)) icon = '🌧️';
-                        else if (code >= 71 && code <= 77) icon = '❄️';
+                        else if ((code >= 71 && code <= 77) || code === 85 || code === 86) icon = '❄️';
                         else if (code >= 95) icon = '⛈️';
                         document.getElementById('w-icon').innerText = icon;
                     }
                 })
                 .catch(err => {
                     console.error('Błąd pobierania pogody:', err);
+                    document.getElementById('w-temp').innerText = '--°C';
+                    document.getElementById('w-icon').innerText = '🌤️';
                 });
         }
 
@@ -844,6 +863,13 @@
             if (planScale === 1) {
                 planPosX = 0;
                 planPosY = 0;
+            }
+            const box = document.getElementById('plan-map-container');
+            if (box) {
+                const maxX = box.clientWidth * (planScale - 1) / 2;
+                const maxY = box.clientHeight * (planScale - 1) / 2;
+                planPosX = Math.min(Math.max(planPosX, -maxX), maxX);
+                planPosY = Math.min(Math.max(planPosY, -maxY), maxY);
             }
             const wrapper = document.getElementById('plan-map-wrapper');
             if (wrapper) {
@@ -864,6 +890,11 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.card, .clickable-pill').forEach(el => {
+                el.setAttribute('role', 'button');
+                el.setAttribute('tabindex', '0');
+                el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); el.click(); } });
+            });
             fetchWeather();
             setInterval(fetchWeather, 30 * 60 * 1000);
 
@@ -992,12 +1023,12 @@
 
             neighborhoodMap = L.map('neighborhood-map', {
                 zoomControl: true,
-                attributionControl: true
+                attributionControl: false
             }).setView([centerLat, centerLng], 14);
 
-            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                maxZoom: 19,
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+                subdomains: 'abcd',
+                maxZoom: 19
             }).addTo(neighborhoodMap);
 
             const houseIcon = L.divIcon({
@@ -1018,19 +1049,19 @@
 
             L.marker([49.986822, 19.962290], { icon: houseIcon })  
                 .addTo(neighborhoodMap)
-                .bindPopup(getPopupContent("Matylda House (Apartament)", "ul. Lwa Landaua 12, Kraków", 49.986822, 19.962290));
+                .bindPopup(getPopupContent(dict[currentLang].pins.apt, "ul. Lwa Landaua 12, Kraków", 49.986822, 19.962290));
 
             L.marker([49.988428, 19.962283], { icon: createPinIcon('🚌', '#0284c7') })
                 .addTo(neighborhoodMap)
-                .bindPopup(getPopupContent("Przystanek Landaua", "Komunikacja miejska", 49.988428, 19.962283));
+                .bindPopup(getPopupContent(dict[currentLang].pins.bus, dict[currentLang].pins.busSub, 49.988428, 19.962283));
 
             L.marker([49.994155, 19.946200], { icon: createPinIcon('🛒', '#3b82f6') })
                 .addTo(neighborhoodMap)
-                .bindPopup(getPopupContent("Centrum Handlowe", "ul. Myślenicka 133, Kraków", 49.994155, 19.946200));
+                .bindPopup(getPopupContent(dict[currentLang].pins.shop, "ul. Myślenicka 133, Kraków", 49.994155, 19.946200));
 
             L.marker([49.989707, 19.967701], { icon: createPinIcon('🌄', '#8b5cf6') })
                 .addTo(neighborhoodMap)
-                .bindPopup(getPopupContent("Punkt widokowy", "Fort 51 Rajsko", 49.989707, 19.967701));
+                .bindPopup(getPopupContent(dict[currentLang].pins.view, "Fort 51 Rajsko", 49.989707, 19.967701));
 
             L.marker([50.003494, 19.994506], { icon: createPinIcon('🍝', '#f59e0b') })
                 .addTo(neighborhoodMap)
@@ -1060,6 +1091,9 @@
                 code: "PL", qrHint: "Skanuj QR (Google Maps)",
                 qrModal: { title: "Nawigacja Google Maps", sub: "Zeskanuj ten kod telefonem, aby otworzyć nawigację." },
                 qrReviewModal: { title: "Napisz Opinię", sub: "Zeskanuj ten kod telefonem, aby przejść do opinii Google." },
+                plan: { building: "Budynek", parking: "Parking", bins: "Śmietniki", hint: "🔍 Rozsuń dwa palce, aby powiększyć" },
+                pins: { apt: "Matylda House (Apartament)", bus: "Przystanek Landaua", busSub: "Komunikacja miejska", shop: "Centrum Handlowe", view: "Punkt widokowy" },
+                qrWhatsModal: { title: "WhatsApp", sub: "Zeskanuj ten kod telefonem, aby napisać do właściciela na WhatsApp." },
                 greetings: { morning: "Dzień dobry! Witamy w Matylda House", day: "Witamy w Matylda House", night: "Dobry wieczór! Witamy w Matylda House" },
                 welcomeSub: "Życzymy udanego i wypoczynkowego pobytu",
                 cards: {
@@ -1099,6 +1133,9 @@
                     rulesSmoke: "🚭 <b>Zakaz palenia:</b> Palenie wewnątrz apartamentu jest całkowicie zabronione.",
                     guideH: "Odkryj Kraków i Mapa Okolicy", tabGuide: "Przewodnik i Atrakcje", tabMap: "🗺️ Mapa Okolicy",
                     mapSub: "Interaktywna mapa okolicy Swoszowic i Krakowa. Kliknij pinezkę, aby zobaczyć szczegóły punktu.",
+                    foodHint: "👆 Kliknij w wybrane miejsce, a pojawi się kod QR do zeskanowania telefonem – otworzy nawigację Google Maps do tego punktu.",
+                    guideHint: "👆 Kliknij w wybraną atrakcję, a pojawi się kod QR do zeskanowania telefonem – otworzy nawigację Google Maps do tego punktu.",
+                    contactWhats: "💬 <b>Napisz do nas na WhatsApp</b><br>Kliknij tutaj, aby wyświetlić kod QR do czatu z właścicielem",
                     guideBus: "🚌 <b>Przystanek autobusowy Landaua:</b> Komunikacja miejska ułatwiająca dojazd do centrum.",
                     guidePark: "🌳 <b>Park Zdrojowy w Swoszowicach:</b> Urokliwe, zielone miejsce na spacer tuż obok apartamentu.",
                     guideView: "🌄 <b>Punkt widokowy na Kraków:</b> Fort 51 Rajsko - Twierdza Kraków przy ul. Droga Rokadowa – wspaniała panorama miasta z góry.",
@@ -1123,6 +1160,9 @@
                 code: "EN", qrHint: "Scan QR (Google Maps)",
                 qrModal: { title: "Google Maps Navigation", sub: "Scan this code with your phone to open navigation." },
                 qrReviewModal: { title: "Write a Review", sub: "Scan this code with your phone to open Google Reviews." },
+                plan: { building: "Building", parking: "Parking", bins: "Bins", hint: "🔍 Pinch with two fingers to zoom" },
+                pins: { apt: "Matylda House (Apartment)", bus: "Landaua Bus Stop", busSub: "Public transport", shop: "Shopping Center", view: "Viewpoint" },
+                qrWhatsModal: { title: "WhatsApp", sub: "Scan this code with your phone to message the owner on WhatsApp." },
                 greetings: { morning: "Good morning! Welcome to Matylda House", day: "Welcome to Matylda House", night: "Good evening! Welcome to Matylda House" },
                 welcomeSub: "We wish you a pleasant and relaxing stay",
                 cards: {
@@ -1162,6 +1202,9 @@
                     rulesSmoke: "🚭 <b>No Smoking:</b> Smoking inside the apartment is strictly prohibited.",
                     guideH: "Discover Kraków & Neighborhood Map", tabGuide: "Guide & Attractions", tabMap: "🗺️ Neighborhood Map",
                     mapSub: "Interactive map of Swoszowice and Kraków area. Click a pin for details.",
+                    foodHint: "👆 Tap a place to show a QR code. Scan it with your phone to start Google Maps navigation to that spot.",
+                    guideHint: "👆 Tap an attraction to show a QR code. Scan it with your phone to start Google Maps navigation to that spot.",
+                    contactWhats: "💬 <b>Message us on WhatsApp</b><br>Tap here to show the QR code for chatting with the owner",
                     guideBus: "🚌 <b>Landaua Bus Stop:</b> Public transport for easy access to the city center.",
                     guidePark: "🌳 <b>Swoszowice Spa Park:</b> Charming green park for a relaxing walk right next door.",
                     guideView: "🌄 <b>Kraków Viewpoint (Night View):</b> Fort 51 Rajsko - Twierdza Kraków at ul. Droga Rokadowa – a wonderful panorama of Kraków.",
@@ -1186,6 +1229,9 @@
                 code: "UK", qrHint: "Сканувати QR (Google Maps)",
                 qrModal: { title: "Навігація Google Maps", sub: "Відскануйте цей код телефоном, щоб відкрити навігацію." },
                 qrReviewModal: { title: "Написати Відгук", sub: "Відскануйте цей код, щоб відкрити відгуки Google." },
+                plan: { building: "Будівля", parking: "Паркінг", bins: "Сміття", hint: "🔍 Розведіть два пальці, щоб збільшити" },
+                pins: { apt: "Matylda House (Апартаменти)", bus: "Зупинка Landaua", busSub: "Громадський транспорт", shop: "Торговий центр", view: "Оглядовий майданчик" },
+                qrWhatsModal: { title: "WhatsApp", sub: "Відскануйте цей код телефоном, щоб написати власнику у WhatsApp." },
                 greetings: { morning: "Доброго ранку! Ласкаво просимо до Matylda House", day: "Ласкаво просимо до Matylda House", night: "Доброго вечора! Ласкаво просимо до Matylda House" },
                 welcomeSub: "Бажаємо вам приємного та комфортного відпочинку",
                 cards: {
@@ -1202,9 +1248,9 @@
                     wifiQrTitle: "QR-код Wi-Fi",
                     wifiQrSub: "Відскануйте цей код камерою телефону для автоматичного підключення.",
                     gateH: "Паркінг, Брама та План Території",
-                    gateP1: "🅿️ <b>Паркінг:</b> Позначене паркувальне місце знаходиться перед входом у будівлю.",
-                    gateP2: "🔑 <b>Пульт від брами:</b> На вішалці у коридорі є пульт. <b>Ліва кнопка</b> відкриває, зупиняє та закриває браму.",
-                    gateP3: "🔘 <b>Кнопка біля дверей:</b> Браму можна відкрити кнопкою зовні біля входу. Вона закривається автоматично через 2 хвилини.",
+                    gateP1: "🅿️ <b>Паркінг:</b> Позначене паркувальне місце знаходиться перед входом у будівлю, навпроти в'їзду (ліворуч від входу в апартаменти).",
+                    gateP2: "🔑 <b>Пульт від брами:</b> На вішалці в коридорі є пульт. <b>Ліва кнопка</b> відкриває, зупиняє та закриває браму.",
+                    gateP3: "🔘 <b>Кнопка біля дверей:</b> Браму можна відкрити кнопкою ззовні біля входу. Вона закривається автоматично через 2 хвилини після відкриття.",
                     gateP4: "🚪 <b>Виїзд:</b> При виїзді просимо залишити пульт на вішалці у коридорі.",
                     foodH: "Їжа, Покупки та Ресторани", foodSubText: "Вкажіть цю адресу при замовленні доставки:",
                     foodAddr: "📍 <b>Адреса доставки:</b><br>ul. Lwa Landaua 12, Kraków",
@@ -1218,13 +1264,16 @@
                     videoModalH: "Інструкція до замка",
                     videoModalSub: "Подивіться, як легко відкрити та закрити двері за допомогою коду.",
                     rulesTime: "⏰ <b>Виїзд:</b> До 11:00 | 🌙 <b>Тихі години:</b> 22:00 – 06:00",
-                    rulesHeat: "🔥 <b>Опалення:</b> Просимо не залишати вікна та двері відчиненими довше, ніж для короткого провітрювання.",
-                    rulesTrash: "♻️ <b>Сміття:</b> Сміттєві контейнери розташовані з південного боку будівлі.",
+                    rulesHeat: "🔥 <b>Опалення:</b> Просимо не залишати вікна та двері відчиненими довше, ніж для провітрювання. Опалення автоматично вимикається, якщо вікна або двері довго відчинені.",
+                    rulesTrash: "♻️ <b>Сміття:</b> Контейнери розташовані з південного боку будівлі. Вийшовши з апартаментів, поверніть праворуч — за рогом.",
                     rulesFees: "💳 <b>Додаткові збори:</b> Додатковий гість: 150 PLN / добу.<br>Проживання тварин: 50 PLN / добу.",
                     rulesPets: "🐕 <b>Тварини:</b> Собак можна відпускати з повідця, оскільки територія повністю огороджена і є чудовим місцем для їхнього вигулу.",
                     rulesSmoke: "🚭 <b>Заборона куріння:</b> Куріння всередині апартаментів суворо заборонено.",
                     guideH: "Відкрийте Краків та Мапа Околиці", tabGuide: "Гід та Пам'ятки", tabMap: "🗺️ Мапа Околиці",
-                    mapSub: "Інтерактивна мапа району Свошовіце та Кракова. Натисніть на піін для деталей.",
+                    mapSub: "Інтерактивна мапа району Свошовіце та Кракова. Натисніть на пін для деталей.",
+                    foodHint: "👆 Натисніть на обране місце, і з'явиться QR-код. Відскануйте його телефоном, щоб відкрити навігацію Google Maps до цієї точки.",
+                    guideHint: "👆 Натисніть на обрану пам'ятку, і з'явиться QR-код. Відскануйте його телефоном, щоб відкрити навігацію Google Maps до цієї точки.",
+                    contactWhats: "💬 <b>Напишіть нам у WhatsApp</b><br>Натисніть тут, щоб показати QR-код для чату з власником",
                     guideBus: "🚌 <b>Автобусна зупинка Landaua:</b> Громадський транспорт для зручного доїзду до центру.",
                     guidePark: "🌳 <b>Курортний Парк Свошовіце:</b> Чудове, зелене місце для прогулянки прямо поруч з апартаментами.",
                     guideView: "🌄 <b>Оглядовий майданчик Кракова:</b> Fort 51 Rajsko на ul. Droga Rokadowa – чудова панорама міста.",
@@ -1249,6 +1298,9 @@
                 code: "DE", qrHint: "QR Scannen (Google Maps)",
                 qrModal: { title: "Google Maps Navigation", sub: "Scannen Sie diesen Code mit Ihrem Telefon, um die Navigation zu öffnen." },
                 qrReviewModal: { title: "Bewertung Schreiben", sub: "Scannen Sie diesen Code, um Google-Bewertungen zu öffnen." },
+                plan: { building: "Gebäude", parking: "Parkplatz", bins: "Mülltonnen", hint: "🔍 Zum Zoomen zwei Finger auseinanderziehen" },
+                pins: { apt: "Matylda House (Apartment)", bus: "Bushaltestelle Landaua", busSub: "Öffentlicher Nahverkehr", shop: "Einkaufszentrum", view: "Aussichtspunkt" },
+                qrWhatsModal: { title: "WhatsApp", sub: "Scannen Sie diesen Code mit dem Handy, um dem Gastgeber auf WhatsApp zu schreiben." },
                 greetings: { morning: "Guten Morgen! Willkommen im Matylda House", day: "Willkommen im Matylda House", night: "Guten Abend! Willkommen im Matylda House" },
                 welcomeSub: "Wir wünschen Ihnen einen angenehmen Aufenthalt",
                 cards: {
@@ -1265,9 +1317,9 @@
                     wifiQrTitle: "WLAN QR-Code",
                     wifiQrSub: "Scannen Sie diesen Code mit Ihrer Handykamera, um sich automatisch zu verbinden.",
                     gateH: "Parkplatz, Tor & Lageplan",
-                    gateP1: "🅿️ <b>Parkplatz:</b> Der markierte Parkplatz befindet sich direkt vor dem Gebäude, geradeaus von der Einfahrt.",
+                    gateP1: "🅿️ <b>Parkplatz:</b> Der markierte Parkplatz befindet sich direkt vor dem Gebäude, geradeaus von der Einfahrt (links vom Apartmenteingang).",
                     gateP2: "🔑 <b>Tor-Fernbedienung:</b> Am Haken im Flur finden Sie eine Fernbedienung. Die <b>linke Taste</b> öffnet, stoppt und schließt das Tor.",
-                    gateP3: "🔘 <b>Türschalter:</b> Das Tor kann auch über den Knopf außen neben der Eingangstür geöffnet werden.",
+                    gateP3: "🔘 <b>Türschalter:</b> Das Tor kann auch über den Knopf außen neben der Eingangstür geöffnet werden. Es schließt erst 2 Minuten nach dem Öffnen.",
                     gateP4: "🚪 <b>Check-out:</b> Bitte lassen Sie die Fernbedienung beim Check-out am Haken im Flur.",
                     foodH: "Essen, Einkaufen & Empfehlungen", foodSubText: "Geben Sie diese Adresse bei UberEats, Bolt Food etc. an:",
                     foodAddr: "📍 <b>Lieferadresse:</b><br>ul. Lwa Landaua 12, Kraków",
@@ -1281,13 +1333,16 @@
                     videoModalH: "Türschloss-Anleitung",
                     videoModalSub: "Sehen Sie, wie Sie die Tür ganz einfach mit einem Code öffnen und schließen.",
                     rulesTime: "⏰ <b>Check-out:</b> Bis 11:00 Uhr | 🌙 <b>Nachtruhe:</b> 22:00 – 06:00",
-                    rulesHeat: "🔥 <b>Heizung:</b> Bitte lassen Sie Fenster/Türen nicht länger als zum Lüften offen.",
-                    rulesTrash: "♻️ <b>Müll:</b> Mülltonnen befinden sich auf der Südseite des Gebäudes.",
+                    rulesHeat: "🔥 <b>Heizung:</b> Bitte lassen Sie Fenster und Türen nicht länger als zum Lüften offen. Die Heizung schaltet sich automatisch ab, wenn sie lange geöffnet bleiben.",
+                    rulesTrash: "♻️ <b>Müll:</b> Die Mülltonnen stehen auf der Südseite des Gebäudes. Vom Apartment aus rechts abbiegen, sie befinden sich um die Ecke.",
                     rulesFees: "💳 <b>Zusatzkosten:</b> Zusätzlicher Gast: 150 PLN / Nacht.<br>Haustier: 50 PLN / Nacht.",
                     rulesPets: "🐕 <b>Haustiere:</b> Hunde können frei laufen gelassen werden, da das Gelände komplett eingezäunt ist und sich hervorragend als Hundeauslauf eignet.",
                     rulesSmoke: "🚭 <b>Rauchverbot:</b> Das Rauchen im Apartment ist strengstens verboten.",
                     guideH: "Krakau Entdecken & Umgebungskarte", tabGuide: "Guide & Attraktionen", tabMap: "🗺️ Umgebungskarte",
                     mapSub: "Interaktive Karte. Klicken Sie auf einen Pin für Details.",
+                    foodHint: "👆 Tippen Sie auf einen Ort, um einen QR-Code anzuzeigen. Scannen Sie ihn mit dem Handy, um die Google-Maps-Navigation zu diesem Ziel zu starten.",
+                    guideHint: "👆 Tippen Sie auf eine Sehenswürdigkeit, um einen QR-Code anzuzeigen. Scannen Sie ihn mit dem Handy, um die Google-Maps-Navigation zu diesem Ziel zu starten.",
+                    contactWhats: "💬 <b>Schreiben Sie uns per WhatsApp</b><br>Tippen Sie hier, um den QR-Code für den Chat mit dem Gastgeber anzuzeigen",
                     guideBus: "🚌 <b>Bushaltestelle Landaua:</b> Öffentliche Verkehrsmittel für einfachen Zugang zum Zentrum.",
                     guidePark: "🌳 <b>Kurpark Swoszowice:</b> Schöner, grüner Park für einen Spaziergang direkt nebenan.",
                     guideView: "🌄 <b>Aussichtspunkt Krakau:</b> Fort 51 Rajsko an der ul. Droga Rokadowa – wunderbares Panorama.",
@@ -1312,6 +1367,9 @@
                 code: "IT", qrHint: "Scansiona QR (Google Maps)",
                 qrModal: { title: "Navigazione Google Maps", sub: "Scansiona questo codice con il telefono per aprire la navigazione." },
                 qrReviewModal: { title: "Scrivi una Recensione", sub: "Scansiona questo codice per aprire le recensioni di Google." },
+                plan: { building: "Edificio", parking: "Parcheggio", bins: "Rifiuti", hint: "🔍 Allarga due dita per ingrandire" },
+                pins: { apt: "Matylda House (Appartamento)", bus: "Fermata Landaua", busSub: "Trasporto pubblico", shop: "Centro commerciale", view: "Punto panoramico" },
+                qrWhatsModal: { title: "WhatsApp", sub: "Scansiona questo codice con il telefono per scrivere al proprietario su WhatsApp." },
                 greetings: { morning: "Buongiorno! Benvenuti a Matylda House", day: "Benvenuti a Matylda House", night: "Buonasera! Benvenuti a Matylda House" },
                 welcomeSub: "Vi auguriamo un soggiorno piacevole e rilassante",
                 cards: {
@@ -1328,9 +1386,9 @@
                     wifiQrTitle: "Codice QR Wi-Fi",
                     wifiQrSub: "Scansiona questo codice con la fotocamera del telefono per connetterti automaticamente.",
                     gateH: "Parcheggio, Cancello e Mappa",
-                    gateP1: "🅿️ <b>Parcheggio:</b> Il parcheggio riservato si trova di fronte all'ingresso.",
-                    gateP2: "🔑 <b>Telecomando:</b> Sul gancio nel corridoio è disponibile il telecomando.",
-                    gateP3: "🔘 <b>Pulsante a muro:</b> Il cancello può essere aperto anche dal pulsante esterno.",
+                    gateP1: "🅿️ <b>Parcheggio:</b> Il parcheggio riservato si trova davanti all'edificio, di fronte all'ingresso carraio (a sinistra dell'ingresso dell'appartamento).",
+                    gateP2: "🔑 <b>Telecomando:</b> Sul gancio nel corridoio trovate il telecomando. Il <b>pulsante sinistro</b> apre, ferma e chiude il cancello.",
+                    gateP3: "🔘 <b>Pulsante esterno:</b> Il cancello si apre anche con il pulsante accanto alla porta d'ingresso. Si richiude dopo 2 minuti dall'apertura.",
                     gateP4: "🚪 <b>Check-out:</b> Si prega di lasciare il telecomando sul gancio al momento della partenza.",
                     foodH: "Cibo, Negozi e Posti Consigliati", foodSubText: "Usa questo indirizzo per le consegne a domicilio:",
                     foodAddr: "📍 <b>Indirizzo di consegna:</b><br>ul. Lwa Landaua 12, Kraków",
@@ -1344,13 +1402,16 @@
                     videoModalH: "Guida serratura",
                     videoModalSub: "Scopri quanto è semplice aprire e chiudere la porta usando il codice.",
                     rulesTime: "⏰ <b>Check-out:</b> Entro le 11:00 | 🌙 <b>Ore di silenzio:</b> 22:00 – 06:00",
-                    rulesHeat: "🔥 <b>Riscaldamento:</b> Si prega di non lasciare finestre aperte a lungo.",
-                    rulesTrash: "♻️ <b>Rifiuti:</b> I contenitori si trovano sul lato sud dell'edificio.",
+                    rulesHeat: "🔥 <b>Riscaldamento:</b> Si prega di non lasciare finestre e porte aperte più del necessario per arieggiare. Il riscaldamento si spegne automaticamente se restano aperte a lungo.",
+                    rulesTrash: "♻️ <b>Rifiuti:</b> I contenitori si trovano sul lato sud dell'edificio. Uscendo dall'appartamento girate a destra: sono dietro l'angolo.",
                     rulesFees: "💳 <b>Costi extra:</b> Ospite aggiuntivo: 150 PLN/notte | Animale: 50 PLN/notte.",
                     rulesPets: "🐕 <b>Animali:</b> I cani possono essere lasciati liberi, poiché l'area è completamente recintata e funge da ottimo recinto per cani.",
                     rulesSmoke: "🚭 <b>Vietato fumare:</b> Vietato fumare all'interno dell'appartamento.",
                     guideH: "Scopri Cracovia e Mappa della Zona", tabGuide: "Guida e Attrazioni", tabMap: "🗺️ Mappa della Zona",
                     mapSub: "Mappa interattiva della zona. Clicca sui marker per i dettagli.",
+                    foodHint: "👆 Tocca un luogo per mostrare un codice QR. Scansionalo con il telefono per avviare la navigazione di Google Maps verso quel punto.",
+                    guideHint: "👆 Tocca un'attrazione per mostrare un codice QR. Scansionalo con il telefono per avviare la navigazione di Google Maps verso quel punto.",
+                    contactWhats: "💬 <b>Scrivici su WhatsApp</b><br>Tocca qui per mostrare il codice QR della chat con il proprietario",
                     guideBus: "🚌 <b>Fermata dell'autobus Landaua:</b> Trasporto pubblico per raggiungere facilmente il centro.",
                     guidePark: "🌳 <b>Parco Termale di Swoszowice:</b> Splendido parco verde ideale per passeggiate.",
                     guideView: "🌄 <b>Punti panoramici:</b> Fort 51 Rajsko (ul. Droga Rokadowa) – vista magnifica sulla città.",
@@ -1374,7 +1435,10 @@
             es: {
                 code: "ES", qrHint: "Escanear QR (Google Maps)",
                 qrModal: { title: "Navegación en Google Maps", sub: "Escanee este código con su teléfono para abrir la navegación." },
-                qrReviewModal: { title: "Escribe una Reseña", sub: "Scanee este código para abrir las reseñas de Google." },
+                qrReviewModal: { title: "Escribe una Reseña", sub: "Escanee este código para abrir las reseñas de Google." },
+                plan: { building: "Edificio", parking: "Aparcamiento", bins: "Basura", hint: "🔍 Separe dos dedos para ampliar" },
+                pins: { apt: "Matylda House (Apartamento)", bus: "Parada Landaua", busSub: "Transporte público", shop: "Centro comercial", view: "Mirador" },
+                qrWhatsModal: { title: "WhatsApp", sub: "Escanee este código con el móvil para escribir al propietario por WhatsApp." },
                 greetings: { morning: "¡Buenos días! Bienvenidos a Matylda House", day: "Bienvenidos a Matylda House", night: "¡Buenas noches! Bienvenidos a Matylda House" },
                 welcomeSub: "Les deseamos una estancia agradable y relajante",
                 cards: {
@@ -1391,9 +1455,9 @@
                     wifiQrTitle: "Código QR de Wi-Fi",
                     wifiQrSub: "Escanee este código con la cámara de su teléfono para conectarse automáticamente.",
                     gateH: "Aparcamiento, Portón y Plano",
-                    gateP1: "🅿️ <b>Aparcamiento:</b> Plaza reservada frente a la entrada del edificio.",
-                    gateP2: "🔑 <b>Mando:</b> En el perchero del pasillo hay un mando.",
-                    gateP3: "🔘 <b>Botón de pared:</b> El portón también se puede abrir con el botón exterior.",
+                    gateP1: "🅿️ <b>Aparcamiento:</b> Plaza reservada frente al edificio, enfrente de la entrada de vehículos (a la izquierda de la entrada del apartamento).",
+                    gateP2: "🔑 <b>Mando:</b> En el perchero del pasillo hay un mando. El <b>botón izquierdo</b> abre, detiene y cierra el portón.",
+                    gateP3: "🔘 <b>Botón exterior:</b> El portón también se abre con el botón junto a la puerta de entrada. Se cierra 2 minutos después de abrirse.",
                     gateP4: "🚪 <b>Salida:</b> Por favor, deje el mando en el perchero al hacer el check-out.",
                     foodH: "Comida, Compras y Sitios Recomendados", foodSubText: "Facilite esta dirección al pedir comida a domicilio:",
                     foodAddr: "📍 <b>Dirección de entrega:</b><br>ul. Lwa Landaua 12, Kraków",
@@ -1404,25 +1468,28 @@
                     foodFast: "🍔 <b>Comida rápida:</b><br><b>McDonald's</b><br>📍 ul. Cechowa / ul. Stojałowskiego 2",
                     rulesH: "Normas e Instrucciones",
                     rulesVideo: "🎥 <b>Cómo abrir y cerrar la puerta:</b> Haga clic aquí para ver un breve videotutorial sobre el uso de la cerradura con código.",
-                    videoModalH: "Guida de cerradura",
+                    videoModalH: "Guía de la cerradura",
                     videoModalSub: "Vea lo fácil que es abrir y cerrar la puerta usando el código.",
                     rulesTime: "⏰ <b>Salida:</b> Hasta las 11:00 | 🌙 <b>Horas de silencio:</b> 22:00 – 06:00",
-                    rulesHeat: "🔥 <b>Calefacción:</b> No deje las ventanas abiertas por tiempo prolongado.",
-                    rulesTrash: "♻️ <b>Basura:</b> Los contenedores están en el lado sur del edificio.",
+                    rulesHeat: "🔥 <b>Calefacción:</b> No deje ventanas ni puertas abiertas más tiempo del necesario para ventilar. La calefacción se apaga automáticamente si permanecen abiertas mucho tiempo.",
+                    rulesTrash: "♻️ <b>Basura:</b> Los contenedores están en el lado sur del edificio. Al salir del apartamento, gire a la derecha: están a la vuelta de la esquina.",
                     rulesFees: "💳 <b>Tarifas extra:</b> Huésped adicional: 150 PLN/noche | Mascota: 50 PLN/noche.",
                     rulesPets: "🐕 <b>Mascotas:</b> Los perros pueden andar sueltos, ya que el área está completamente vallada y sirve como un excelente parque para perros.",
                     rulesSmoke: "🚭 <b>Prohibido fumar:</b> Está estrictamente prohibido fumar en el apartamento.",
-                    guideH: "Descubre Cracovia y Mapa de la Zona", tabGuide: "Guida y Atracciones", tabMap: "🗺️ Mapa de la Zona",
+                    guideH: "Descubre Cracovia y Mapa de la Zona", tabGuide: "Guía y Atracciones", tabMap: "🗺️ Mapa de la Zona",
                     mapSub: "Mapa interactivo de la zona. Haga clic en los marcadores para más detalles.",
+                    foodHint: "👆 Toque un lugar para mostrar un código QR. Escanéelo con el móvil para iniciar la navegación de Google Maps hasta ese punto.",
+                    guideHint: "👆 Toque una atracción para mostrar un código QR. Escanéelo con el móvil para iniciar la navegación de Google Maps hasta ese punto.",
+                    contactWhats: "💬 <b>Escríbanos por WhatsApp</b><br>Toque aquí para mostrar el código QR del chat con el propietario",
                     guideBus: "🚌 <b>Parada de autobús Landaua:</b> Transporte público para llegar fácilmente al centro.",
                     guidePark: "🌳 <b>Parque Balneario de Swoszowice:</b> Hermoso parque verde para pasear.",
                     guideView: "🌄 <b>Mirador de Cracovia:</b> Fort 51 Rajsko – maravillosa vista panorámica.",
                     guideMarket: "🏰 <b>Plaza del Mercado y Subterráneos:</b> El corazón de Cracovia.",
                     guideWawel: "👑 <b>Castillo Real de Wawel y Dragón:</b> Residencia real histórica.",
-                    guideWieliczka: "⛏️ <b>Mina de Sale de Wieliczka:</b> Famosa mina subterránea de la UNESCO.",
+                    guideWieliczka: "⛏️ <b>Mina de Sal de Wieliczka:</b> Famosa mina subterránea de la UNESCO.",
                     guideEnergylandia: "🎢 <b>Parque de Atracciones Energylandia:</b> El parque más grande en Polonia.",
                     contactH: "Contacto y Ayuda", 
-                    contactP1: "📞 <b>Telefono:</b><br><span style='font-size:1.3rem; font-weight:800; color:var(--primary-green);'>+48 508 048 886</span>",
+                    contactP1: "📞 <b>Teléfono:</b><br><span style='font-size:1.3rem; font-weight:800; color:var(--primary-green);'>+48 508 048 886</span>",
                     contactP2: "💬 ¡Estamos a su disposición para cualquier duda durante su estancia!",
                     contactEmerg: "🚨 Números de Emergencia",
                     contactEmergList: "<b>112</b> - Emergencias<br><b>999</b> - Ambulancia<br><b>997</b> - Policía<br><b>998</b> - Bomberos",
@@ -1436,14 +1503,11 @@
             }
         };
 
-        function appendQRHint(elementId, translationHtml) {
-            const el = document.getElementById(elementId);
-            const hintHtml = `<br><span class='qr-hint'>📱 ${dict[currentLang].qrHint}</span>`;
-            el.innerHTML = translationHtml + hintHtml;
-        }
 
         function setLanguage(lang) {
             currentLang = lang;
+            document.documentElement.lang = lang;
+            if (neighborhoodMap) { neighborhoodMap.remove(); neighborhoodMap = null; mapInitialized = false; }
             document.getElementById('lang-select-screen').style.display = 'none';
             document.getElementById('current-lang-code').innerText = lang.toUpperCase();
             
@@ -1495,7 +1559,15 @@
 
             // Food
             document.getElementById('m-food-h').innerText = t.modals.foodH;
+            const tp = t.plan;
+            document.getElementById('plan-building').textContent = tp.building;
+            document.getElementById('plan-parking').textContent = tp.parking;
+            document.getElementById('plan-bins').textContent = tp.bins;
+            document.getElementById('plan-hint-text').textContent = tp.hint;
             document.getElementById('m-food-sub').innerText = t.modals.foodSubText;
+            document.getElementById('m-food-hint').innerText = t.modals.foodHint;
+            document.getElementById('m-guide-hint').innerText = t.modals.guideHint;
+            document.getElementById('m-contact-whats').innerHTML = t.modals.contactWhats;
             document.getElementById('m-food-addr').innerHTML = t.modals.foodAddr;
             document.getElementById('m-food-shop').innerHTML = t.modals.foodShop;
             document.getElementById('m-food-nearby').innerHTML = t.modals.foodNearby;
@@ -1599,6 +1671,9 @@
             if (type === 'review') {
                 titleEl.innerText = t.qrReviewModal.title;
                 subEl.innerText = t.qrReviewModal.sub;
+            } else if (type === 'whatsapp') {
+                titleEl.innerText = t.qrWhatsModal.title;
+                subEl.innerText = t.qrWhatsModal.sub;
             } else {
                 titleEl.innerText = t.qrModal.title;
                 subEl.innerText = t.qrModal.sub;
@@ -1618,7 +1693,25 @@
             const options = { weekday: 'long', day: 'numeric', month: 'long' };
             let dateStr = now.toLocaleDateString(currentLang === 'pl' ? 'pl-PL' : (currentLang === 'en' ? 'en-US' : currentLang), options);
             document.getElementById('date').innerText = dateStr;
+            document.body.classList.toggle('night', now.getHours() >= 22 || now.getHours() < 6);
         }
+
+        // Reset kiosku po bezczynności (2 min): zamknij okna, wideo, zoom, rozmiar czcionki i wróć do wyboru języka
+        const IDLE_MS = 120000;
+        let idleTimer = null;
+        function resetKiosk() {
+            document.querySelectorAll('.modal-overlay').forEach(m => { m.style.display = 'none'; });
+            const v = document.getElementById('door-video');
+            if (v) { v.pause(); if (document.fullscreenElement && document.exitFullscreen) document.exitFullscreen(); }
+            resetPlanZoom();
+            switchGuideTab('guide');
+            currentFontSize = 24;
+            document.documentElement.style.fontSize = '24px';
+            showLanguageSelect();
+        }
+        function armIdle() { clearTimeout(idleTimer); idleTimer = setTimeout(resetKiosk, IDLE_MS); }
+        ['touchstart', 'pointerdown', 'keydown'].forEach(ev => document.addEventListener(ev, armIdle, { passive: true }));
+        armIdle();
 
         setInterval(updateClock, 1000);
         updateClock();
