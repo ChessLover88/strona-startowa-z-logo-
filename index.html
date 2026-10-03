@@ -726,7 +726,7 @@
             <div id="map-content-view" style="display: none;">
                 <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 10px;" id="m-map-sub">Interaktywna mapa okolicy Swoszowic i Krakowa. Kliknij pinezkę, aby zobaczyć szczegóły punktu.</p>
                 <div id="neighborhood-map" style="width: 100%; height: 420px; border-radius: 16px; border: 1px solid var(--card-border); z-index: 10; background: #121912;"></div>
-                <p style="color: var(--text-muted); font-size: 0.65rem; margin-top: 6px; text-align: right;">Map data © OpenStreetMap contributors © CARTO</p>
+                <p style="color: var(--text-muted); font-size: 0.65rem; margin-top: 6px; text-align: right;">Map data © OpenStreetMap contributors</p>
             </div>
         </div>
     </div>
@@ -1026,8 +1026,7 @@
                 attributionControl: false
             }).setView([centerLat, centerLng], 14);
 
-            L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-                subdomains: 'abcd',
+            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 maxZoom: 19
             }).addTo(neighborhoodMap);
 
@@ -1049,19 +1048,19 @@
 
             L.marker([49.986822, 19.962290], { icon: houseIcon })  
                 .addTo(neighborhoodMap)
-                .bindPopup(getPopupContent(dict[currentLang].pins.apt, "ul. Lwa Landaua 12, Kraków", 49.986822, 19.962290));
+                .bindPopup(getPopupContent("Matylda House (Apartament)", "ul. Lwa Landaua 12, Kraków", 49.986822, 19.962290));
 
             L.marker([49.988428, 19.962283], { icon: createPinIcon('🚌', '#0284c7') })
                 .addTo(neighborhoodMap)
-                .bindPopup(getPopupContent(dict[currentLang].pins.bus, dict[currentLang].pins.busSub, 49.988428, 19.962283));
+                .bindPopup(getPopupContent("Przystanek Landaua", "Komunikacja miejska", 49.988428, 19.962283));
 
             L.marker([49.994155, 19.946200], { icon: createPinIcon('🛒', '#3b82f6') })
                 .addTo(neighborhoodMap)
-                .bindPopup(getPopupContent(dict[currentLang].pins.shop, "ul. Myślenicka 133, Kraków", 49.994155, 19.946200));
+                .bindPopup(getPopupContent("Centrum Handlowe", "ul. Myślenicka 133, Kraków", 49.994155, 19.946200));
 
             L.marker([49.989707, 19.967701], { icon: createPinIcon('🌄', '#8b5cf6') })
                 .addTo(neighborhoodMap)
-                .bindPopup(getPopupContent(dict[currentLang].pins.view, "Fort 51 Rajsko", 49.989707, 19.967701));
+                .bindPopup(getPopupContent("Punkt widokowy", "Fort 51 Rajsko", 49.989707, 19.967701));
 
             L.marker([50.003494, 19.994506], { icon: createPinIcon('🍝', '#f59e0b') })
                 .addTo(neighborhoodMap)
@@ -1092,7 +1091,6 @@
                 qrModal: { title: "Nawigacja Google Maps", sub: "Zeskanuj ten kod telefonem, aby otworzyć nawigację." },
                 qrReviewModal: { title: "Napisz Opinię", sub: "Zeskanuj ten kod telefonem, aby przejść do opinii Google." },
                 plan: { building: "Budynek", parking: "Parking", bins: "Śmietniki", hint: "🔍 Rozsuń dwa palce, aby powiększyć" },
-                pins: { apt: "Matylda House (Apartament)", bus: "Przystanek Landaua", busSub: "Komunikacja miejska", shop: "Centrum Handlowe", view: "Punkt widokowy" },
                 qrWhatsModal: { title: "WhatsApp", sub: "Zeskanuj ten kod telefonem, aby napisać do właściciela na WhatsApp." },
                 greetings: { morning: "Dzień dobry! Witamy w Matylda House", day: "Witamy w Matylda House", night: "Dobry wieczór! Witamy w Matylda House" },
                 welcomeSub: "Życzymy udanego i wypoczynkowego pobytu",
@@ -1161,7 +1159,6 @@
                 qrModal: { title: "Google Maps Navigation", sub: "Scan this code with your phone to open navigation." },
                 qrReviewModal: { title: "Write a Review", sub: "Scan this code with your phone to open Google Reviews." },
                 plan: { building: "Building", parking: "Parking", bins: "Bins", hint: "🔍 Pinch with two fingers to zoom" },
-                pins: { apt: "Matylda House (Apartment)", bus: "Landaua Bus Stop", busSub: "Public transport", shop: "Shopping Center", view: "Viewpoint" },
                 qrWhatsModal: { title: "WhatsApp", sub: "Scan this code with your phone to message the owner on WhatsApp." },
                 greetings: { morning: "Good morning! Welcome to Matylda House", day: "Welcome to Matylda House", night: "Good evening! Welcome to Matylda House" },
                 welcomeSub: "We wish you a pleasant and relaxing stay",
@@ -1230,7 +1227,6 @@
                 qrModal: { title: "Навігація Google Maps", sub: "Відскануйте цей код телефоном, щоб відкрити навігацію." },
                 qrReviewModal: { title: "Написати Відгук", sub: "Відскануйте цей код, щоб відкрити відгуки Google." },
                 plan: { building: "Будівля", parking: "Паркінг", bins: "Сміття", hint: "🔍 Розведіть два пальці, щоб збільшити" },
-                pins: { apt: "Matylda House (Апартаменти)", bus: "Зупинка Landaua", busSub: "Громадський транспорт", shop: "Торговий центр", view: "Оглядовий майданчик" },
                 qrWhatsModal: { title: "WhatsApp", sub: "Відскануйте цей код телефоном, щоб написати власнику у WhatsApp." },
                 greetings: { morning: "Доброго ранку! Ласкаво просимо до Matylda House", day: "Ласкаво просимо до Matylda House", night: "Доброго вечора! Ласкаво просимо до Matylda House" },
                 welcomeSub: "Бажаємо вам приємного та комфортного відпочинку",
@@ -1299,7 +1295,6 @@
                 qrModal: { title: "Google Maps Navigation", sub: "Scannen Sie diesen Code mit Ihrem Telefon, um die Navigation zu öffnen." },
                 qrReviewModal: { title: "Bewertung Schreiben", sub: "Scannen Sie diesen Code, um Google-Bewertungen zu öffnen." },
                 plan: { building: "Gebäude", parking: "Parkplatz", bins: "Mülltonnen", hint: "🔍 Zum Zoomen zwei Finger auseinanderziehen" },
-                pins: { apt: "Matylda House (Apartment)", bus: "Bushaltestelle Landaua", busSub: "Öffentlicher Nahverkehr", shop: "Einkaufszentrum", view: "Aussichtspunkt" },
                 qrWhatsModal: { title: "WhatsApp", sub: "Scannen Sie diesen Code mit dem Handy, um dem Gastgeber auf WhatsApp zu schreiben." },
                 greetings: { morning: "Guten Morgen! Willkommen im Matylda House", day: "Willkommen im Matylda House", night: "Guten Abend! Willkommen im Matylda House" },
                 welcomeSub: "Wir wünschen Ihnen einen angenehmen Aufenthalt",
@@ -1368,7 +1363,6 @@
                 qrModal: { title: "Navigazione Google Maps", sub: "Scansiona questo codice con il telefono per aprire la navigazione." },
                 qrReviewModal: { title: "Scrivi una Recensione", sub: "Scansiona questo codice per aprire le recensioni di Google." },
                 plan: { building: "Edificio", parking: "Parcheggio", bins: "Rifiuti", hint: "🔍 Allarga due dita per ingrandire" },
-                pins: { apt: "Matylda House (Appartamento)", bus: "Fermata Landaua", busSub: "Trasporto pubblico", shop: "Centro commerciale", view: "Punto panoramico" },
                 qrWhatsModal: { title: "WhatsApp", sub: "Scansiona questo codice con il telefono per scrivere al proprietario su WhatsApp." },
                 greetings: { morning: "Buongiorno! Benvenuti a Matylda House", day: "Benvenuti a Matylda House", night: "Buonasera! Benvenuti a Matylda House" },
                 welcomeSub: "Vi auguriamo un soggiorno piacevole e rilassante",
@@ -1437,7 +1431,6 @@
                 qrModal: { title: "Navegación en Google Maps", sub: "Escanee este código con su teléfono para abrir la navegación." },
                 qrReviewModal: { title: "Escribe una Reseña", sub: "Escanee este código para abrir las reseñas de Google." },
                 plan: { building: "Edificio", parking: "Aparcamiento", bins: "Basura", hint: "🔍 Separe dos dedos para ampliar" },
-                pins: { apt: "Matylda House (Apartamento)", bus: "Parada Landaua", busSub: "Transporte público", shop: "Centro comercial", view: "Mirador" },
                 qrWhatsModal: { title: "WhatsApp", sub: "Escanee este código con el móvil para escribir al propietario por WhatsApp." },
                 greetings: { morning: "¡Buenos días! Bienvenidos a Matylda House", day: "Bienvenidos a Matylda House", night: "¡Buenas noches! Bienvenidos a Matylda House" },
                 welcomeSub: "Les deseamos una estancia agradable y relajante",
@@ -1507,7 +1500,6 @@
         function setLanguage(lang) {
             currentLang = lang;
             document.documentElement.lang = lang;
-            if (neighborhoodMap) { neighborhoodMap.remove(); neighborhoodMap = null; mapInitialized = false; }
             document.getElementById('lang-select-screen').style.display = 'none';
             document.getElementById('current-lang-code').innerText = lang.toUpperCase();
             
