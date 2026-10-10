@@ -454,6 +454,99 @@
             background: rgba(52, 211, 153, 0.3);
             transform: scale(0.92);
         }
+
+        /* KSIĘGA GOŚCI */
+        .gb-input {
+            width: 100%;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 12px;
+            padding: 10px 14px;
+            color: var(--text-main);
+            font-size: 0.9rem;
+            margin-top: 8px;
+            user-select: text;
+            -webkit-user-select: text;
+            outline: none;
+        }
+        .gb-input:focus { border-color: var(--primary-green); }
+        textarea.gb-input { resize: none; height: 84px; }
+        .gb-tabs { display: flex; gap: 10px; margin-bottom: 14px; }
+        .gb-tab {
+            flex: 1;
+            margin-top: 0 !important;
+            background: var(--card-bg) !important;
+            border: 1px solid var(--primary-green) !important;
+            color: var(--primary-green) !important;
+        }
+        .gb-tab.active {
+            background: var(--accent-green) !important;
+            color: #ffffff !important;
+            border-color: var(--accent-green) !important;
+        }
+        .gb-entry {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 14px;
+            padding: 12px 14px;
+            margin-top: 10px;
+        }
+        .gb-entry-head {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+        .gb-entry-head b { color: var(--primary-green); font-size: 0.95rem; }
+        .gb-entry-text { font-size: 0.9rem; line-height: 1.45; white-space: pre-wrap; word-break: break-word; }
+        .gb-entry img { width: 100%; border-radius: 10px; margin-top: 8px; display: block; background: #fffdf7; }
+        #gb-canvas {
+            width: 100%;
+            aspect-ratio: 3 / 2;
+            border-radius: 14px;
+            background: #fffdf7;
+            touch-action: none;
+            display: block;
+            margin-top: 8px;
+            border: 2px solid var(--card-border);
+        }
+        .gb-tools { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 10px; }
+        .gb-sw {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 3px solid transparent;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+        }
+        .gb-sw.active { border-color: #ffffff; transform: scale(1.12); }
+        .gb-sw-eraser { background: #fffdf7; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; }
+        .gb-size {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid var(--card-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        .gb-size.active { border-color: var(--primary-green); background: rgba(52,211,153,0.2); }
+        .gb-size i { display: block; background: var(--text-main); border-radius: 50%; }
+        .gb-toast {
+            display: none;
+            margin-top: 12px;
+            text-align: center;
+            padding: 10px;
+            border-radius: 12px;
+            background: rgba(52,211,153,0.18);
+            border: 1px solid var(--primary-green);
+            color: var(--primary-green);
+            font-weight: 700;
+        }
     </style>
 </head>
 <body>
@@ -741,6 +834,7 @@
             <div class="pill-info" id="m-contact-p1">📞 <b>Telefon do właściciela:</b><br><span style="font-size:1.3rem; font-weight:800; color:var(--primary-green);">+48 508 048 886</span></div>
             <div class="pill-info clickable-pill" id="m-contact-whats" style="text-align: center; background: rgba(52,211,153,0.12); border-color: var(--primary-green);" onclick="showQRCode('https://wa.me/48508048886', 'whatsapp')">💬 <b>Napisz do nas na WhatsApp</b><br>Kliknij tutaj, aby wyświetlić kod QR do czatu z właścicielem</div>
             <div class="pill-info" id="m-contact-p2">💬 Jesteśmy do Państwa dyspozycji w razie pytań lub wątpliwości podczas pobytu!</div>
+            <div class="pill-info clickable-pill" id="m-contact-guestbook" onclick="openGuestbook()" style="text-align: center; background: rgba(52,211,153,0.12); border-color: var(--primary-green);">📖 <b>Księga gości</b><br>Zostaw wpis lub rysunek na pamiątkę</div>
 
             <h3 style="margin-top: 15px; margin-bottom: 5px; color: var(--primary-green); font-size: 1.05rem;" id="m-contact-emerg">🚨 Numery Alarmowe</h3>
             <div class="pill-info" id="m-contact-emerg-list" style="margin-top: 0;">
@@ -772,6 +866,38 @@
             <div class="pill-info clickable-pill" id="m-contact-review" style="margin-top: 15px; text-align: center; background: rgba(52,211,153,0.15); border-color: var(--primary-green);" onclick="showQRCode('https://www.google.com/maps/search/?api=1&query=Matylda+House+Krakow', 'review')">
                 ⭐ <b>Oceń nas na Google</b><br>Zeskanuj kod, aby zostawić opinię
             </div>
+        </div>
+    </div>
+
+    <!-- Modal Księga Gości -->
+    <div id="modal-guestbook" class="modal-overlay" style="z-index: 320;" onclick="closeModalOnBg(event, 'modal-guestbook')">
+        <div class="modal-box" style="max-width: 760px;">
+            <div class="modal-header">
+                <h2 id="gb-title">📖 Księga gości</h2>
+                <button class="close-btn" onclick="closeModal('modal-guestbook')">&times;</button>
+            </div>
+            <div class="gb-tabs">
+                <button id="gb-tab-view" class="btn-action gb-tab active" onclick="gbTab('view')">Wpisy</button>
+                <button id="gb-tab-add" class="btn-action gb-tab" onclick="gbTab('add')">✍️ Dodaj wpis</button>
+            </div>
+
+            <div id="gb-view">
+                <p id="gb-hint" style="color: var(--text-muted); font-size: 0.75rem;"></p>
+                <div id="gb-list"></div>
+            </div>
+
+            <div id="gb-add" style="display: none;">
+                <input id="gb-name" class="gb-input" maxlength="40" autocomplete="off">
+                <textarea id="gb-text" class="gb-input" maxlength="500"></textarea>
+                <p id="gb-draw-label" style="margin-top: 12px; color: var(--primary-green); font-weight: 700; font-size: 0.9rem;"></p>
+                <canvas id="gb-canvas" width="600" height="400"></canvas>
+                <div class="gb-tools" id="gb-tools"></div>
+                <div style="display: flex; gap: 10px;">
+                    <button id="gb-clear" class="btn-action" style="background: var(--card-bg); border: 1px solid var(--primary-green); color: var(--primary-green);" onclick="gbClear()"></button>
+                    <button id="gb-save" class="btn-action" onclick="gbSave()"></button>
+                </div>
+            </div>
+            <div id="gb-toast" class="gb-toast"></div>
         </div>
     </div>
 
@@ -1620,6 +1746,9 @@
             document.getElementById('m-contact-taxi-list').innerHTML = t.modals.contactTaxiList;
             document.getElementById('m-contact-review').innerHTML = t.modals.contactReview;
             document.getElementById('m-about-text').innerHTML = t.modals.aboutText;
+
+            // Księga gości
+            if (typeof applyGuestbookLang === 'function') applyGuestbookLang();
         }
 
         function showLanguageSelect() {
@@ -1699,6 +1828,7 @@
             switchGuideTab('guide');
             currentFontSize = 24;
             document.documentElement.style.fontSize = '24px';
+            if (typeof resetGuestbookForm === 'function') resetGuestbookForm();
             showLanguageSelect();
         }
         function armIdle() { clearTimeout(idleTimer); idleTimer = setTimeout(resetKiosk, IDLE_MS); }
@@ -1707,6 +1837,176 @@
 
         setInterval(updateClock, 1000);
         updateClock();
+    </script>
+
+    <!-- KSIĘGA GOŚCI (zapis w IndexedDB przeglądarki) -->
+    <script>
+        (function () {
+            // PIN właściciela do usuwania wpisów (przytrzymaj wpis ok. 1 s)
+            const GB_PIN = '1234';
+
+            const T = {
+                pl: { link: '📖 <b>Księga gości</b><br>Zostaw wpis lub rysunek na pamiątkę', title: '📖 Księga gości', tabView: 'Wpisy', tabAdd: '✍️ Dodaj wpis', name: 'Twoje imię (opcjonalnie)', msg: 'Napisz kilka słów...', draw: '🎨 Narysuj coś na pamiątkę', clear: '🗑️ Wyczyść rysunek', save: '💾 Zapisz wpis', saved: 'Dziękujemy za wpis! 💚', empty: 'Brak wpisów. Bądź pierwszą osobą w księdze!', anon: 'Gość', need: 'Napisz coś lub narysuj, aby zapisać wpis.', err: 'Nie udało się zapisać wpisu.', pin: 'PIN właściciela, aby usunąć wpis:', del: 'Usunąć ten wpis?', hint: 'Wpisy poprzednich gości' },
+                en: { link: '📖 <b>Guestbook</b><br>Leave a message or drawing as a keepsake', title: '📖 Guestbook', tabView: 'Entries', tabAdd: '✍️ Add entry', name: 'Your name (optional)', msg: 'Write a few words...', draw: '🎨 Draw something as a keepsake', clear: '🗑️ Clear drawing', save: '💾 Save entry', saved: 'Thank you for your entry! 💚', empty: 'No entries yet. Be the first one!', anon: 'Guest', need: 'Write something or draw to save an entry.', err: 'Could not save the entry.', pin: 'Owner PIN to delete this entry:', del: 'Delete this entry?', hint: 'Entries from previous guests' },
+                uk: { link: '📖 <b>Книга гостей</b><br>Залиште запис або малюнок на згадку', title: '📖 Книга гостей', tabView: 'Записи', tabAdd: '✍️ Додати запис', name: "Ваше ім'я (необов'язково)", msg: 'Напишіть кілька слів...', draw: '🎨 Намалюйте щось на згадку', clear: '🗑️ Очистити малюнок', save: '💾 Зберегти запис', saved: 'Дякуємо за запис! 💚', empty: 'Записів ще немає. Будьте першими!', anon: 'Гість', need: 'Напишіть щось або намалюйте, щоб зберегти.', err: 'Не вдалося зберегти запис.', pin: 'PIN власника для видалення запису:', del: 'Видалити цей запис?', hint: 'Записи попередніх гостей' },
+                de: { link: '📖 <b>Gästebuch</b><br>Hinterlassen Sie einen Eintrag oder eine Zeichnung', title: '📖 Gästebuch', tabView: 'Einträge', tabAdd: '✍️ Eintrag hinzufügen', name: 'Ihr Name (optional)', msg: 'Schreiben Sie ein paar Worte...', draw: '🎨 Zeichnen Sie etwas als Erinnerung', clear: '🗑️ Zeichnung löschen', save: '💾 Eintrag speichern', saved: 'Vielen Dank für Ihren Eintrag! 💚', empty: 'Noch keine Einträge. Seien Sie der Erste!', anon: 'Gast', need: 'Schreiben oder zeichnen Sie etwas, um zu speichern.', err: 'Eintrag konnte nicht gespeichert werden.', pin: 'Gastgeber-PIN zum Löschen:', del: 'Diesen Eintrag löschen?', hint: 'Einträge früherer Gäste' },
+                it: { link: '📖 <b>Libro degli ospiti</b><br>Lascia un messaggio o un disegno come ricordo', title: '📖 Libro degli ospiti', tabView: 'Messaggi', tabAdd: '✍️ Aggiungi', name: 'Il tuo nome (facoltativo)', msg: 'Scrivi qualche parola...', draw: '🎨 Disegna qualcosa come ricordo', clear: '🗑️ Cancella disegno', save: '💾 Salva messaggio', saved: 'Grazie per il tuo messaggio! 💚', empty: 'Nessun messaggio. Sii il primo!', anon: 'Ospite', need: 'Scrivi o disegna qualcosa per salvare.', err: 'Impossibile salvare il messaggio.', pin: 'PIN del proprietario per eliminare:', del: 'Eliminare questo messaggio?', hint: 'Messaggi degli ospiti precedenti' },
+                es: { link: '📖 <b>Libro de visitas</b><br>Deje un mensaje o dibujo como recuerdo', title: '📖 Libro de visitas', tabView: 'Mensajes', tabAdd: '✍️ Añadir', name: 'Su nombre (opcional)', msg: 'Escriba unas palabras...', draw: '🎨 Dibuje algo como recuerdo', clear: '🗑️ Borrar dibujo', save: '💾 Guardar mensaje', saved: '¡Gracias por su mensaje! 💚', empty: 'Aún no hay mensajes. ¡Sea el primero!', anon: 'Huésped', need: 'Escriba o dibuje algo para guardar.', err: 'No se pudo guardar el mensaje.', pin: 'PIN del propietario para eliminar:', del: '¿Eliminar este mensaje?', hint: 'Mensajes de huéspedes anteriores' }
+            };
+            const tr = () => T[currentLang] || T.pl;
+            const $ = id => document.getElementById(id);
+
+            /* ---------- Pamięć (IndexedDB) ---------- */
+            const dbP = new Promise((res, rej) => {
+                const r = indexedDB.open('matylda-guestbook', 1);
+                r.onupgradeneeded = () => r.result.createObjectStore('entries', { keyPath: 'id' });
+                r.onsuccess = () => res(r.result);
+                r.onerror = () => rej(r.error);
+            });
+            function tx(mode, fn) {
+                return dbP.then(db => new Promise((res, rej) => {
+                    const t = db.transaction('entries', mode);
+                    const req = fn(t.objectStore('entries'));
+                    t.oncomplete = () => res(req && req.result);
+                    t.onerror = t.onabort = () => rej(t.error);
+                }));
+            }
+            if (navigator.storage && navigator.storage.persist) navigator.storage.persist();
+
+            /* ---------- Tłumaczenia ---------- */
+            function applyLang() {
+                const t = tr();
+                $('m-contact-guestbook').innerHTML = t.link;
+                $('gb-title').textContent = t.title;
+                $('gb-tab-view').textContent = t.tabView;
+                $('gb-tab-add').textContent = t.tabAdd;
+                $('gb-name').placeholder = t.name;
+                $('gb-text').placeholder = t.msg;
+                $('gb-draw-label').textContent = t.draw;
+                $('gb-clear').textContent = t.clear;
+                $('gb-save').textContent = t.save;
+                $('gb-hint').textContent = t.hint;
+            }
+
+            /* ---------- Rysowanie ---------- */
+            const PAPER = '#fffdf7';
+            const COLORS = ['#111111', '#ef4444', '#f59e0b', '#10b981', '#3b82f6', '#8b5cf6', '#ec4899'];
+            const SIZES = [3, 7, 14];
+            let color = COLORS[0], size = SIZES[1], drawn = false, drawing = false;
+            const cv = $('gb-canvas'), ctx = cv.getContext('2d');
+
+            function clearCanvas() { ctx.fillStyle = PAPER; ctx.fillRect(0, 0, cv.width, cv.height); drawn = false; }
+            function pos(e) {
+                const r = cv.getBoundingClientRect();
+                return { x: (e.clientX - r.left) * cv.width / r.width, y: (e.clientY - r.top) * cv.height / r.height };
+            }
+            function setStyle() { ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.strokeStyle = color; ctx.lineWidth = size; }
+
+            cv.addEventListener('pointerdown', e => {
+                e.preventDefault(); cv.setPointerCapture(e.pointerId);
+                drawing = true; drawn = true; setStyle();
+                const p = pos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(p.x + 0.01, p.y); ctx.stroke();
+            });
+            cv.addEventListener('pointermove', e => {
+                if (typeof armIdle === 'function') armIdle();
+                if (!drawing) return;
+                e.preventDefault();
+                const p = pos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); ctx.beginPath(); ctx.moveTo(p.x, p.y);
+            });
+            ['pointerup', 'pointercancel', 'pointerleave'].forEach(ev => cv.addEventListener(ev, () => { drawing = false; }));
+
+            // paleta narzędzi
+            const tools = $('gb-tools');
+            COLORS.forEach((c, i) => {
+                const b = document.createElement('button');
+                b.className = 'gb-sw' + (i === 0 ? ' active' : ''); b.style.background = c;
+                b.onclick = () => selectSwatch(b, c); tools.appendChild(b);
+            });
+            const er = document.createElement('button');
+            er.className = 'gb-sw gb-sw-eraser'; er.textContent = '🧽'; er.onclick = () => selectSwatch(er, PAPER); tools.appendChild(er);
+            function selectSwatch(btn, c) {
+                color = c; tools.querySelectorAll('.gb-sw').forEach(x => x.classList.remove('active')); btn.classList.add('active');
+            }
+            SIZES.forEach((s, i) => {
+                const b = document.createElement('button');
+                b.className = 'gb-size' + (i === 1 ? ' active' : '');
+                b.innerHTML = '<i style="width:' + (s + 4) + 'px;height:' + (s + 4) + 'px"></i>';
+                b.onclick = () => { size = s; tools.querySelectorAll('.gb-size').forEach(x => x.classList.remove('active')); b.classList.add('active'); };
+                tools.appendChild(b);
+            });
+
+            /* ---------- Lista wpisów ---------- */
+            async function render() {
+                const list = $('gb-list'); list.textContent = '';
+                let items = [];
+                try { items = (await tx('readonly', s => s.getAll())) || []; } catch (e) {}
+                items.sort((a, b) => b.ts - a.ts);
+                const t = tr();
+                if (!items.length) {
+                    const p = document.createElement('div'); p.className = 'pill-info'; p.style.textAlign = 'center'; p.textContent = t.empty;
+                    list.appendChild(p); return;
+                }
+                const locale = currentLang === 'en' ? 'en-GB' : currentLang;
+                items.forEach(en => {
+                    const d = document.createElement('div'); d.className = 'gb-entry';
+                    const h = document.createElement('div'); h.className = 'gb-entry-head';
+                    const n = document.createElement('b'); n.textContent = en.name || t.anon;
+                    const dt = document.createElement('span'); dt.textContent = new Date(en.ts).toLocaleDateString(locale);
+                    h.append(n, dt); d.appendChild(h);
+                    if (en.text) { const p = document.createElement('div'); p.className = 'gb-entry-text'; p.textContent = en.text; d.appendChild(p); }
+                    if (en.img) { const im = document.createElement('img'); im.src = en.img; im.alt = ''; d.appendChild(im); }
+                    // przytrzymanie = usuwanie (PIN właściciela)
+                    let timer = null;
+                    const stop = () => clearTimeout(timer);
+                    d.addEventListener('pointerdown', () => {
+                        timer = setTimeout(async () => {
+                            if (prompt(t.pin) === GB_PIN && confirm(t.del)) { await tx('readwrite', s => s.delete(en.id)); render(); }
+                        }, 1000);
+                    });
+                    ['pointerup', 'pointerleave', 'pointercancel', 'pointermove'].forEach(ev => d.addEventListener(ev, stop));
+                    list.appendChild(d);
+                });
+            }
+
+            /* ---------- Akcje ---------- */
+            function toast(msg) {
+                const el = $('gb-toast'); el.textContent = msg; el.style.display = 'block';
+                setTimeout(() => { el.style.display = 'none'; }, 3000);
+            }
+            window.gbTab = function (tab) {
+                $('gb-view').style.display = tab === 'view' ? 'block' : 'none';
+                $('gb-add').style.display = tab === 'add' ? 'block' : 'none';
+                $('gb-tab-view').classList.toggle('active', tab === 'view');
+                $('gb-tab-add').classList.toggle('active', tab === 'add');
+                if (tab === 'view') render();
+            };
+            window.openGuestbook = function () { applyLang(); clearCanvas(); gbTab('view'); openModal('modal-guestbook'); };
+            window.gbClear = clearCanvas;
+            window.gbSave = async function () {
+                const t = tr();
+                const name = $('gb-name').value.trim().slice(0, 40);
+                const text = $('gb-text').value.trim().slice(0, 500);
+                if (!text && !drawn) { toast(t.need); return; }
+                const entry = {
+                    id: Date.now() + '-' + Math.random().toString(36).slice(2, 7),
+                    name, text, ts: Date.now(), lang: currentLang,
+                    img: drawn ? cv.toDataURL('image/jpeg', 0.8) : null
+                };
+                try {
+                    await tx('readwrite', s => s.put(entry));
+                    $('gb-name').value = ''; $('gb-text').value = ''; clearCanvas();
+                    gbTab('view'); toast(t.saved);
+                } catch (e) { toast(t.err); }
+            };
+
+            // Podpięcie pod setLanguage() i resetKiosk() z głównego skryptu
+            window.applyGuestbookLang = applyLang;
+            window.resetGuestbookForm = function () {
+                $('gb-name').value = ''; $('gb-text').value = ''; clearCanvas(); gbTab('view');
+            };
+
+            clearCanvas(); applyLang();
+        })();
     </script>
 </body>
 </html>
