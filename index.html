@@ -456,6 +456,21 @@
         }
 
         /* KSIĘGA GOŚCI */
+        .gb-hero-btn {
+            margin-top: 12px;
+            background: rgba(22, 32, 23, 0.55);
+            border: 1px solid var(--card-border);
+            color: var(--primary-green);
+            padding: 8px 20px;
+            min-height: 44px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            cursor: pointer;
+            opacity: 0.85;
+            transition: all 0.2s ease;
+        }
+        .gb-hero-btn:active { transform: scale(0.95); background: rgba(52, 211, 153, 0.2); opacity: 1; }
         .gb-input {
             width: 100%;
             background: rgba(255,255,255,0.06);
@@ -598,6 +613,7 @@
         </div>
         <h1 class="welcome-title" id="greeting">Witamy w Matylda House</h1>
         <p class="welcome-sub" id="welcome-sub-text">Życzymy udanego i wypoczynkowego pobytu</p>
+        <button class="gb-hero-btn" id="hero-guestbook-btn" onclick="openGuestbook()">📖 Księga gości</button>
     </div>
 
     <!-- KAFELKI INTERAKTYWNE -->
@@ -658,7 +674,7 @@
             </div>
             <div class="card-info">
                 <h3 id="card-contact-title">Kontakt i Pomoc</h3>
-                <p id="card-contact-sub">Właściciel, alarmy i taxi</p>
+                <p id="card-contact-sub">Właściciel, alarmy, taxi i księga gości</p>
             </div>
         </div>
     </div>
@@ -1226,7 +1242,7 @@
                     foodTitle: "Jedzenie i Zakupy", foodSub: "Dostawy, restauracje i sklep", 
                     rulesTitle: "Zasady i Instrukcje", rulesSub: "Obsługa zamku, ogrzewanie, reguły i zwierzęta", 
                     guideTitle: "Odkryj Kraków", guideSub: "Atrakcje i interaktywna mapa", 
-                    contactTitle: "Kontakt i Pomoc", contactSub: "Właściciel, alarmy i taxi"
+                    contactTitle: "Kontakt i Pomoc", contactSub: "Właściciel, alarmy, taxi i księga gości"
                 },
                 modals: {
                     wifiH: "Sieć Wi-Fi", wifiSsid: "📶 <b>Nazwa sieci:</b> Matylda_House", wifiPass: "🔑 <b>Hasło:</b> Domowe_WIFI",
@@ -1294,7 +1310,7 @@
                     foodTitle: "Food & Shopping", foodSub: "Delivery, restaurants & shop", 
                     rulesTitle: "Rules & Instructions", rulesSub: "Door lock, heating, rules & pets", 
                     guideTitle: "Discover Kraków", guideSub: "Attractions & interactive map", 
-                    contactTitle: "Contact & Help", contactSub: "Owner, emergency & taxi"
+                    contactTitle: "Contact & Help", contactSub: "Owner, emergency, taxi & guestbook"
                 },
                 modals: {
                     wifiH: "Wi-Fi Network", wifiSsid: "📶 <b>Network Name:</b> Matylda_House", wifiPass: "🔑 <b>Password:</b> Domowe_WIFI",
@@ -1362,7 +1378,7 @@
                     foodTitle: "Їжа та Покупки", foodSub: "Доставка, ресторани та магазин", 
                     rulesTitle: "Правила та Інструкції", rulesSub: "Замок, опалення, правила та тварини", 
                     guideTitle: "Відкрийте Краків", guideSub: "Пам'ятки та інтерактивна мапа", 
-                    contactTitle: "Контакти та Допомога", contactSub: "Власник, екстрені служби та таксі"
+                    contactTitle: "Контакти та Допомога", contactSub: "Власник, екстрені служби, таксі та книга гостей"
                 },
                 modals: {
                     wifiH: "Мережа Wi-Fi", wifiSsid: "📶 <b>Назва мережі:</b> Matylda_House", wifiPass: "🔑 <b>Пароль:</b> Domowe_WIFI",
@@ -1430,7 +1446,7 @@
                     foodTitle: "Essen & Einkaufen", foodSub: "Lieferung, Restaurants & Shop", 
                     rulesTitle: "Regeln & Anleitungen", rulesSub: "Türschloss, Heizung, Regeln & Haustiere", 
                     guideTitle: "Krakau Entdecken", guideSub: "Attraktionen & interaktive Karte", 
-                    contactTitle: "Kontakt & Hilfe", contactSub: "Gastgeber, Notruf & Taxi"
+                    contactTitle: "Kontakt & Hilfe", contactSub: "Gastgeber, Notruf, Taxi & Gästebuch"
                 },
                 modals: {
                     wifiH: "WLAN-Netzwerk", wifiSsid: "📶 <b>Netzwerkname:</b> Matylda_House", wifiPass: "🔑 <b>Passwort:</b> Domowe_WIFI",
@@ -1498,7 +1514,7 @@
                     foodTitle: "Cibo e Negozi", foodSub: "Consegne, ristoranti e negozi", 
                     rulesTitle: "Regole e Istruzioni", rulesSub: "Serratura, riscaldamento, regole e animali", 
                     guideTitle: "Scopri Cracovia", guideSub: "Attrazioni e mappa interattiva", 
-                    contactTitle: "Contatti e Aiuto", contactSub: "Proprietario, emergenze e taxi"
+                    contactTitle: "Contatti e Aiuto", contactSub: "Proprietario, emergenze, taxi e libro ospiti"
                 },
                 modals: {
                     wifiH: "Rete Wi-Fi", wifiSsid: "📶 <b>Nome rete:</b> Matylda_House", wifiPass: "🔑 <b>Password:</b> Domowe_WIFI",
@@ -1566,7 +1582,7 @@
                     foodTitle: "Comida y Compras", foodSub: "Delivery, restaurantes y tiendas", 
                     rulesTitle: "Normas e Instrucciones", rulesSub: "Cerradura, calefacción, normas y mascotas", 
                     guideTitle: "Descubre Cracovia", guideSub: "Atracciones y mapa interactivo", 
-                    contactTitle: "Contacto y Ayuda", contactSub: "Propietario, emergencias y taxi"
+                    contactTitle: "Contacto y Ayuda", contactSub: "Propietario, emergencias, taxi y libro de visitas"
                 },
                 modals: {
                     wifiH: "Red Wi-Fi", wifiSsid: "📶 <b>Nombre de red:</b> Matylda_House", wifiPass: "🔑 <b>Contraseña:</b> Domowe_WIFI",
@@ -1874,8 +1890,10 @@
             if (navigator.storage && navigator.storage.persist) navigator.storage.persist();
 
             /* ---------- Tłumaczenia ---------- */
+            const HERO = { pl: '📖 Księga gości', en: '📖 Guestbook', uk: '📖 Книга гостей', de: '📖 Gästebuch', it: '📖 Libro degli ospiti', es: '📖 Libro de visitas' };
             function applyLang() {
                 const t = tr();
+                $('hero-guestbook-btn').textContent = HERO[currentLang] || HERO.pl;
                 $('m-contact-guestbook').innerHTML = t.link;
                 $('gb-title').textContent = t.title;
                 $('gb-tab-view').textContent = t.tabView;
