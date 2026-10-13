@@ -1,0 +1,2030 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Matylda House - Welcome Screen</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Leaflet CSS dla mapy interaktywnej -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <style>
+        :root {
+            --bg-dark: #0d120d;
+            --card-bg: rgba(22, 32, 23, 0.78);
+            --card-border: rgba(74, 222, 128, 0.22);
+            --primary-green: #34d399;
+            --accent-green: #10b981;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --radius: 20px;
+            --shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+        }
+
+        html {
+            font-size: 24px; 
+            transition: font-size 0.3s ease;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-tap-highlight-color: transparent;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background: radial-gradient(circle at 50% 20%, #172618 0%, #080c08 100%);
+            color: var(--text-main);
+            height: 100vh;
+            height: 100dvh;
+            width: 100vw;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 16px 28px 20px 28px;
+        }
+
+        /* EKRAN WYBORU JĘZYKA (SPLASH) */
+        .lang-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            height: 100dvh;
+            background: rgba(8, 12, 8, 0.94);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .lang-box {
+            text-align: center;
+            max-width: 720px;
+            width: 90%;
+        }
+
+        .lang-title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--primary-green);
+            margin-bottom: 8px;
+        }
+
+        .lang-sub {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-bottom: 30px;
+        }
+
+        .lang-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .lang-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 18px 12px;
+            border-radius: var(--radius);
+            color: var(--text-main);
+            font-size: 1.15rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .lang-btn:active {
+            transform: scale(0.95);
+            background: rgba(52, 211, 153, 0.2);
+            border-color: var(--primary-green);
+            box-shadow: 0 0 20px rgba(52, 211, 153, 0.4);
+        }
+
+        .flag { font-size: 1.8rem; }
+
+        /* PASEK GÓRNY */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            z-index: 10;
+        }
+
+        .top-left-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .weather-card, .lang-switch-btn, .accessibility-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            backdrop-filter: blur(12px);
+            padding: 8px 18px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: var(--shadow);
+        }
+
+        .lang-switch-btn, .accessibility-btn {
+            cursor: pointer;
+            color: var(--primary-green);
+            font-weight: 700;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+
+        .lang-switch-btn:active, .accessibility-btn:active { 
+            transform: scale(0.95); 
+            background: rgba(52, 211, 153, 0.15);
+        }
+
+        .accessibility-btn {
+            padding: 8px 14px;
+            font-size: 1rem;
+        }
+
+        .weather-icon { font-size: 1.4rem; }
+        .weather-temp { font-size: 1.2rem; font-weight: 700; color: var(--primary-green); }
+        .weather-loc { font-size: 0.75rem; color: var(--text-muted); }
+
+        .clock-card { text-align: right; }
+        .clock-time {
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: var(--text-main);
+            letter-spacing: -1px;
+            line-height: 1;
+        }
+        .clock-date {
+            font-size: 0.85rem;
+            color: var(--primary-green);
+            font-weight: 500;
+            margin-top: 2px;
+            text-transform: capitalize;
+        }
+
+        /* HERO LOGO AREA */
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            margin-top: -15px;
+            flex: 1;
+        }
+
+        .logo-img {
+            height: 240px;
+            max-height: 32vh;
+            width: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.8)) drop-shadow(0 0 35px rgba(52, 211, 153, 0.35));
+            transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+            cursor: pointer;
+        }
+
+        .logo-img:active { transform: scale(0.96); }
+
+        .welcome-title {
+            font-size: 1.7rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffffff 0%, #a7f3d0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-top: 4px;
+            margin-bottom: 2px;
+            display: inline-block;
+            animation: pulseTitle 4s ease-in-out infinite;
+        }
+
+        .welcome-sub {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-weight: 400;
+            animation: pulseSub 4s ease-in-out infinite;
+            animation-delay: 0.5s;
+        }
+
+        @keyframes pulseTitle {
+            0%, 100% { transform: scale(1); opacity: 0.88; }
+            50% { transform: scale(1.02); filter: drop-shadow(0 0 10px rgba(52, 211, 153, 0.45)); opacity: 1; }
+        }
+
+        @keyframes pulseSub {
+            0%, 100% { opacity: 0.6; transform: translateY(0); }
+            50% { opacity: 0.95; transform: translateY(-1px); }
+        }
+
+        /* GRID MENU Z ANIMACJĄ */
+        .grid-menu {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            width: 100%;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            backdrop-filter: blur(16px);
+            border-radius: var(--radius);
+            padding: 14px 18px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .card:active {
+            transform: translateY(2px) scale(0.97);
+            background: rgba(30, 48, 32, 0.95);
+            border-color: var(--primary-green);
+            box-shadow: 0 0 25px rgba(52, 211, 153, 0.35), 0 5px 15px rgba(0,0,0,0.5);
+        }
+
+        .card-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: rgba(52, 211, 153, 0.1);
+            color: var(--primary-green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: transform 0.3s ease;
+        }
+
+        .card:active .card-icon {
+            transform: scale(1.1);
+        }
+
+        .card-icon svg {
+            width: 22px;
+            height: 22px;
+            stroke: currentColor;
+            stroke-width: 1.8;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .card-info h3 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 2px;
+        }
+
+        .card-info p {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            line-height: 1.2;
+        }
+
+        /* MODALE */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            height: 100dvh;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(12px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            padding: 20px;
+        }
+
+        .modal-box {
+            background: #121912;
+            border: 1px solid var(--card-border);
+            width: 100%;
+            max-width: 720px;
+            max-height: 88vh;
+            overflow-y: auto;
+            border-radius: 24px;
+            padding: 26px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+            animation: modalIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+            color: var(--text-main);
+        }
+
+        @keyframes modalIn {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 12px;
+        }
+
+        .modal-header h2 {
+            font-size: 1.3rem;
+            color: var(--primary-green);
+        }
+
+        .close-btn {
+            background: rgba(255,255,255,0.1);
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            color: var(--text-main);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .close-btn:active {
+            background: rgba(52, 211, 153, 0.3);
+        }
+
+        .pill-info {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            padding: 12px 16px;
+            border-radius: 14px;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            line-height: 1.45;
+        }
+
+        .clickable-pill {
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .clickable-pill:active {
+            transform: scale(0.98);
+            background: rgba(52, 211, 153, 0.15);
+            border-color: var(--primary-green);
+        }
+
+        body.night { filter: brightness(0.6); }
+        .accessibility-btn, .lang-switch-btn, .weather-card { min-height: 48px; }
+        .accessibility-btn { min-width: 52px; justify-content: center; }
+        .close-btn { width: 48px; height: 48px; }
+        .plan-zoom-btn { width: 44px; height: 44px; }
+        .card:focus-visible, .clickable-pill:focus-visible, .lang-btn:focus-visible { outline: 2px solid var(--primary-green); outline-offset: 2px; }
+
+        .leaflet-control-attribution { display: none !important; }
+        .leaflet-container a { pointer-events: none; }
+
+        .qr-hint {
+            display: inline-block;
+            font-size: 0.8rem;
+            color: var(--primary-green);
+            margin-top: 8px;
+            font-weight: 700;
+            background: rgba(52, 211, 153, 0.1);
+            padding: 4px 10px;
+            border-radius: 8px;
+        }
+
+        .btn-action {
+            background: var(--accent-green);
+            color: #ffffff;
+            border: none;
+            width: 100%;
+            padding: 12px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-top: 14px;
+            cursor: pointer;
+            transition: opacity 0.2s ease;
+        }
+
+        .btn-action:active { opacity: 0.8; }
+
+        .plan-zoom-btn {
+            background: rgba(22, 32, 23, 0.9);
+            border: 1px solid var(--card-border);
+            color: var(--primary-green);
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            font-weight: 800;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+            transition: background 0.2s ease, transform 0.1s ease;
+        }
+
+        .plan-zoom-btn:active {
+            background: rgba(52, 211, 153, 0.3);
+            transform: scale(0.92);
+        }
+
+        /* KSIĘGA GOŚCI */
+        .gb-hero-btn {
+            margin-top: 12px;
+            background: rgba(22, 32, 23, 0.55);
+            border: 1px solid var(--card-border);
+            color: var(--primary-green);
+            padding: 8px 20px;
+            min-height: 44px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            cursor: pointer;
+            opacity: 0.85;
+            transition: all 0.2s ease;
+        }
+        .gb-hero-btn:active { transform: scale(0.95); background: rgba(52, 211, 153, 0.2); opacity: 1; }
+        .gb-input {
+            width: 100%;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 12px;
+            padding: 10px 14px;
+            color: var(--text-main);
+            font-size: 0.9rem;
+            margin-top: 8px;
+            user-select: text;
+            -webkit-user-select: text;
+            outline: none;
+        }
+        .gb-input:focus { border-color: var(--primary-green); }
+        textarea.gb-input { resize: none; height: 84px; }
+        .gb-tabs { display: flex; gap: 10px; margin-bottom: 14px; }
+        .gb-tab {
+            flex: 1;
+            margin-top: 0 !important;
+            background: var(--card-bg) !important;
+            border: 1px solid var(--primary-green) !important;
+            color: var(--primary-green) !important;
+        }
+        .gb-tab.active {
+            background: var(--accent-green) !important;
+            color: #ffffff !important;
+            border-color: var(--accent-green) !important;
+        }
+        .gb-entry {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 14px;
+            padding: 12px 14px;
+            margin-top: 10px;
+        }
+        .gb-entry-head {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+        .gb-entry-head b { color: var(--primary-green); font-size: 0.95rem; }
+        .gb-entry-text { font-size: 0.9rem; line-height: 1.45; white-space: pre-wrap; word-break: break-word; }
+        .gb-entry img { width: 100%; border-radius: 10px; margin-top: 8px; display: block; background: #fffdf7; }
+        #gb-canvas {
+            width: 100%;
+            aspect-ratio: 3 / 2;
+            border-radius: 14px;
+            background: #fffdf7;
+            touch-action: none;
+            display: block;
+            margin-top: 8px;
+            border: 2px solid var(--card-border);
+        }
+        .gb-tools { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 10px; }
+        .gb-sw {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 3px solid transparent;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+        }
+        .gb-sw.active { border-color: #ffffff; transform: scale(1.12); }
+        .gb-sw-eraser { background: #fffdf7; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; }
+        .gb-size {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid var(--card-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        .gb-size.active { border-color: var(--primary-green); background: rgba(52,211,153,0.2); }
+        .gb-size i { display: block; background: var(--text-main); border-radius: 50%; }
+        .gb-toast {
+            display: none;
+            margin-top: 12px;
+            text-align: center;
+            padding: 10px;
+            border-radius: 12px;
+            background: rgba(52,211,153,0.18);
+            border: 1px solid var(--primary-green);
+            color: var(--primary-green);
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- EKRAN WYBORU JĘZYKA -->
+    <div id="lang-select-screen" class="lang-overlay">
+        <div class="lang-box">
+            <h1 class="lang-title">Matylda House</h1>
+            <p class="lang-sub">Select your language / Wybierz swój język</p>
+            <div class="lang-grid">
+                <button class="lang-btn" onclick="setLanguage('pl')"><span class="flag">🇵🇱</span> Polski</button>
+                <button class="lang-btn" onclick="setLanguage('en')"><span class="flag">🇬🇧</span> English</button>
+                <button class="lang-btn" onclick="setLanguage('uk')"><span class="flag">🇺🇦</span> Українська</button>
+                <button class="lang-btn" onclick="setLanguage('de')"><span class="flag">🇩🇪</span> Deutsch</button>
+                <button class="lang-btn" onclick="setLanguage('it')"><span class="flag">🇮🇹</span> Italiano</button>
+                <button class="lang-btn" onclick="setLanguage('es')"><span class="flag">🇪🇸</span> Español</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PASEK GÓRNY -->
+    <header>
+        <div class="top-left-group">
+            <div class="weather-card">
+                <span class="weather-icon" id="w-icon">🌤️</span>
+                <div>
+                    <div class="weather-temp" id="w-temp">--°C</div>
+                    <div class="weather-loc">Kraków • Swoszowice</div>
+                </div>
+            </div>
+            <button class="lang-switch-btn" onclick="showLanguageSelect()">
+                🌐 <span id="current-lang-code">PL</span>
+            </button>
+            <button class="accessibility-btn" onclick="changeFontSize(-2)">A-</button>
+            <button class="accessibility-btn" onclick="changeFontSize(2)">A+</button>
+        </div>
+
+        <div class="clock-card">
+            <div class="clock-time" id="clock">00:00</div>
+            <div class="clock-date" id="date"></div>
+        </div>
+    </header>
+
+    <!-- LOGO ORAZ POWITANIE -->
+    <div class="hero">
+        <img src="logo_OLD.png" alt="Matylda House Logo" class="logo-img" onclick="openModal('modal-about')" onerror="this.style.display='none'; document.getElementById('alt-logo').style.display='block';">
+        <div id="alt-logo" style="display:none; font-size:1.8rem; font-weight:800; color:var(--primary-green); margin-bottom:8px;">
+            MATYLDA HOUSE
+        </div>
+        <h1 class="welcome-title" id="greeting">Witamy w Matylda House</h1>
+        <p class="welcome-sub" id="welcome-sub-text">Życzymy udanego i wypoczynkowego pobytu</p>
+        <button class="gb-hero-btn" id="hero-guestbook-btn" onclick="openGuestbook()">📖 Księga gości</button>
+    </div>
+
+    <!-- KAFELKI INTERAKTYWNE -->
+    <div class="grid-menu">
+        <div class="card" onclick="openModal('modal-wifi')">
+            <div class="card-icon">
+                <svg viewBox="0 0 24 24"><path d="M5 12.55a11 11 0 0 1 14.08 0"></path><path d="M1.42 9a16 16 0 0 1 21.16 0"></path><path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path><line x1="12" y1="20" x2="12.01" y2="20"></line></svg>
+            </div>
+            <div class="card-info">
+                <h3 id="card-wifi-title">Wi-Fi i Internet</h3>
+                <p id="card-wifi-sub">Nazwa sieci i hasło</p>
+            </div>
+        </div>
+
+        <div class="card" onclick="openModal('modal-gate')">
+            <div class="card-icon">
+                <svg viewBox="0 0 24 24"><path d="M5 18H3c-.55 0-1-.45-1-1V9c0-.55.45-1 1-1h2"></path><path d="M19 18h2c.55 0 1-.45 1-1v-8c0-.55-.45-1-1-1h-2"></path><rect x="7" y="4" width="10" height="16" rx="2"></rect><path d="M10 12h4"></path></svg>
+            </div>
+            <div class="card-info">
+                <h3 id="card-gate-title">Parking i Brama</h3>
+                <p id="card-gate-sub">Pilot, plan posesji i wjazd</p>
+            </div>
+        </div>
+
+        <div class="card" onclick="openModal('modal-food')">
+            <div class="card-icon">
+                <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+            </div>
+            <div class="card-info">
+                <h3 id="card-food-title">Jedzenie i Zakupy</h3>
+                <p id="card-food-sub">Dostawy, restauracje i sklep</p>
+            </div>
+        </div>
+
+        <div class="card" onclick="openModal('modal-rules')">
+            <div class="card-icon">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+            </div>
+            <div class="card-info">
+                <h3 id="card-rules-title">Zasady i Instrukcje</h3>
+                <p id="card-rules-sub">Obsługa zamka, ogrzewanie, reguły i zwierzęta</p>
+            </div>
+        </div>
+
+        <div class="card" onclick="openModal('modal-guide')">
+            <div class="card-icon">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="10" r="3"></circle><path d="M12 21.8C17 17 21 13.3 21 10a9 9 0 0 0-18 0c0 3.3 4 7 9 11.8z"></path></svg>
+            </div>
+            <div class="card-info">
+                <h3 id="card-guide-title">Odkryj Kraków</h3>
+                <p id="card-guide-sub">Atrakcje i interaktywna mapa</p>
+            </div>
+        </div>
+
+        <div class="card" onclick="openModal('modal-contact')">
+            <div class="card-icon">
+                <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+            </div>
+            <div class="card-info">
+                <h3 id="card-contact-title">Kontakt i Pomoc</h3>
+                <p id="card-contact-sub">Właściciel, alarmy, taxi i księga gości</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODALE -->
+
+    <!-- Modal Wi-Fi -->
+    <div id="modal-wifi" class="modal-overlay" onclick="closeModalOnBg(event, 'modal-wifi')">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h2 id="m-wifi-h">Sieć Wi-Fi</h2>
+                <button class="close-btn" onclick="closeModal('modal-wifi')">&times;</button>
+            </div>
+            <div class="pill-info" id="m-wifi-ssid">📶 <b>Nazwa sieci:</b> Matylda_House</div>
+            <div class="pill-info" id="m-wifi-pass">🔑 <b>Hasło:</b> Domowe_WIFI</div>
+            
+            <div class="pill-info clickable-pill" id="m-wifi-qr-link" onclick="openModal('modal-wifi-qr')" style="background: rgba(52, 211, 153, 0.12); border-color: var(--primary-green); text-align: center; margin-top: 15px;">
+                📱 <b>Zeskanuj kod QR</b><br>Kliknij tutaj, aby wyświetlić kod do skanowania
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal Kod QR Wi-Fi -->
+    <div id="modal-wifi-qr" class="modal-overlay" style="z-index: 350;" onclick="closeModalOnBg(event, 'modal-wifi-qr')">
+        <div class="modal-box" style="max-width: 400px; text-align: center;">
+            <div class="modal-header">
+                <h2 id="m-wifi-qr-title">Kod QR Wi-Fi</h2>
+                <button class="close-btn" onclick="closeModal('modal-wifi-qr')">&times;</button>
+            </div>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px;" id="m-wifi-qr-sub">Zeskanuj ten kod aparatem w telefonie, aby automatycznie połączyć się z siecią.</p>
+            <div style="background: white; padding: 20px; border-radius: 16px; display: inline-block;">
+                <img src="Wi-Fi_QR_code_Matylda_House_4.jpg" alt="Wi-Fi QR Code" style="width: 250px; height: 250px; display: block; border-radius: 8px;">
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Brama, Parking i Plan Posesji -->
+    <div id="modal-gate" class="modal-overlay" onclick="closeModalOnBg(event, 'modal-gate')">
+        <div class="modal-box" style="max-width: 760px;">
+            <div class="modal-header">
+                <h2 id="m-gate-h">Parking, Brama i Plan Posesji</h2>
+                <button class="close-btn" onclick="closeModal('modal-gate')">&times;</button>
+            </div>
+            
+            <div id="plan-map-container" style="background: #090e09; border: 1px solid var(--card-border); border-radius: 16px; margin-bottom: 14px; position: relative; overflow: hidden; height: 300px; touch-action: none; display: flex; justify-content: center; align-items: center;">
+                <div style="position: absolute; top: 10px; right: 10px; z-index: 25; display: flex; gap: 8px;">
+                    <button class="plan-zoom-btn" onclick="zoomPlan(0.25)" title="Powiększ">+</button>
+                    <button class="plan-zoom-btn" onclick="zoomPlan(-0.25)" title="Pomniejsz">-</button>
+                    <button class="plan-zoom-btn" onclick="resetPlanZoom()" style="font-size: 0.85rem; width: auto; padding: 0 10px;" title="Resetuj">↺ Reset</button>
+                </div>
+                <div id="plan-hint" style="position: absolute; bottom: 8px; left: 12px; z-index: 25; font-size: 0.72rem; color: var(--primary-green); background: rgba(13,18,13,0.85); padding: 4px 10px; border-radius: 8px; border: 1px solid rgba(74,222,128,0.2); pointer-events: none;">
+                    <span id="plan-hint-text">🔍 Rozsuń dwa palce, aby powiększyć</span>
+                </div>
+                <div id="plan-map-wrapper" style="transform-origin: center center; transition: transform 0.05s ease-out; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;">
+                    <svg viewBox="0 0 400 365" style="width: 100%; height: 100%; max-height: 280px; pointer-events: none;">
+                        <rect width="400" height="365" fill="#111c12" rx="12"/>
+                        <path d="M 130 365 L 130 300 Q 130 250 180 200 L 330 50 L 380 50 L 380 365 Z" fill="#1b261c" opacity="0.7"/>
+                        <polygon points="160,220 230,180 260,210 190,250" fill="#2b3b2c" />
+                        <g transform="translate(150, 70)">
+                            <rect width="180" height="150" rx="6" fill="#1f2e20" stroke="#4ade80" stroke-width="2"/>
+                            <polygon points="90,-35 -15,70 195,70" fill="#162417" stroke="#34d399" stroke-width="2"/>
+                            <text x="90" y="80" fill="#f3f4f6" font-size="14" font-weight="700" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif">Matylda House</text>
+                            <text x="90" y="100" fill="#9ca3af" font-size="10" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif" id="plan-building">Budynek</text>
+                        </g>
+                        <g transform="translate(140, 240)">
+                            <rect width="70" height="90" rx="4" fill="rgba(59, 130, 246, 0.2)" stroke="#3b82f6" stroke-width="3" stroke-dasharray="6,4"/>
+                            <rect x="15" y="25" width="40" height="40" rx="8" fill="#3b82f6"/>
+                            <text x="35" y="53" fill="#ffffff" font-size="22" font-weight="800" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif">P</text>
+                            <text x="35" y="-10" fill="#60a5fa" font-size="11" font-weight="700" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif" id="plan-parking">Parking</text>
+                        </g>
+                        <g transform="translate(25, 75)">
+                            <rect width="120" height="150" rx="8" fill="rgba(239, 68, 68, 0.12)" stroke="#ef4444" stroke-width="3"/>
+                            <circle cx="60" cy="75" r="25" fill="rgba(239, 68, 68, 0.2)" stroke="#ef4444" stroke-width="1.5"/>
+                            <text x="60" y="82" font-size="24" text-anchor="middle">🔥</text>
+                            <text x="60" y="-10" fill="#f87171" font-size="12" font-weight="700" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif">Grill & Chill Zone</text>
+                        </g>
+                        <g transform="translate(125, 120)">
+                            <line x1="0" y1="0" x2="0" y2="70" stroke="#10b981" stroke-width="6" stroke-linecap="round"/>
+                            <text x="-25" y="40" font-size="18">♻️</text>
+                            <text x="-35" y="-10" fill="#34d399" font-size="11" font-weight="700" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif" id="plan-bins">Śmietniki</text>
+                        </g>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="pill-info" id="m-gate-p1">🅿️ <b>Parking:</b> Miejsce parkingowe jest oznaczone przed wejściem do budynku, na wprost wjazdu (po lewej stronie od wejścia do apartamentu).</div>
+            <div class="pill-info" id="m-gate-p2">🔑 <b>Pilot do bramy:</b> Na wieszaku obok w korytarzu znajduje się pilot do Państwa dyspozycji. <b>Lewy przycisk</b> służy do otwierania, zatrzymywania i zamykania bramy.</div>
+            <div class="pill-info" id="m-gate-p3">🔘 <b>Przycisk przy drzwiach:</b> Bramę wjazdową można otworzyć również przyciskiem znajdującym się na zewnątrz obok drzwi wejściowych do apartamentu. Brama zamyka się dopiero po 2 minutach od otwarcia, aby zapewnić czas na spokojny wyjazd.</div>
+            <div class="pill-info" id="m-gate-p4">🚪 <b>Wymeldowanie:</b> Przy wymeldowaniu prosimy o pozostawienie pilota na wieszaku w korytarzu.</div>
+        </div>
+    </div>
+
+    <!-- Modal Dostawa, Sklepy i Polecane Restauracje -->
+    <div id="modal-food" class="modal-overlay" onclick="closeModalOnBg(event, 'modal-food')">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h2 id="m-food-h">Zamów Jedzenie i Polecane Lokale</h2>
+                <button class="close-btn" onclick="closeModal('modal-food')">&times;</button>
+            </div>
+            <p style="color: var(--text-muted); margin-bottom: 6px;" id="m-food-sub">Podaj ten adres podczas zamawiania na Pyszne.pl, UberEats lub Bolt Food:</p>
+            <p class="qr-hint" id="m-food-hint" style="display:block; margin: 0 0 6px 0;">👆 Kliknij w wybrane miejsce, a pojawi się kod QR do zeskanowania telefonem – otworzy nawigację Google Maps do tego punktu.</p>
+            
+            <div class="pill-info clickable-pill" id="m-food-addr" onclick="showQRCode('https://www.google.com/maps/search/Lwa+Landaua+12+Kraków')">📍 <b>Adres dostawy:</b><br>ul. Lwa Landaua 12, Kraków</div>
+            
+            <div class="pill-info clickable-pill" id="m-food-shop" onclick="showQRCode('https://www.google.com/maps/search/Myślenicka+133+Kraków')">🛒 <b>Zakupy i Kawa:</b><br><b>Małe centrum handlowe (Supermarket, Rossmann, Apteka, Parter Cafe)</b><br>📍 ul. Myślenicka 133, Kraków</div>
+            <div class="pill-info clickable-pill" id="m-food-nearby" onclick="showQRCode('https://www.google.com/maps/search/Szyb+Swoszowice+Szybisko+40+Kraków')">🍽️ <b>W pobliżu (Swoszowice):</b><br><b>Restauracja Szyb Swoszowice</b><br>📍 ul. Szybisko 40 (ok. 1,5 km od apartamentu)</div>
+            <div class="pill-info clickable-pill" id="m-food-center" onclick="showQRCode('https://www.google.com/maps/search/MooMoo+Steak+Wine+Sienna+9+Kraków')">🥩 <b>W centrum Krakowa:</b><br><b>MooMoo Steak & Wine (Mo-Mo Stek)</b><br>📍 ul. Sienna 9 (Stare Miasto)</div>
+            <div class="pill-info clickable-pill" id="m-food-rec" onclick="showQRCode('https://www.google.com/maps/search/Kosocicka+105A+Kraków')">🍝 <b>Polecana restauracja:</b><br><b>Restauracja Pół na Pół</b> (kuchnia polsko-włoska)<br>📍 ul. Kosocicka 105A, Kraków</div>
+            <div class="pill-info clickable-pill" id="m-food-fast" onclick="showQRCode('https://www.google.com/maps/search/McDonalds+Stojałowskiego+2+Kraków')">🍔 <b>Najbliższy Fast Food:</b><br><b>McDonald's</b><br>📍 ul. Cechowa / ul. Stojałowskiego 2 (ok. 2,5 km od apartamentu)</div>
+        </div>
+    </div>
+
+    <!-- Modal Zasady, Ogrzewanie, Śmieci, Opłaty -->
+    <div id="modal-rules" class="modal-overlay" onclick="closeModalOnBg(event, 'modal-rules')">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h2 id="m-rules-h">Wskazówki dla Gości</h2>
+                <button class="close-btn" onclick="closeModal('modal-rules')">&times;</button>
+            </div>
+            
+            <div class="pill-info clickable-pill" id="m-rules-video-link" onclick="openModal('modal-video-player')" style="background: rgba(52, 211, 153, 0.12); border-color: var(--primary-green);">
+                🎥 <b>Jak otworzyć i zamknąć drzwi:</b> Kliknij tutaj, aby obejrzeć krótki film instruktażowy z obsługi zamka szyfrowego.
+            </div>
+
+            <div class="pill-info" id="m-rules-time">⏰ <b>Wymeldowanie:</b> Do 11:00 | 🌙 <b>Cisza nocna:</b> 22:00 – 06:00</div>
+            <div class="pill-info" id="m-rules-heat">🔥 <b>Ogrzewanie:</b> Prosimy o nieotwieranie okien i drzwi na dłużej niż w celach przewietrzenia pomieszczeń. W apartamencie działa ogrzewanie, które wyłącza się automatycznie, jeśli okna lub drzwi są uchylone/otwarte przez dłuższy czas.</div>
+            <div class="pill-info" id="m-rules-trash">♻️ <b>Śmieci:</b> Pojemniki na śmieci znajdują się od południowej strony budynku. Wychodząc z apartamentu należy pójść w prawo i za rogiem znajdują się pojemniki.</div>
+            <div class="pill-info" id="m-rules-fees">💳 <b>Opłaty dodatkowe:</b> Dokwaterowanie dodatkowej osoby (ponad ujęte w rezerwacji): 150 zł / dobę.<br>Pobyt zwierzęcia: 50 zł / dobę za zwierzę.</div>
+            <div class="pill-info" id="m-rules-pets">🐕 <b>Zwierzęta:</b> Psy można puścić wolno, ponieważ teren jest w pełni ogrodzony i stanowi doskonały wybieg dla psów.</div>
+            <div class="pill-info" id="m-rules-smoke">🚭 <b>Zakaz palenia:</b> Palenie wewnątrz apartamentu jest całkowicie zabronione.</div>
+        </div>
+    </div>
+
+    <!-- Modal Przewodnik / Atrakcje i Mapa Okolicy -->
+    <div id="modal-guide" class="modal-overlay" onclick="closeModalOnBg(event, 'modal-guide')">
+        <div class="modal-box" style="max-width: 820px; width: 95%;">
+            <div class="modal-header">
+                <h2 id="m-guide-h">Odkryj Kraków i Mapa Okolicy</h2>
+                <button class="close-btn" onclick="closeModal('modal-guide')">&times;</button>
+            </div>
+
+            <div style="display: flex; gap: 10px; margin-bottom: 16px;">
+                <button id="tab-guide-btn" class="btn-action" style="margin-top:0; background: var(--accent-green); color: #ffffff;" onclick="switchGuideTab('guide')">Przewodnik i Atrakcje</button>
+                <button id="tab-map-btn" class="btn-action" style="margin-top:0; background: var(--card-bg); border: 1px solid var(--primary-green); color: var(--primary-green);" onclick="switchGuideTab('map')">🗺️ Mapa Okolicy</button>
+            </div>
+
+            <div id="guide-content-view" style="display: block;">
+                <p class="qr-hint" id="m-guide-hint" style="display:block; margin: 0 0 6px 0;">👆 Kliknij w wybraną atrakcję, a pojawi się kod QR do zeskanowania telefonem – otworzy nawigację Google Maps do tego punktu.</p>
+                <div class="pill-info clickable-pill" id="m-guide-bus" onclick="showQRCode('https://www.google.com/maps/search/?api=1&query=49.988428,19.962283')">🚌 <b>Przystanek autobusowy Landaua:</b> Komunikacja miejska ułatwiająca dojazd do centrum.</div>
+                <div class="pill-info clickable-pill" id="m-guide-park" onclick="showQRCode('https://www.google.com/maps/search/Park+Zdrojowy+Swoszowice+Kraków')">🌳 <b>Park Zdrojowy w Swoszowicach:</b> Urokliwe, zielone miejsce na spacer tuż obok apartamentu.</div>
+                <div class="pill-info clickable-pill" id="m-guide-view" onclick="showQRCode('https://www.google.com/maps/search/Fort+51+Rajsko+Kraków')">🌄 <b>Punkt widokowy na Kraków:</b> Fort 51 Rajsko - Twierdza Kraków przy ul. Droga Rokadowa – wspaniała panorama miasta z góry.</div>
+                <div class="pill-info clickable-pill" id="m-guide-market" onclick="showQRCode('https://www.google.com/maps/search/Rynek+Główny+Kraków')">🏰 <b>Rynek Główny & Podziemia Rynku:</b> Sercem Krakowa z unikalną podziemną trasą turystyczną pod płytą Rynku.</div>
+                <div class="pill-info clickable-pill" id="m-guide-wawel" onclick="showQRCode('https://www.google.com/maps/search/Zamek+Królewski+na+Wawelu')">👑 <b>Zamek Królewski na Wawelu & Smok Wawelski:</b> Rezydencja królów oraz słynny pomnik na bulwarach.</div>
+                <div class="pill-info clickable-pill" id="m-guide-wieliczka" onclick="showQRCode('https://www.google.com/maps/search/Kopalnia+Soli+w+Wieliczce')">⛏️ <b>Kopalnia Soli w Wieliczce:</b> Słynna podziemna trasa turystyczna (ok. 15 minut jazdy).</div>
+                <div class="pill-info clickable-pill" id="m-guide-energylandia" onclick="showQRCode('https://www.google.com/maps/search/Energylandia+Zator')">🎢 <b>Park Rozrywki Energylandia w Zatorze:</b> Największy park rozrywki w Polsce. Dojazd ok. 45–50 minut.</div>
+            </div>
+
+            <div id="map-content-view" style="display: none;">
+                <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 10px;" id="m-map-sub">Interaktywna mapa okolicy Swoszowic i Krakowa. Kliknij pinezkę, aby zobaczyć szczegóły punktu.</p>
+                <div id="neighborhood-map" style="width: 100%; height: 420px; border-radius: 16px; border: 1px solid var(--card-border); z-index: 10; background: #121912;"></div>
+                <p style="color: var(--text-muted); font-size: 0.65rem; margin-top: 6px; text-align: right;">Map data © OpenStreetMap contributors</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Kontakt -->
+    <div id="modal-contact" class="modal-overlay" onclick="closeModalOnBg(event, 'modal-contact')">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h2 id="m-contact-h">Kontakt do Właściciela</h2>
+                <button class="close-btn" onclick="closeModal('modal-contact')">&times;</button>
+            </div>
+            <div class="pill-info" id="m-contact-p1">📞 <b>Telefon do właściciela:</b><br><span style="font-size:1.3rem; font-weight:800; color:var(--primary-green);">+48 508 048 886</span></div>
+            <div class="pill-info clickable-pill" id="m-contact-whats" style="text-align: center; background: rgba(52,211,153,0.12); border-color: var(--primary-green);" onclick="showQRCode('https://wa.me/48508048886', 'whatsapp')">💬 <b>Napisz do nas na WhatsApp</b><br>Kliknij tutaj, aby wyświetlić kod QR do czatu z właścicielem</div>
+            <div class="pill-info" id="m-contact-p2">💬 Jesteśmy do Państwa dyspozycji w razie pytań lub wątpliwości podczas pobytu!</div>
+            <div class="pill-info clickable-pill" id="m-contact-guestbook" onclick="openGuestbook()" style="text-align: center; background: rgba(52,211,153,0.12); border-color: var(--primary-green);">📖 <b>Księga gości</b><br>Zostaw wpis lub rysunek na pamiątkę</div>
+
+            <h3 style="margin-top: 15px; margin-bottom: 5px; color: var(--primary-green); font-size: 1.05rem;" id="m-contact-emerg">🚨 Numery Alarmowe</h3>
+            <div class="pill-info" id="m-contact-emerg-list" style="margin-top: 0;">
+                <b>112</b> - Centrum Powiadamiania Ratunkowego<br>
+                <b>999</b> - Pogotowie Ratunkowe<br>
+                <b>997</b> - Policja<br>
+                <b>998</b> - Straż Pożarna
+            </div>
+
+            <h3 style="margin-top: 15px; margin-bottom: 5px; color: var(--primary-green); font-size: 1.05rem;" id="m-contact-rides">🚗 Aplikacje Przewozowe</h3>
+            <div class="pill-info" id="m-contact-rides-list" style="margin-top: 0; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
+                <span>Możesz skorzystać z aplikacji:</span>
+                <div style="display: flex; gap: 8px;">
+                    <span style="background: rgba(0,0,0,0.3); padding: 4px 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); font-weight: 700; display: inline-flex; align-items: center; gap: 4px;">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg> Uber
+                    </span>
+                    <span style="background: rgba(16,185,129,0.15); padding: 4px 10px; border-radius: 8px; border: 1px solid rgba(74,222,128,0.2); font-weight: 700; display: inline-flex; align-items: center; gap: 4px; color: #34d399;">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M11 2L2 13h9l-1 9 11-11h-9l1-9z"/></svg> Bolt
+                    </span>
+                </div>
+            </div>
+
+            <h3 style="margin-top: 15px; margin-bottom: 5px; color: var(--primary-green); font-size: 1.05rem;" id="m-contact-taxi">🚕 Taxi</h3>
+            <div class="pill-info" id="m-contact-taxi-list" style="margin-top: 0;">
+                <b>Mega Taxi:</b> +48 12 400 00 00<br>
+                <b>iTaxi:</b> +48 737 737 737
+            </div>
+
+            <div class="pill-info clickable-pill" id="m-contact-review" style="margin-top: 15px; text-align: center; background: rgba(52,211,153,0.15); border-color: var(--primary-green);" onclick="showQRCode('https://www.google.com/maps/search/?api=1&query=Matylda+House+Krakow', 'review')">
+                ⭐ <b>Oceń nas na Google</b><br>Zeskanuj kod, aby zostawić opinię
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Księga Gości -->
+    <div id="modal-guestbook" class="modal-overlay" style="z-index: 320;" onclick="closeModalOnBg(event, 'modal-guestbook')">
+        <div class="modal-box" style="max-width: 760px;">
+            <div class="modal-header">
+                <h2 id="gb-title">📖 Księga gości</h2>
+                <button class="close-btn" onclick="closeModal('modal-guestbook')">&times;</button>
+            </div>
+            <div class="gb-tabs">
+                <button id="gb-tab-view" class="btn-action gb-tab active" onclick="gbTab('view')">Wpisy</button>
+                <button id="gb-tab-add" class="btn-action gb-tab" onclick="gbTab('add')">✍️ Dodaj wpis</button>
+            </div>
+
+            <div id="gb-view">
+                <p id="gb-hint" style="color: var(--text-muted); font-size: 0.75rem;"></p>
+                <div id="gb-list"></div>
+            </div>
+
+            <div id="gb-add" style="display: none;">
+                <input id="gb-name" class="gb-input" maxlength="40" autocomplete="off">
+                <textarea id="gb-text" class="gb-input" maxlength="500"></textarea>
+                <p id="gb-draw-label" style="margin-top: 12px; color: var(--primary-green); font-weight: 700; font-size: 0.9rem;"></p>
+                <canvas id="gb-canvas" width="600" height="400"></canvas>
+                <div class="gb-tools" id="gb-tools"></div>
+                <div style="display: flex; gap: 10px;">
+                    <button id="gb-clear" class="btn-action" style="background: var(--card-bg); border: 1px solid var(--primary-green); color: var(--primary-green);" onclick="gbClear()"></button>
+                    <button id="gb-save" class="btn-action" onclick="gbSave()"></button>
+                </div>
+            </div>
+            <div id="gb-toast" class="gb-toast"></div>
+        </div>
+    </div>
+
+    <!-- Modal O Obiekcie -->
+    <div id="modal-about" class="modal-overlay" onclick="closeModalOnBg(event, 'modal-about')">
+        <div class="modal-box" style="text-align: center;">
+            <div class="modal-header">
+                <h2>Matylda House</h2>
+                <button class="close-btn" onclick="closeModal('modal-about')">&times;</button>
+            </div>
+            <p style="margin-top:10px; line-height:1.6; color:var(--text-muted);" id="m-about-text">
+                Witaj w naszym apartamencie! Zrobiliśmy wszystko, aby Twój pobyt w Krakowie był wyjątkowy i komfortowy.<br><br>
+                <i>"You are welcome"</i>
+            </p>
+        </div>
+    </div>
+    
+    <!-- Modal QR Code Maps -->
+    <div id="modal-qr" class="modal-overlay" style="z-index: 300;" onclick="closeModalOnBg(event, 'modal-qr')">
+        <div class="modal-box" style="max-width: 400px; text-align: center;">
+            <div class="modal-header">
+                <h2 id="m-qr-h">Skanuj QR</h2>
+                <button class="close-btn" onclick="closeModal('modal-qr')">&times;</button>
+            </div>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px;" id="m-qr-sub">Zeskanuj telefonem, aby otworzyć nawigację Google Maps.</p>
+            <div style="background: white; padding: 20px; border-radius: 16px; display: inline-block;">
+                <img id="qr-code-img" src="" alt="QR Code" style="width: 250px; height: 250px; display: block;">
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal z Odtwarzaczem Wideo -->
+    <div id="modal-video-player" class="modal-overlay" style="z-index: 350;" onclick="closeModalOnBg(event, 'modal-video-player')">
+        <div class="modal-box" style="max-width: 600px; text-align: center;">
+            <div class="modal-header">
+                <h2 id="m-video-h">Instrukcja zamka do drzwi</h2>
+                <button class="close-btn" onclick="closeModal('modal-video-player')">&times;</button>
+            </div>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 12px;" id="m-video-sub">Zobacz, jak w prosty sposób otworzyć i zamknąć drzwi za pomocą kodu.</p>
+            <video id="door-video" controls playsinline preload="metadata" style="width: 100%; max-height: 400px; border-radius: 12px; background: #000;">
+                Twoja przeglądarka nie obsługuje odtwarzacza wideo.
+            </video>
+        </div>
+    </div>
+
+    <script>
+        let currentLang = 'pl';
+        let currentFontSize = 24; 
+        let neighborhoodMap = null;
+        let mapInitialized = false;
+
+        let planScale = 1;
+        let planPosX = 0;
+        let planPosY = 0;
+        let planStartTouchX = 0;
+        let planStartTouchY = 0;
+        let planIsDragging = false;
+        let planInitialPinchDist = 0;
+        let planInitialScale = 1;
+
+        // Funkcja pobierająca aktualną pogodę (Kraków - Swoszowice)
+        function fetchWeather() {
+            fetch('https://api.open-meteo.com/v1/forecast?latitude=49.9868&longitude=19.9622&current=temperature_2m,weather_code')
+                .then(response => response.json())
+                .then(data => {
+                    if (data && data.current) {
+                        const temp = Math.round(data.current.temperature_2m);
+                        document.getElementById('w-temp').innerText = temp + '°C';
+                        const code = data.current.weather_code;
+                        let icon = '🌤️';
+                        if (code === 0) icon = '☀️';
+                        else if (code >= 1 && code <= 3) icon = '⛅';
+                        else if (code === 45 || code === 48) icon = '🌫️';
+                        else if ((code >= 51 && code <= 67) || (code >= 80 && code <= 82)) icon = '🌧️';
+                        else if ((code >= 71 && code <= 77) || code === 85 || code === 86) icon = '❄️';
+                        else if (code >= 95) icon = '⛈️';
+                        document.getElementById('w-icon').innerText = icon;
+                    }
+                })
+                .catch(err => {
+                    console.error('Błąd pobierania pogody:', err);
+                    document.getElementById('w-temp').innerText = '--°C';
+                    document.getElementById('w-icon').innerText = '🌤️';
+                });
+        }
+
+        function updatePlanTransform() {
+            planScale = Math.min(Math.max(1, planScale), 4);
+            if (planScale === 1) {
+                planPosX = 0;
+                planPosY = 0;
+            }
+            const box = document.getElementById('plan-map-container');
+            if (box) {
+                const maxX = box.clientWidth * (planScale - 1) / 2;
+                const maxY = box.clientHeight * (planScale - 1) / 2;
+                planPosX = Math.min(Math.max(planPosX, -maxX), maxX);
+                planPosY = Math.min(Math.max(planPosY, -maxY), maxY);
+            }
+            const wrapper = document.getElementById('plan-map-wrapper');
+            if (wrapper) {
+                wrapper.style.transform = `translate(${planPosX}px, ${planPosY}px) scale(${planScale})`;
+            }
+        }
+
+        function zoomPlan(delta) {
+            planScale += delta;
+            updatePlanTransform();
+        }
+
+        function resetPlanZoom() {
+            planScale = 1;
+            planPosX = 0;
+            planPosY = 0;
+            updatePlanTransform();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.card, .clickable-pill').forEach(el => {
+                el.setAttribute('role', 'button');
+                el.setAttribute('tabindex', '0');
+                el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); el.click(); } });
+            });
+            fetchWeather();
+            setInterval(fetchWeather, 30 * 60 * 1000);
+
+            const doorVideo = document.getElementById('door-video');
+            if (doorVideo) {
+                doorVideo.addEventListener('play', () => {
+                    if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+                        if (doorVideo.requestFullscreen) {
+                            doorVideo.requestFullscreen();
+                        } else if (doorVideo.webkitRequestFullscreen) {
+                            doorVideo.webkitRequestFullscreen();
+                        } else if (doorVideo.msRequestFullscreen) {
+                            doorVideo.msRequestFullscreen();
+                        }
+                    }
+                });
+            }
+
+            const planContainer = document.getElementById('plan-map-container');
+            if (planContainer) {
+                planContainer.addEventListener('touchstart', (e) => {
+                    if (e.touches.length === 1 && planScale > 1) {
+                        planIsDragging = true;
+                        planStartTouchX = e.touches[0].clientX - planPosX;
+                        planStartTouchY = e.touches[0].clientY - planPosY;
+                    } else if (e.touches.length === 2) {
+                        planIsDragging = false;
+                        planInitialPinchDist = Math.hypot(
+                            e.touches[0].clientX - e.touches[1].clientX,
+                            e.touches[0].clientY - e.touches[1].clientY
+                        );
+                        planInitialScale = planScale;
+                    }
+                }, { passive: true });
+
+                planContainer.addEventListener('touchmove', (e) => {
+                    if (e.touches.length === 1 && planIsDragging) {
+                        e.preventDefault();
+                        planPosX = e.touches[0].clientX - planStartTouchX;
+                        planPosY = e.touches[0].clientY - planStartTouchY;
+                        updatePlanTransform();
+                    } else if (e.touches.length === 2) {
+                        e.preventDefault();
+                        const currentDist = Math.hypot(
+                            e.touches[0].clientX - e.touches[1].clientX,
+                            e.touches[0].clientY - e.touches[1].clientY
+                        );
+                        if (planInitialPinchDist > 0) {
+                            planScale = planInitialScale * (currentDist / planInitialPinchDist);
+                            updatePlanTransform();
+                        }
+                    }
+                }, { passive: false });
+
+                planContainer.addEventListener('touchend', (e) => {
+                    if (e.touches.length < 2) {
+                        planInitialPinchDist = 0;
+                    }
+                    if (e.touches.length === 0) {
+                        planIsDragging = false;
+                    }
+                });
+            }
+        });
+
+        function changeFontSize(changeValue) {
+            currentFontSize += changeValue;
+            if(currentFontSize < 16) currentFontSize = 16;
+            if(currentFontSize > 36) currentFontSize = 36; 
+            document.documentElement.style.fontSize = currentFontSize + 'px';
+        }
+
+        function switchGuideTab(tab) {
+            const guideView = document.getElementById('guide-content-view');
+            const mapView = document.getElementById('map-content-view');
+            const guideBtn = document.getElementById('tab-guide-btn');
+            const mapBtn = document.getElementById('tab-map-btn');
+
+            if (tab === 'guide') {
+                guideView.style.display = 'block';
+                mapView.style.display = 'none';
+                guideBtn.style.background = 'var(--accent-green)';
+                guideBtn.style.color = '#ffffff';
+                guideBtn.style.border = 'none';
+                mapBtn.style.background = 'var(--card-bg)';
+                mapBtn.style.color = 'var(--primary-green)';
+                mapBtn.style.border = '1px solid var(--primary-green)';
+            } else {
+                guideView.style.display = 'none';
+                mapView.style.display = 'block';
+                mapBtn.style.background = 'var(--accent-green)';
+                mapBtn.style.color = '#ffffff';
+                mapBtn.style.border = 'none';
+                guideBtn.style.background = 'var(--card-bg)';
+                guideBtn.style.color = 'var(--primary-green)';
+                guideBtn.style.border = '1px solid var(--primary-green)';
+
+                setTimeout(() => {
+                    if (!mapInitialized) {
+                        initNeighborhoodMap();
+                    } else if (neighborhoodMap) {
+                        neighborhoodMap.invalidateSize();
+                    }
+                }, 250);
+            }
+        }
+        
+        function getPopupContent(title, subtitle, lat, lng) {
+            const url = encodeURIComponent(`https://www.google.com/maps?q=${lat},${lng}`);
+            const hintText = dict[currentLang] ? dict[currentLang].qrHint : "Skanuj QR (Google Maps)";
+            return `
+                <div style="text-align: center; color: #333; min-width: 140px;">
+                    <b style="font-size:15px;">${title}</b><br>
+                    <span style="font-size:12px; color:#555;">${subtitle}</span><br>
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=${url}" style="margin-top:12px; border-radius:8px; width:140px; height:140px; border: 1px solid #ddd; box-shadow: 0 4px 10px rgba(0,0,0,0.15);">
+                    <div style="font-size:11.5px; color:#10b981; margin-top:8px; font-weight:800;">📱 ${hintText}</div>
+                </div>
+            `;
+        }
+
+        function initNeighborhoodMap() {
+            if (mapInitialized) return;
+
+            const centerLat = 49.9880;
+            const centerLng = 19.9650;
+
+            neighborhoodMap = L.map('neighborhood-map', {
+                zoomControl: true,
+                attributionControl: false
+            }).setView([centerLat, centerLng], 14);
+
+            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19
+            }).addTo(neighborhoodMap);
+
+            const houseIcon = L.divIcon({
+                className: 'custom-house-marker',
+                html: '<div style="background: #10b981; color: white; padding: 6px 10px; border-radius: 20px; font-weight: 800; font-size: 13px; box-shadow: 0 4px 12px rgba(0,0,0,0.4); display: flex; align-items: center; gap: 6px; border: 2px solid white; white-space: nowrap;">🏠 Matylda House</div>',
+                iconSize: [120, 36],
+                iconAnchor: [60, 18]
+            });
+
+            function createPinIcon(emoji, bgCol) {
+                return L.divIcon({
+                    className: 'custom-pin-marker',
+                    html: `<div style="background: ${bgCol}; color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); border: 2px solid white;">${emoji}</div>`,
+                    iconSize: [32, 32],
+                    iconAnchor: [16, 16]
+                });
+            }
+
+            L.marker([49.986822, 19.962290], { icon: houseIcon })  
+                .addTo(neighborhoodMap)
+                .bindPopup(getPopupContent("Matylda House (Apartament)", "ul. Lwa Landaua 12, Kraków", 49.986822, 19.962290));
+
+            L.marker([49.988428, 19.962283], { icon: createPinIcon('🚌', '#0284c7') })
+                .addTo(neighborhoodMap)
+                .bindPopup(getPopupContent("Przystanek Landaua", "Komunikacja miejska", 49.988428, 19.962283));
+
+            L.marker([49.994155, 19.946200], { icon: createPinIcon('🛒', '#3b82f6') })
+                .addTo(neighborhoodMap)
+                .bindPopup(getPopupContent("Centrum Handlowe", "ul. Myślenicka 133, Kraków", 49.994155, 19.946200));
+
+            L.marker([49.989707, 19.967701], { icon: createPinIcon('🌄', '#8b5cf6') })
+                .addTo(neighborhoodMap)
+                .bindPopup(getPopupContent("Punkt widokowy", "Fort 51 Rajsko", 49.989707, 19.967701));
+
+            L.marker([50.003494, 19.994506], { icon: createPinIcon('🍝', '#f59e0b') })
+                .addTo(neighborhoodMap)
+                .bindPopup(getPopupContent("Restauracja Pół na Pół", "ul. Kosocicka 105A", 50.003494, 19.994506));
+
+            L.marker([49.994748, 19.946562], { icon: createPinIcon('🥙', '#ef4444') })
+                .addTo(neighborhoodMap)
+                .bindPopup(getPopupContent("Kebab u Pajdy", "ul. Myślenicka 131", 49.994748, 19.946562));
+
+            L.marker([50.005424, 19.946687], { icon: createPinIcon('🍔', '#eab308') })
+                .addTo(neighborhoodMap)
+                .bindPopup(getPopupContent("McDonald's", "ul. Stojałowskiego 2", 50.005424, 19.946687));
+
+            L.marker([49.979795, 19.949351], { icon: createPinIcon('🏪', '#06b6d4') })
+                .addTo(neighborhoodMap)
+                .bindPopup(getPopupContent("Carrefour Express", "ul. Niewodniczańskiego 75", 49.979795, 19.949351));
+
+            L.marker([49.987131, 19.957547], { icon: createPinIcon('🏰', '#64748b') })
+                .addTo(neighborhoodMap)
+                .bindPopup(getPopupContent("Fort 51 ½ Swoszowice", "ul. Sawiczewskich 46a", 49.987131, 19.957547));
+
+            mapInitialized = true;
+        }
+
+        const dict = {
+            pl: {
+                code: "PL", qrHint: "Skanuj QR (Google Maps)",
+                qrModal: { title: "Nawigacja Google Maps", sub: "Zeskanuj ten kod telefonem, aby otworzyć nawigację." },
+                qrReviewModal: { title: "Napisz Opinię", sub: "Zeskanuj ten kod telefonem, aby przejść do opinii Google." },
+                plan: { building: "Budynek", parking: "Parking", bins: "Śmietniki", hint: "🔍 Rozsuń dwa palce, aby powiększyć" },
+                qrWhatsModal: { title: "WhatsApp", sub: "Zeskanuj ten kod telefonem, aby napisać do właściciela na WhatsApp." },
+                greetings: { morning: "Dzień dobry! Witamy w Matylda House", day: "Witamy w Matylda House", night: "Dobry wieczór! Witamy w Matylda House" },
+                welcomeSub: "Życzymy udanego i wypoczynkowego pobytu",
+                cards: {
+                    wifiTitle: "Wi-Fi i Internet", wifiSub: "Nazwa sieci i hasło", 
+                    gateTitle: "Parking i Brama", gateSub: "Pilot, plan posesji i wjazd", 
+                    foodTitle: "Jedzenie i Zakupy", foodSub: "Dostawy, restauracje i sklep", 
+                    rulesTitle: "Zasady i Instrukcje", rulesSub: "Obsługa zamka, ogrzewanie, reguły i zwierzęta", 
+                    guideTitle: "Odkryj Kraków", guideSub: "Atrakcje i interaktywna mapa", 
+                    contactTitle: "Kontakt i Pomoc", contactSub: "Właściciel, alarmy, taxi i księga gości"
+                },
+                modals: {
+                    wifiH: "Sieć Wi-Fi", wifiSsid: "📶 <b>Nazwa sieci:</b> Matylda_House", wifiPass: "🔑 <b>Hasło:</b> Domowe_WIFI",
+                    wifiQrLink: "📱 <b>Zeskanuj kod QR</b><br>Kliknij tutaj, aby wyświetlić kod do skanowania",
+                    wifiQrTitle: "Kod QR Wi-Fi",
+                    wifiQrSub: "Zeskanuj ten kod aparatem w telefonie, aby automatycznie połączyć się z siecią.",
+                    gateH: "Parking, Brama i Plan Posesji",
+                    gateP1: "🅿️ <b>Parking:</b> Miejsce parkingowe jest oznaczone przed wejściem do budynku, na wprost wjazdu (po lewej stronie od wejścia do apartamentu).",
+                    gateP2: "🔑 <b>Pilot do bramy:</b> Na wieszaku obok w korytarzu znajduje się pilot do Państwa dyspozycji. <b>Lewy przycisk</b> służy do otwierania, zatrzymywania i zamykania bramy.",
+                    gateP3: "🔘 <b>Przycisk przy drzwiach:</b> Bramę wjazdową można otworzyć również przyciskiem znajdującym się na zewnątrz obok drzwi wejściowych do apartamentu. Brama zamyka się dopiero po 2 minutach od otwarcia, aby zapewnić czas na spokojny wyjazd.",
+                    gateP4: "🚪 <b>Wymeldowanie:</b> Przy wymeldowaniu prosimy o pozostawienie pilota na wieszaku w korytarzu.",
+                    foodH: "Jedzenie, Zakupy i Polecane Lokale", foodSubText: "Podaj ten adres podczas zamawiania na Pyszne.pl, UberEats lub Bolt Food:",
+                    foodAddr: "📍 <b>Adres dostawy:</b><br>ul. Lwa Landaua 12, Kraków",
+                    foodShop: "🛒 <b>Zakupy i Kawa:</b><br><b>Małe centrum handlowe (Supermarket, Rossmann, Apteka, Parter Cafe)</b><br>📍 ul. Myślenicka 133, Kraków",
+                    foodNearby: "🍽️ <b>W pobliżu (Swoszowice):</b><br><b>Restauracja Szyb Swoszowice</b><br>📍 ul. Szybisko 40 (ok. 1,5 km od apartamentu)",
+                    foodCenter: "🥩 <b>W centrum Krakowa:</b><br><b>MooMoo Steak & Wine (Mo-Mo Stek)</b><br>📍 ul. Sienna 9 (Stare Miasto)",
+                    foodRec: "🍝 <b>Polecana restauracja:</b><br><b>Restauracja Pół na Pół</b> (kuchnia polsko-włoska)<br>📍 ul. Kosocicka 105A, Kraków",
+                    foodFast: "🍔 <b>Najbliższy Fast Food:</b><br><b>McDonald's</b><br>📍 ul. Cechowa / ul. Stojałowskiego 2 (ok. 2,5 km od apartamentu)",
+                    rulesH: "Zasady i Instrukcje",
+                    rulesVideo: "🎥 <b>Jak otworzyć i zamknąć drzwi:</b> Kliknij tutaj, aby obejrzeć krótki film instruktażowy z obsługi zamka szyfrowego.",
+                    videoModalH: "Instrukcja zamka do drzwi",
+                    videoModalSub: "Zobacz, jak w prosty sposób otworzyć i zamknąć drzwi za pomocą kodu.",
+                    rulesTime: "⏰ <b>Wymeldowanie:</b> Do 11:00 | 🌙 <b>Cisza nocna:</b> 22:00 – 06:00",
+                    rulesHeat: "🔥 <b>Ogrzewanie:</b> Prosimy o nieotwieranie okien i drzwi na dłużej niż w celach przewietrzenia pomieszczeń. W apartamencie działa ogrzewanie, które wyłącza się automatycznie, jeśli okna lub drzwi są uchylone/otwarte przez dłuższy czas.",
+                    rulesTrash: "♻️ <b>Śmieci:</b> Pojemniki na śmieci znajdują się od południowej strony budynku. Wychodząc z apartamentu należy pójść w prawo i za rogiem znajdują się pojemniki.",
+                    rulesFees: "💳 <b>Opłaty dodatkowe:</b> Dokwaterowanie dodatkowej osoby (ponad ujęte w rezerwacji): 150 zł / dobę.<br>Pobyt zwierzęcia: 50 zł / dobę za zwierzę.",
+                    rulesPets: "🐕 <b>Zwierzęta:</b> Psy można puścić wolno, ponieważ teren jest w pełni ogrodzony i stanowi doskonały wybieg dla psów.",
+                    rulesSmoke: "🚭 <b>Zakaz palenia:</b> Palenie wewnątrz apartamentu jest całkowicie zabronione.",
+                    guideH: "Odkryj Kraków i Mapa Okolicy", tabGuide: "Przewodnik i Atrakcje", tabMap: "🗺️ Mapa Okolicy",
+                    mapSub: "Interaktywna mapa okolicy Swoszowic i Krakowa. Kliknij pinezkę, aby zobaczyć szczegóły punktu.",
+                    foodHint: "👆 Kliknij w wybrane miejsce, a pojawi się kod QR do zeskanowania telefonem – otworzy nawigację Google Maps do tego punktu.",
+                    guideHint: "👆 Kliknij w wybraną atrakcję, a pojawi się kod QR do zeskanowania telefonem – otworzy nawigację Google Maps do tego punktu.",
+                    contactWhats: "💬 <b>Napisz do nas na WhatsApp</b><br>Kliknij tutaj, aby wyświetlić kod QR do czatu z właścicielem",
+                    guideBus: "🚌 <b>Przystanek autobusowy Landaua:</b> Komunikacja miejska ułatwiająca dojazd do centrum.",
+                    guidePark: "🌳 <b>Park Zdrojowy w Swoszowicach:</b> Urokliwe, zielone miejsce na spacer tuż obok apartamentu.",
+                    guideView: "🌄 <b>Punkt widokowy na Kraków:</b> Fort 51 Rajsko - Twierdza Kraków przy ul. Droga Rokadowa – wspaniała panorama miasta z góry.",
+                    guideMarket: "🏰 <b>Rynek Główny & Podziemia Rynku:</b> Sercem Krakowa z unikalną podziemną trasą turystyczną pod płytą Rynku.",
+                    guideWawel: "👑 <b>Zamek Królewski na Wawelu & Smok Wawelski:</b> Rezydencja królów oraz słynny pomnik Smoka Wawelskiego na bulwarach.",
+                    guideWieliczka: "⛏️ <b>Kopalnia Soli w Wieliczce:</b> Słynna podziemna trasa turystyczna (ok. 15 minut jazdy samochodem trasą obwodową).",
+                    guideEnergylandia: "🎢 <b>Park Rozrywki Energylandia w Zatorze:</b> Największy park rozrywki w Polsce. Dojazd samochodem zajmuje ok. 45–50 minut.",
+                    contactH: "Kontakt i Pomoc",
+                    contactP1: "📞 <b>Telefon do właściciela:</b><br><span style='font-size:1.3rem; font-weight:800; color:var(--primary-green);'>+48 508 048 886</span>",
+                    contactP2: "💬 Jesteśmy do Państwa dyspozycji w razie pytań lub wątpliwości podczas pobytu!",
+                    contactEmerg: "🚨 Numery Alarmowe",
+                    contactEmergList: "<b>112</b> - Centrum Powiadamiania Ratunkowego<br><b>999</b> - Pogotowie Ratunkowe<br><b>997</b> - Policja<br><b>998</b> - Straż Pożarna",
+                    contactRides: "🚗 Aplikacje Przewozowe",
+                    contactRidesList: "Możesz skorzystać z aplikacji:",
+                    contactTaxi: "🚕 Taxi",
+                    contactTaxiList: "<b>Mega Taxi:</b> +48 12 400 00 00<br><b>iTaxi:</b> +48 737 737 737",
+                    contactReview: "⭐ <b>Oceń nas na Google</b><br>Zeskanuj kod, aby zostawić opinię",
+                    aboutText: "Witaj w naszym apartamencie! Zrobiliśmy wszystko, aby Twój pobyt w Krakowie był wyjątkowy i komfortowy.<br><br><i>\"You are welcome\"</i>"
+                }
+            },
+            en: {
+                code: "EN", qrHint: "Scan QR (Google Maps)",
+                qrModal: { title: "Google Maps Navigation", sub: "Scan this code with your phone to open navigation." },
+                qrReviewModal: { title: "Write a Review", sub: "Scan this code with your phone to open Google Reviews." },
+                plan: { building: "Building", parking: "Parking", bins: "Bins", hint: "🔍 Pinch with two fingers to zoom" },
+                qrWhatsModal: { title: "WhatsApp", sub: "Scan this code with your phone to message the owner on WhatsApp." },
+                greetings: { morning: "Good morning! Welcome to Matylda House", day: "Welcome to Matylda House", night: "Good evening! Welcome to Matylda House" },
+                welcomeSub: "We wish you a pleasant and relaxing stay",
+                cards: {
+                    wifiTitle: "Wi-Fi & Internet", wifiSub: "Network name & password", 
+                    gateTitle: "Parking & Gate", gateSub: "Remote, property map & entry", 
+                    foodTitle: "Food & Shopping", foodSub: "Delivery, restaurants & shop", 
+                    rulesTitle: "Rules & Instructions", rulesSub: "Door lock, heating, rules & pets", 
+                    guideTitle: "Discover Kraków", guideSub: "Attractions & interactive map", 
+                    contactTitle: "Contact & Help", contactSub: "Owner, emergency, taxi & guestbook"
+                },
+                modals: {
+                    wifiH: "Wi-Fi Network", wifiSsid: "📶 <b>Network Name:</b> Matylda_House", wifiPass: "🔑 <b>Password:</b> Domowe_WIFI",
+                    wifiQrLink: "📱 <b>Scan QR Code</b><br>Click here to show the QR code",
+                    wifiQrTitle: "Wi-Fi QR Code",
+                    wifiQrSub: "Scan this code with your phone's camera to connect automatically.",
+                    gateH: "Parking, Gate & Property Map",
+                    gateP1: "🅿️ <b>Parking:</b> Marked parking space is located in front of the building entrance, straight ahead from the driveway.",
+                    gateP2: "🔑 <b>Gate Remote:</b> On the rack in the hallway there is a remote control. The <b>left button</b> opens, stops, and closes the gate.",
+                    gateP3: "🔘 <b>Door Button:</b> The gate can also be opened using the button outside next to the apartment entrance. The gate closes automatically after 2 minutes.",
+                    gateP4: "🚪 <b>Check-out:</b> Please leave the gate remote back on the hallway rack upon check-out.",
+                    foodH: "Food, Shopping & Recommended Spots", foodSubText: "Provide this address when ordering on UberEats, Bolt Food, or Pyszne.pl:",
+                    foodAddr: "📍 <b>Delivery Address:</b><br>ul. Lwa Landaua 12, Kraków",
+                    foodShop: "🛒 <b>Shopping & Cafe:</b><br><b>Small shopping center (Supermarket, Rossmann, Pharmacy, Cafe)</b><br>📍 ul. Myślenicka 133, Kraków",
+                    foodNearby: "🍽️ <b>Nearby (Swoszowice):</b><br><b>Restauracja Szyb Swoszowice</b><br>📍 ul. Szybisko 40",
+                    foodCenter: "🥩 <b>In City Center:</b><br><b>MooMoo Steak & Wine</b><br>📍 ul. Sienna 9 (Old Town)",
+                    foodRec: "🍝 <b>Recommended Restaurant:</b><br><b>Restauracja Pół na Pół</b> (Polish & Italian cuisine)<br>📍 ul. Kosocicka 105A, Kraków",
+                    foodFast: "🍔 <b>Nearest Fast Food:</b><br><b>McDonald's</b><br>📍 ul. Cechowa / ul. Stojałowskiego 2",
+                    rulesH: "Rules & Instructions",
+                    rulesVideo: "🎥 <b>How to open and close the door:</b> Click here to watch a short video tutorial on using the code lock.",
+                    videoModalH: "Door Lock Guide",
+                    videoModalSub: "See how easily you can open and close the door using the code.",
+                    rulesTime: "⏰ <b>Check-out:</b> By 11:00 AM | 🌙 <b>Quiet hours:</b> 10:00 PM – 06:00 AM",
+                    rulesHeat: "🔥 <b>Heating:</b> Please do not leave windows or doors open longer than needed for airing out. The heating turns off automatically if left open.",
+                    rulesTrash: "♻️ <b>Trash:</b> Waste containers are located on the south side of the building. Exit the apartment, turn right, and they are around the corner.",
+                    rulesFees: "💳 <b>Extra Fees:</b> Additional guest: 150 PLN / night.<br>Pet stay: 50 PLN / night per pet.",
+                    rulesPets: "🐕 <b>Pets:</b> Dogs can be let loose, as the area is fully fenced and serves as a great dog run.",
+                    rulesSmoke: "🚭 <b>No Smoking:</b> Smoking inside the apartment is strictly prohibited.",
+                    guideH: "Discover Kraków & Neighborhood Map", tabGuide: "Guide & Attractions", tabMap: "🗺️ Neighborhood Map",
+                    mapSub: "Interactive map of Swoszowice and Kraków area. Click a pin for details.",
+                    foodHint: "👆 Tap a place to show a QR code. Scan it with your phone to start Google Maps navigation to that spot.",
+                    guideHint: "👆 Tap an attraction to show a QR code. Scan it with your phone to start Google Maps navigation to that spot.",
+                    contactWhats: "💬 <b>Message us on WhatsApp</b><br>Tap here to show the QR code for chatting with the owner",
+                    guideBus: "🚌 <b>Landaua Bus Stop:</b> Public transport for easy access to the city center.",
+                    guidePark: "🌳 <b>Swoszowice Spa Park:</b> Charming green park for a relaxing walk right next door.",
+                    guideView: "🌄 <b>Kraków Viewpoint (Night View):</b> Fort 51 Rajsko - Twierdza Kraków at ul. Droga Rokadowa – a wonderful panorama of Kraków.",
+                    guideMarket: "🏰 <b>Main Market Square & Market Underground:</b> The heart of Kraków with a unique underground exhibition.",
+                    guideWawel: "👑 <b>Wawel Royal Castle & Dragon Statue:</b> Historic royal residence and the famous fire-breathing Dragon Statue.",
+                    guideWieliczka: "⛏️ <b>Wieliczka Salt Mine:</b> Famous UNESCO underground salt mine (approx. 15 minutes drive).",
+                    guideEnergylandia: "🎢 <b>Energylandia Amusement Park in Zator:</b> The largest amusement park in Poland. Approx. 45-50 min by car.",
+                    contactH: "Contact & Help",
+                    contactP1: "📞 <b>Owner Phone:</b><br><span style='font-size:1.3rem; font-weight:800; color:var(--primary-green);'>+48 508 048 886</span>",
+                    contactP2: "💬 We are at your service if you have any questions during your stay!",
+                    contactEmerg: "🚨 Emergency Numbers",
+                    contactEmergList: "<b>112</b> - General Emergency<br><b>999</b> - Ambulance<br><b>997</b> - Police<br><b>998</b> - Fire Department",
+                    contactRides: "🚗 Ride-sharing Apps",
+                    contactRidesList: "You can use the apps:",
+                    contactTaxi: "🚕 Taxi Services",
+                    contactTaxiList: "<b>Mega Taxi:</b> +48 12 400 00 00<br><b>iTaxi:</b> +48 737 737 737",
+                    contactReview: "⭐ <b>Rate us on Google</b><br>Scan the code to leave a review",
+                    aboutText: "Welcome to our apartment! We made every effort to make your stay in Kraków comfortable.<br><br><i>\"You are welcome\"</i>"
+                }
+            },
+            uk: {
+                code: "UK", qrHint: "Сканувати QR (Google Maps)",
+                qrModal: { title: "Навігація Google Maps", sub: "Відскануйте цей код телефоном, щоб відкрити навігацію." },
+                qrReviewModal: { title: "Написати Відгук", sub: "Відскануйте цей код, щоб відкрити відгуки Google." },
+                plan: { building: "Будівля", parking: "Паркінг", bins: "Сміття", hint: "🔍 Розведіть два пальці, щоб збільшити" },
+                qrWhatsModal: { title: "WhatsApp", sub: "Відскануйте цей код телефоном, щоб написати власнику у WhatsApp." },
+                greetings: { morning: "Доброго ранку! Ласкаво просимо до Matylda House", day: "Ласкаво просимо до Matylda House", night: "Доброго вечора! Ласкаво просимо до Matylda House" },
+                welcomeSub: "Бажаємо вам приємного та комфортного відпочинку",
+                cards: {
+                    wifiTitle: "Wi-Fi та Інтернет", wifiSub: "Назва мережі та пароль", 
+                    gateTitle: "Паркінг та Брама", gateSub: "Пульт, план та в'їзд", 
+                    foodTitle: "Їжа та Покупки", foodSub: "Доставка, ресторани та магазин", 
+                    rulesTitle: "Правила та Інструкції", rulesSub: "Замок, опалення, правила та тварини", 
+                    guideTitle: "Відкрийте Краків", guideSub: "Пам'ятки та інтерактивна мапа", 
+                    contactTitle: "Контакти та Допомога", contactSub: "Власник, екстрені служби, таксі та книга гостей"
+                },
+                modals: {
+                    wifiH: "Мережа Wi-Fi", wifiSsid: "📶 <b>Назва мережі:</b> Matylda_House", wifiPass: "🔑 <b>Пароль:</b> Domowe_WIFI",
+                    wifiQrLink: "📱 <b>Сканувати QR-код</b><br>Натисніть тут, щоб показати код",
+                    wifiQrTitle: "QR-код Wi-Fi",
+                    wifiQrSub: "Відскануйте цей код камерою телефону для автоматичного підключення.",
+                    gateH: "Паркінг, Брама та План Території",
+                    gateP1: "🅿️ <b>Паркінг:</b> Позначене паркувальне місце знаходиться перед входом у будівлю, навпроти в'їзду (ліворуч від входу в апартаменти).",
+                    gateP2: "🔑 <b>Пульт від брами:</b> На вішалці в коридорі є пульт. <b>Ліва кнопка</b> відкриває, зупиняє та закриває браму.",
+                    gateP3: "🔘 <b>Кнопка біля дверей:</b> Браму можна відкрити кнопкою ззовні біля входу. Вона закривається автоматично через 2 хвилини після відкриття.",
+                    gateP4: "🚪 <b>Виїзд:</b> При виїзді просимо залишити пульт на вішалці у коридорі.",
+                    foodH: "Їжа, Покупки та Ресторани", foodSubText: "Вкажіть цю адресу при замовленні доставки:",
+                    foodAddr: "📍 <b>Адреса доставки:</b><br>ul. Lwa Landaua 12, Kraków",
+                    foodShop: "🛒 <b>Покупки та Кава:</b><br><b>Невеликий торговий центр (Супермаркет, Rossmann, Аптека)</b><br>📍 ul. Myślenicka 133, Kraków",
+                    foodNearby: "🍽️ <b>Поруч (Свошовіце):</b><br><b>Restauracja Szyb Swoszowice</b><br>📍 ul. Szybisko 40",
+                    foodCenter: "🥩 <b>У центрі Кракова:</b><br><b>MooMoo Steak & Wine</b><br>📍 ul. Sienna 9 (Старе Місто)",
+                    foodRec: "🍝 <b>Рекомендований ресторан:</b><br><b>Restauracja Pół na Pół</b><br>📍 ul. Kosocicka 105A",
+                    foodFast: "🍔 <b>Найближчий Фастфуд:</b><br><b>McDonald's</b><br>📍 ul. Cechowa / ul. Stojałowskiego 2",
+                    rulesH: "Правила та Інструкції",
+                    rulesVideo: "🎥 <b>Як відкрити та закрити двері:</b> Натисніть тут, щоб переглянути коротке відеоінструктаж з користування кодовим замком.",
+                    videoModalH: "Інструкція до замка",
+                    videoModalSub: "Подивіться, як легко відкрити та закрити двері за допомогою коду.",
+                    rulesTime: "⏰ <b>Виїзд:</b> До 11:00 | 🌙 <b>Тихі години:</b> 22:00 – 06:00",
+                    rulesHeat: "🔥 <b>Опалення:</b> Просимо не залишати вікна та двері відчиненими довше, ніж для провітрювання. Опалення автоматично вимикається, якщо вікна або двері довго відчинені.",
+                    rulesTrash: "♻️ <b>Сміття:</b> Контейнери розташовані з південного боку будівлі. Вийшовши з апартаментів, поверніть праворуч — за рогом.",
+                    rulesFees: "💳 <b>Додаткові збори:</b> Додатковий гість: 150 PLN / добу.<br>Проживання тварин: 50 PLN / добу.",
+                    rulesPets: "🐕 <b>Тварини:</b> Собак можна відпускати з повідця, оскільки територія повністю огороджена і є чудовим місцем для їхнього вигулу.",
+                    rulesSmoke: "🚭 <b>Заборона куріння:</b> Куріння всередині апартаментів суворо заборонено.",
+                    guideH: "Відкрийте Краків та Мапа Околиці", tabGuide: "Гід та Пам'ятки", tabMap: "🗺️ Мапа Околиці",
+                    mapSub: "Інтерактивна мапа району Свошовіце та Кракова. Натисніть на пін для деталей.",
+                    foodHint: "👆 Натисніть на обране місце, і з'явиться QR-код. Відскануйте його телефоном, щоб відкрити навігацію Google Maps до цієї точки.",
+                    guideHint: "👆 Натисніть на обрану пам'ятку, і з'явиться QR-код. Відскануйте його телефоном, щоб відкрити навігацію Google Maps до цієї точки.",
+                    contactWhats: "💬 <b>Напишіть нам у WhatsApp</b><br>Натисніть тут, щоб показати QR-код для чату з власником",
+                    guideBus: "🚌 <b>Автобусна зупинка Landaua:</b> Громадський транспорт для зручного доїзду до центру.",
+                    guidePark: "🌳 <b>Курортний Парк Свошовіце:</b> Чудове, зелене місце для прогулянки прямо поруч з апартаментами.",
+                    guideView: "🌄 <b>Оглядовий майданчик Кракова:</b> Fort 51 Rajsko на ul. Droga Rokadowa – чудова панорама міста.",
+                    guideMarket: "🏰 <b>Головна Площа & Підземелля Ринку:</b> Серце Кракова з унікальною підземною трасою.",
+                    guideWawel: "👑 <b>Королівський Замок на Вавелі & Дракон:</b> Резиденція королів та скульптура Дракона на Віслі.",
+                    guideWieliczka: "⛏️ <b>Соляна Копальня Величка:</b> Відома підземна туристична траса (бл. 15 хвилин на авто).",
+                    guideEnergylandia: "🎢 <b>Парк розваг Енерджиландія:</b> Найбільший парк атракціонів у Польщі. (бл. 45-50 хв на авто).",
+                    contactH: "Контакти та Допомога", 
+                    contactP1: "📞 <b>Телефон власника:</b><br><span style='font-size:1.3rem; font-weight:800; color:var(--primary-green);'>+48 508 048 886</span>",
+                    contactP2: "💬 Ми до ваших послуг у разі виникнення питань!",
+                    contactEmerg: "🚨 Екстрені номери",
+                    contactEmergList: "<b>112</b> - Загальний номер<br><b>999</b> - Швидка допомога<br><b>997</b> - Поліція<br><b>998</b> - Пожежна служба",
+                    contactRides: "🚗 Додатки для поїздок",
+                    contactRidesList: "Ви можете скористатися додатками:",
+                    contactTaxi: "🚕 Служби таксі",
+                    contactTaxiList: "<b>Mega Taxi:</b> +48 12 400 00 00<br><b>iTaxi:</b> +48 737 737 737",
+                    contactReview: "⭐ <b>Оцініть нас у Google</b><br>Відскануйте код, щоб залишити відгук",
+                    aboutText: "Ласкаво просимо! Ми зробили все, щоб ваше перебування у Кракові було комфортним.<br><br><i>\"You are welcome\"</i>"
+                }
+            },
+            de: {
+                code: "DE", qrHint: "QR Scannen (Google Maps)",
+                qrModal: { title: "Google Maps Navigation", sub: "Scannen Sie diesen Code mit Ihrem Telefon, um die Navigation zu öffnen." },
+                qrReviewModal: { title: "Bewertung Schreiben", sub: "Scannen Sie diesen Code, um Google-Bewertungen zu öffnen." },
+                plan: { building: "Gebäude", parking: "Parkplatz", bins: "Mülltonnen", hint: "🔍 Zum Zoomen zwei Finger auseinanderziehen" },
+                qrWhatsModal: { title: "WhatsApp", sub: "Scannen Sie diesen Code mit dem Handy, um dem Gastgeber auf WhatsApp zu schreiben." },
+                greetings: { morning: "Guten Morgen! Willkommen im Matylda House", day: "Willkommen im Matylda House", night: "Guten Abend! Willkommen im Matylda House" },
+                welcomeSub: "Wir wünschen Ihnen einen angenehmen Aufenthalt",
+                cards: {
+                    wifiTitle: "WLAN & Internet", wifiSub: "Netzwerkname & Passwort", 
+                    gateTitle: "Parkplatz & Tor", gateSub: "Fernbedienung, Lageplan & Einfahrt", 
+                    foodTitle: "Essen & Einkaufen", foodSub: "Lieferung, Restaurants & Shop", 
+                    rulesTitle: "Regeln & Anleitungen", rulesSub: "Türschloss, Heizung, Regeln & Haustiere", 
+                    guideTitle: "Krakau Entdecken", guideSub: "Attraktionen & interaktive Karte", 
+                    contactTitle: "Kontakt & Hilfe", contactSub: "Gastgeber, Notruf, Taxi & Gästebuch"
+                },
+                modals: {
+                    wifiH: "WLAN-Netzwerk", wifiSsid: "📶 <b>Netzwerkname:</b> Matylda_House", wifiPass: "🔑 <b>Passwort:</b> Domowe_WIFI",
+                    wifiQrLink: "📱 <b>QR-Code scannen</b><br>Klicken Sie hier, um den Code anzuzeigen",
+                    wifiQrTitle: "WLAN QR-Code",
+                    wifiQrSub: "Scannen Sie diesen Code mit Ihrer Handykamera, um sich automatisch zu verbinden.",
+                    gateH: "Parkplatz, Tor & Lageplan",
+                    gateP1: "🅿️ <b>Parkplatz:</b> Der markierte Parkplatz befindet sich direkt vor dem Gebäude, geradeaus von der Einfahrt (links vom Apartmenteingang).",
+                    gateP2: "🔑 <b>Tor-Fernbedienung:</b> Am Haken im Flur finden Sie eine Fernbedienung. Die <b>linke Taste</b> öffnet, stoppt und schließt das Tor.",
+                    gateP3: "🔘 <b>Türschalter:</b> Das Tor kann auch über den Knopf außen neben der Eingangstür geöffnet werden. Es schließt erst 2 Minuten nach dem Öffnen.",
+                    gateP4: "🚪 <b>Check-out:</b> Bitte lassen Sie die Fernbedienung beim Check-out am Haken im Flur.",
+                    foodH: "Essen, Einkaufen & Empfehlungen", foodSubText: "Geben Sie diese Adresse bei UberEats, Bolt Food etc. an:",
+                    foodAddr: "📍 <b>Lieferadresse:</b><br>ul. Lwa Landaua 12, Kraków",
+                    foodShop: "🛒 <b>Einkaufen & Café:</b><br><b>Kleines Einkaufszentrum (Supermarket, Rossmann, Apotheke)</b><br>📍 ul. Myślenicka 133, Kraków",
+                    foodNearby: "🍽️ <b>In der Nähe (Swoszowice):</b><br><b>Restauracja Szyb Swoszowice</b><br>📍 ul. Szybisko 40",
+                    foodCenter: "🥩 <b>Im Stadtzentrum:</b><br><b>MooMoo Steak & Wine</b><br>📍 ul. Sienna 9",
+                    foodRec: "🍝 <b>Restaurant Empfehlung:</b><br><b>Restauracja Pół na Pół</b><br>📍 ul. Kosocicka 105A, Kraków",
+                    foodFast: "🍔 <b>Nächster Fast Food:</b><br><b>McDonald's</b><br>📍 ul. Cechowa / ul. Stojałowskiego 2",
+                    rulesH: "Regeln & Anleitungen",
+                    rulesVideo: "🎥 <b>Tür öffnen und schließen:</b> Klicken Sie hier, um ein kurzes Video zur Bedienung des Zahlenschlosses anzusehen.",
+                    videoModalH: "Türschloss-Anleitung",
+                    videoModalSub: "Sehen Sie, wie Sie die Tür ganz einfach mit einem Code öffnen und schließen.",
+                    rulesTime: "⏰ <b>Check-out:</b> Bis 11:00 Uhr | 🌙 <b>Nachtruhe:</b> 22:00 – 06:00",
+                    rulesHeat: "🔥 <b>Heizung:</b> Bitte lassen Sie Fenster und Türen nicht länger als zum Lüften offen. Die Heizung schaltet sich automatisch ab, wenn sie lange geöffnet bleiben.",
+                    rulesTrash: "♻️ <b>Müll:</b> Die Mülltonnen stehen auf der Südseite des Gebäudes. Vom Apartment aus rechts abbiegen, sie befinden sich um die Ecke.",
+                    rulesFees: "💳 <b>Zusatzkosten:</b> Zusätzlicher Gast: 150 PLN / Nacht.<br>Haustier: 50 PLN / Nacht.",
+                    rulesPets: "🐕 <b>Haustiere:</b> Hunde können frei laufen gelassen werden, da das Gelände komplett eingezäunt ist und sich hervorragend als Hundeauslauf eignet.",
+                    rulesSmoke: "🚭 <b>Rauchverbot:</b> Das Rauchen im Apartment ist strengstens verboten.",
+                    guideH: "Krakau Entdecken & Umgebungskarte", tabGuide: "Guide & Attraktionen", tabMap: "🗺️ Umgebungskarte",
+                    mapSub: "Interaktive Karte. Klicken Sie auf einen Pin für Details.",
+                    foodHint: "👆 Tippen Sie auf einen Ort, um einen QR-Code anzuzeigen. Scannen Sie ihn mit dem Handy, um die Google-Maps-Navigation zu diesem Ziel zu starten.",
+                    guideHint: "👆 Tippen Sie auf eine Sehenswürdigkeit, um einen QR-Code anzuzeigen. Scannen Sie ihn mit dem Handy, um die Google-Maps-Navigation zu diesem Ziel zu starten.",
+                    contactWhats: "💬 <b>Schreiben Sie uns per WhatsApp</b><br>Tippen Sie hier, um den QR-Code für den Chat mit dem Gastgeber anzuzeigen",
+                    guideBus: "🚌 <b>Bushaltestelle Landaua:</b> Öffentliche Verkehrsmittel für einfachen Zugang zum Zentrum.",
+                    guidePark: "🌳 <b>Kurpark Swoszowice:</b> Schöner, grüner Park für einen Spaziergang direkt nebenan.",
+                    guideView: "🌄 <b>Aussichtspunkt Krakau:</b> Fort 51 Rajsko an der ul. Droga Rokadowa – wunderbares Panorama.",
+                    guideMarket: "🏰 <b>Hauptmarkt & Untergrundmuseum:</b> Das Herz von Krakau.",
+                    guideWawel: "👑 <b>Wawel-Schloss & Wawel-Drache:</b> Die Königsresidenz und die berühmte Drachenstatue.",
+                    guideWieliczka: "⛏️ <b>Salzbergwerk Wieliczka:</b> Berühmte unterirdische Salzmine (ca. 15 Minuten).",
+                    guideEnergylandia: "🎢 <b>Freizeitpark Energylandia:</b> Der größte Freizeitpark in Polen. (ca. 45-50 min).",
+                    contactH: "Kontakt & Hilfe", 
+                    contactP1: "📞 <b>Telefonnummer:</b><br><span style='font-size:1.3rem; font-weight:800; color:var(--primary-green);'>+48 508 048 886</span>",
+                    contactP2: "💬 Wir stehen Ihnen bei Fragen jederzeit zur Verfügung!",
+                    contactEmerg: "🚨 Notrufnummern",
+                    contactEmergList: "<b>112</b> - Allgemeiner Notruf<br><b>999</b> - Krankenwagen<br><b>997</b> - Polizei<br><b>998</b> - Feuerwehr",
+                    contactRides: "🚗 Fahrdienste",
+                    contactRidesList: "Sie können folgende Apps nutzen:",
+                    contactTaxi: "🚕 Taxi",
+                    contactTaxiList: "<b>Mega Taxi:</b> +48 12 400 00 00<br><b>iTaxi:</b> +48 737 737 737",
+                    contactReview: "⭐ <b>Bewerten Sie uns auf Google</b><br>Scannen Sie den Code für eine Bewertung",
+                    aboutText: "Willkommen in unserem Apartment! Wir haben alles getan, damit Ihr Aufenthalt in Krakau unvergesslich wird.<br><br><i>\"You are welcome\"</i>"
+                }
+            },
+            it: {
+                code: "IT", qrHint: "Scansiona QR (Google Maps)",
+                qrModal: { title: "Navigazione Google Maps", sub: "Scansiona questo codice con il telefono per aprire la navigazione." },
+                qrReviewModal: { title: "Scrivi una Recensione", sub: "Scansiona questo codice per aprire le recensioni di Google." },
+                plan: { building: "Edificio", parking: "Parcheggio", bins: "Rifiuti", hint: "🔍 Allarga due dita per ingrandire" },
+                qrWhatsModal: { title: "WhatsApp", sub: "Scansiona questo codice con il telefono per scrivere al proprietario su WhatsApp." },
+                greetings: { morning: "Buongiorno! Benvenuti a Matylda House", day: "Benvenuti a Matylda House", night: "Buonasera! Benvenuti a Matylda House" },
+                welcomeSub: "Vi auguriamo un soggiorno piacevole e rilassante",
+                cards: {
+                    wifiTitle: "Wi-Fi e Internet", wifiSub: "Nome rete e password", 
+                    gateTitle: "Parcheggio e Cancello", gateSub: "Telecomando, mappa e ingresso", 
+                    foodTitle: "Cibo e Negozi", foodSub: "Consegne, ristoranti e negozi", 
+                    rulesTitle: "Regole e Istruzioni", rulesSub: "Serratura, riscaldamento, regole e animali", 
+                    guideTitle: "Scopri Cracovia", guideSub: "Attrazioni e mappa interattiva", 
+                    contactTitle: "Contatti e Aiuto", contactSub: "Proprietario, emergenze, taxi e libro ospiti"
+                },
+                modals: {
+                    wifiH: "Rete Wi-Fi", wifiSsid: "📶 <b>Nome rete:</b> Matylda_House", wifiPass: "🔑 <b>Password:</b> Domowe_WIFI",
+                    wifiQrLink: "📱 <b>Scansiona il codice QR</b><br>Clicca qui per mostrare il codice QR",
+                    wifiQrTitle: "Codice QR Wi-Fi",
+                    wifiQrSub: "Scansiona questo codice con la fotocamera del telefono per connetterti automaticamente.",
+                    gateH: "Parcheggio, Cancello e Mappa",
+                    gateP1: "🅿️ <b>Parcheggio:</b> Il parcheggio riservato si trova davanti all'edificio, di fronte all'ingresso carraio (a sinistra dell'ingresso dell'appartamento).",
+                    gateP2: "🔑 <b>Telecomando:</b> Sul gancio nel corridoio trovate il telecomando. Il <b>pulsante sinistro</b> apre, ferma e chiude il cancello.",
+                    gateP3: "🔘 <b>Pulsante esterno:</b> Il cancello si apre anche con il pulsante accanto alla porta d'ingresso. Si richiude dopo 2 minuti dall'apertura.",
+                    gateP4: "🚪 <b>Check-out:</b> Si prega di lasciare il telecomando sul gancio al momento della partenza.",
+                    foodH: "Cibo, Negozi e Posti Consigliati", foodSubText: "Usa questo indirizzo per le consegne a domicilio:",
+                    foodAddr: "📍 <b>Indirizzo di consegna:</b><br>ul. Lwa Landaua 12, Kraków",
+                    foodShop: "🛒 <b>Negozi e Caffè:</b><br><b>Centro commerciale Swoszowice (Supermercato, Rossmann)</b><br>📍 ul. Myślenicka 133",
+                    foodNearby: "🍽️ <b>Nelle vicinanze:</b><br><b>Restauracja Szyb Swoszowice</b><br>📍 ul. Szybisko 40",
+                    foodCenter: "🥩 <b>In centro:</b><br><b>MooMoo Steak & Wine</b><br>📍 ul. Sienna 9",
+                    foodRec: "🍝 <b>Ristorante consigliato:</b><br><b>Restauracja Pół na Pół</b><br>📍 ul. Kosocicka 105A",
+                    foodFast: "🍔 <b>Fast Food:</b><br><b>McDonald's</b><br>📍 ul. Cechowa / ul. Stojałowskiego 2",
+                    rulesH: "Regole e Istruzioni",
+                    rulesVideo: "🎥 <b>Come aprire e chiudere la porta:</b> Clicca qui per guardare un breve video tutorial sull'uso della serratura a codice.",
+                    videoModalH: "Guida serratura",
+                    videoModalSub: "Scopri quanto è semplice aprire e chiudere la porta usando il codice.",
+                    rulesTime: "⏰ <b>Check-out:</b> Entro le 11:00 | 🌙 <b>Ore di silenzio:</b> 22:00 – 06:00",
+                    rulesHeat: "🔥 <b>Riscaldamento:</b> Si prega di non lasciare finestre e porte aperte più del necessario per arieggiare. Il riscaldamento si spegne automaticamente se restano aperte a lungo.",
+                    rulesTrash: "♻️ <b>Rifiuti:</b> I contenitori si trovano sul lato sud dell'edificio. Uscendo dall'appartamento girate a destra: sono dietro l'angolo.",
+                    rulesFees: "💳 <b>Costi extra:</b> Ospite aggiuntivo: 150 PLN/notte | Animale: 50 PLN/notte.",
+                    rulesPets: "🐕 <b>Animali:</b> I cani possono essere lasciati liberi, poiché l'area è completamente recintata e funge da ottimo recinto per cani.",
+                    rulesSmoke: "🚭 <b>Vietato fumare:</b> Vietato fumare all'interno dell'appartamento.",
+                    guideH: "Scopri Cracovia e Mappa della Zona", tabGuide: "Guida e Attrazioni", tabMap: "🗺️ Mappa della Zona",
+                    mapSub: "Mappa interattiva della zona. Clicca sui marker per i dettagli.",
+                    foodHint: "👆 Tocca un luogo per mostrare un codice QR. Scansionalo con il telefono per avviare la navigazione di Google Maps verso quel punto.",
+                    guideHint: "👆 Tocca un'attrazione per mostrare un codice QR. Scansionalo con il telefono per avviare la navigazione di Google Maps verso quel punto.",
+                    contactWhats: "💬 <b>Scrivici su WhatsApp</b><br>Tocca qui per mostrare il codice QR della chat con il proprietario",
+                    guideBus: "🚌 <b>Fermata dell'autobus Landaua:</b> Trasporto pubblico per raggiungere facilmente il centro.",
+                    guidePark: "🌳 <b>Parco Termale di Swoszowice:</b> Splendido parco verde ideale per passeggiate.",
+                    guideView: "🌄 <b>Punti panoramici:</b> Fort 51 Rajsko (ul. Droga Rokadowa) – vista magnifica sulla città.",
+                    guideMarket: "🏰 <b>Piazza del Mercato e Sotterranei:</b> Il cuore di Cracovia.",
+                    guideWawel: "👑 <b>Castello Reale del Wawel e Drago:</b> Storica residenza reale.",
+                    guideWieliczka: "⛏️ <b>Miniera di Sale di Wieliczka:</b> Famosa miniera sotterranea UNESCO.",
+                    guideEnergylandia: "🎢 <b>Parco Divertimenti Energylandia:</b> Il parco più grande in Polonia.",
+                    contactH: "Contatti e Aiuto", 
+                    contactP1: "📞 <b>Telefono:</b><br><span style='font-size:1.3rem; font-weight:800; color:var(--primary-green);'>+48 508 048 886</span>",
+                    contactP2: "💬 Siamo a vostra disposizione per qualsiasi domanda!",
+                    contactEmerg: "🚨 Numeri di Emergenza",
+                    contactEmergList: "<b>112</b> - Emergenza Generale<br><b>999</b> - Ambulanza<br><b>997</b> - Polizia<br><b>998</b> - Vigili del Fuoco",
+                    contactRides: "🚗 App di trasporto",
+                    contactRidesList: "Puoi usare le app:",
+                    contactTaxi: "🚕 Servizio Taxi",
+                    contactTaxiList: "<b>Mega Taxi:</b> +48 12 400 00 00<br><b>iTaxi:</b> +48 737 737 737",
+                    contactReview: "⭐ <b>Valutaci su Google</b><br>Scansiona il codice per lasciare una recensione",
+                    aboutText: "Benvenuti nel nostro appartamento! Faremo in modo che il vostro soggiorno sia perfetto.<br><br><i>\"You are welcome\"</i>"
+                }
+            },
+            es: {
+                code: "ES", qrHint: "Escanear QR (Google Maps)",
+                qrModal: { title: "Navegación en Google Maps", sub: "Escanee este código con su teléfono para abrir la navegación." },
+                qrReviewModal: { title: "Escribe una Reseña", sub: "Escanee este código para abrir las reseñas de Google." },
+                plan: { building: "Edificio", parking: "Aparcamiento", bins: "Basura", hint: "🔍 Separe dos dedos para ampliar" },
+                qrWhatsModal: { title: "WhatsApp", sub: "Escanee este código con el móvil para escribir al propietario por WhatsApp." },
+                greetings: { morning: "¡Buenos días! Bienvenidos a Matylda House", day: "Bienvenidos a Matylda House", night: "¡Buenas noches! Bienvenidos a Matylda House" },
+                welcomeSub: "Les deseamos una estancia agradable y relajante",
+                cards: {
+                    wifiTitle: "Wi-Fi e Internet", wifiSub: "Nombre de red y contraseña", 
+                    gateTitle: "Aparcamiento y Portón", gateSub: "Mando, plano y entrada", 
+                    foodTitle: "Comida y Compras", foodSub: "Delivery, restaurantes y tiendas", 
+                    rulesTitle: "Normas e Instrucciones", rulesSub: "Cerradura, calefacción, normas y mascotas", 
+                    guideTitle: "Descubre Cracovia", guideSub: "Atracciones y mapa interactivo", 
+                    contactTitle: "Contacto y Ayuda", contactSub: "Propietario, emergencias, taxi y libro de visitas"
+                },
+                modals: {
+                    wifiH: "Red Wi-Fi", wifiSsid: "📶 <b>Nombre de red:</b> Matylda_House", wifiPass: "🔑 <b>Contraseña:</b> Domowe_WIFI",
+                    wifiQrLink: "📱 <b>Escanear código QR</b><br>Haga clic aquí para mostrar el código QR",
+                    wifiQrTitle: "Código QR de Wi-Fi",
+                    wifiQrSub: "Escanee este código con la cámara de su teléfono para conectarse automáticamente.",
+                    gateH: "Aparcamiento, Portón y Plano",
+                    gateP1: "🅿️ <b>Aparcamiento:</b> Plaza reservada frente al edificio, enfrente de la entrada de vehículos (a la izquierda de la entrada del apartamento).",
+                    gateP2: "🔑 <b>Mando:</b> En el perchero del pasillo hay un mando. El <b>botón izquierdo</b> abre, detiene y cierra el portón.",
+                    gateP3: "🔘 <b>Botón exterior:</b> El portón también se abre con el botón junto a la puerta de entrada. Se cierra 2 minutos después de abrirse.",
+                    gateP4: "🚪 <b>Salida:</b> Por favor, deje el mando en el perchero al hacer el check-out.",
+                    foodH: "Comida, Compras y Sitios Recomendados", foodSubText: "Facilite esta dirección al pedir comida a domicilio:",
+                    foodAddr: "📍 <b>Dirección de entrega:</b><br>ul. Lwa Landaua 12, Kraków",
+                    foodShop: "🛒 <b>Tiendas y Café:</b><br><b>Pequeño centro comercial (Supermercado, Rossmann)</b><br>📍 ul. Myślenicka 133",
+                    foodNearby: "🍽️ <b>Cerca:</b><br><b>Restauracja Szyb Swoszowice</b><br>📍 ul. Szybisko 40",
+                    foodCenter: "🥩 <b>En el centro:</b><br><b>MooMoo Steak & Wine</b><br>📍 ul. Sienna 9",
+                    foodRec: "🍝 <b>Restaurante recomendado:</b><br><b>Restauracja Pół na Pół</b><br>📍 ul. Kosocicka 105A",
+                    foodFast: "🍔 <b>Comida rápida:</b><br><b>McDonald's</b><br>📍 ul. Cechowa / ul. Stojałowskiego 2",
+                    rulesH: "Normas e Instrucciones",
+                    rulesVideo: "🎥 <b>Cómo abrir y cerrar la puerta:</b> Haga clic aquí para ver un breve videotutorial sobre el uso de la cerradura con código.",
+                    videoModalH: "Guía de la cerradura",
+                    videoModalSub: "Vea lo fácil que es abrir y cerrar la puerta usando el código.",
+                    rulesTime: "⏰ <b>Salida:</b> Hasta las 11:00 | 🌙 <b>Horas de silencio:</b> 22:00 – 06:00",
+                    rulesHeat: "🔥 <b>Calefacción:</b> No deje ventanas ni puertas abiertas más tiempo del necesario para ventilar. La calefacción se apaga automáticamente si permanecen abiertas mucho tiempo.",
+                    rulesTrash: "♻️ <b>Basura:</b> Los contenedores están en el lado sur del edificio. Al salir del apartamento, gire a la derecha: están a la vuelta de la esquina.",
+                    rulesFees: "💳 <b>Tarifas extra:</b> Huésped adicional: 150 PLN/noche | Mascota: 50 PLN/noche.",
+                    rulesPets: "🐕 <b>Mascotas:</b> Los perros pueden andar sueltos, ya que el área está completamente vallada y sirve como un excelente parque para perros.",
+                    rulesSmoke: "🚭 <b>Prohibido fumar:</b> Está estrictamente prohibido fumar en el apartamento.",
+                    guideH: "Descubre Cracovia y Mapa de la Zona", tabGuide: "Guía y Atracciones", tabMap: "🗺️ Mapa de la Zona",
+                    mapSub: "Mapa interactivo de la zona. Haga clic en los marcadores para más detalles.",
+                    foodHint: "👆 Toque un lugar para mostrar un código QR. Escanéelo con el móvil para iniciar la navegación de Google Maps hasta ese punto.",
+                    guideHint: "👆 Toque una atracción para mostrar un código QR. Escanéelo con el móvil para iniciar la navegación de Google Maps hasta ese punto.",
+                    contactWhats: "💬 <b>Escríbanos por WhatsApp</b><br>Toque aquí para mostrar el código QR del chat con el propietario",
+                    guideBus: "🚌 <b>Parada de autobús Landaua:</b> Transporte público para llegar fácilmente al centro.",
+                    guidePark: "🌳 <b>Parque Balneario de Swoszowice:</b> Hermoso parque verde para pasear.",
+                    guideView: "🌄 <b>Mirador de Cracovia:</b> Fort 51 Rajsko – maravillosa vista panorámica.",
+                    guideMarket: "🏰 <b>Plaza del Mercado y Subterráneos:</b> El corazón de Cracovia.",
+                    guideWawel: "👑 <b>Castillo Real de Wawel y Dragón:</b> Residencia real histórica.",
+                    guideWieliczka: "⛏️ <b>Mina de Sal de Wieliczka:</b> Famosa mina subterránea de la UNESCO.",
+                    guideEnergylandia: "🎢 <b>Parque de Atracciones Energylandia:</b> El parque más grande en Polonia.",
+                    contactH: "Contacto y Ayuda", 
+                    contactP1: "📞 <b>Teléfono:</b><br><span style='font-size:1.3rem; font-weight:800; color:var(--primary-green);'>+48 508 048 886</span>",
+                    contactP2: "💬 ¡Estamos a su disposición para cualquier duda durante su estancia!",
+                    contactEmerg: "🚨 Números de Emergencia",
+                    contactEmergList: "<b>112</b> - Emergencias<br><b>999</b> - Ambulancia<br><b>997</b> - Policía<br><b>998</b> - Bomberos",
+                    contactRides: "🚗 Apps de transporte",
+                    contactRidesList: "Puedes usar las aplicaciones:",
+                    contactTaxi: "🚕 Servicio de Taxi",
+                    contactTaxiList: "<b>Mega Taxi:</b> +48 12 400 00 00<br><b>iTaxi:</b> +48 737 737 737",
+                    contactReview: "⭐ <b>Valóranos en Google</b><br>Escanea el código para dejar una reseña",
+                    aboutText: "¡Bienvenidos a nuestro apartamento! Haremos que vuestra estancia sea inolvidable.<br><br><i>\"You are welcome\"</i>"
+                }
+            }
+        };
+
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            document.documentElement.lang = lang;
+            document.getElementById('lang-select-screen').style.display = 'none';
+            document.getElementById('current-lang-code').innerText = lang.toUpperCase();
+            
+            const t = dict[lang];
+            if (!t) return;
+
+            // Przypisanie właściwego pliku wideo dla wybranego języka
+            const doorVideo = document.getElementById('door-video');
+            if (doorVideo) {
+                doorVideo.src = `door-guide-${lang}.mp4`;
+                doorVideo.load();
+            }
+
+            const hour = new Date().getHours();
+            let greetText = t.greetings.day;
+            if (hour >= 5 && hour < 12) greetText = t.greetings.morning;
+            else if (hour >= 20 || hour < 5) greetText = t.greetings.night;
+
+            document.getElementById('greeting').innerHTML = greetText;
+            document.getElementById('welcome-sub-text').innerText = t.welcomeSub;
+
+            document.getElementById('card-wifi-title').innerText = t.cards.wifiTitle;
+            document.getElementById('card-wifi-sub').innerText = t.cards.wifiSub;
+            document.getElementById('card-gate-title').innerText = t.cards.gateTitle;
+            document.getElementById('card-gate-sub').innerText = t.cards.gateSub;
+            document.getElementById('card-food-title').innerText = t.cards.foodTitle;
+            document.getElementById('card-food-sub').innerText = t.cards.foodSub;
+            document.getElementById('card-rules-title').innerText = t.cards.rulesTitle;
+            document.getElementById('card-rules-sub').innerText = t.cards.rulesSub;
+            document.getElementById('card-guide-title').innerText = t.cards.guideTitle;
+            document.getElementById('card-guide-sub').innerText = t.cards.guideSub;
+            document.getElementById('card-contact-title').innerText = t.cards.contactTitle;
+            document.getElementById('card-contact-sub').innerText = t.cards.contactSub;
+
+            // Wi-Fi
+            document.getElementById('m-wifi-h').innerText = t.modals.wifiH;
+            document.getElementById('m-wifi-ssid').innerHTML = t.modals.wifiSsid;
+            document.getElementById('m-wifi-pass').innerHTML = t.modals.wifiPass;
+            if(document.getElementById('m-wifi-qr-link')) document.getElementById('m-wifi-qr-link').innerHTML = t.modals.wifiQrLink;
+            if(document.getElementById('m-wifi-qr-title')) document.getElementById('m-wifi-qr-title').innerText = t.modals.wifiQrTitle;
+            if(document.getElementById('m-wifi-qr-sub')) document.getElementById('m-wifi-qr-sub').innerText = t.modals.wifiQrSub;
+
+            // Gate
+            document.getElementById('m-gate-h').innerText = t.modals.gateH;
+            document.getElementById('m-gate-p1').innerHTML = t.modals.gateP1;
+            document.getElementById('m-gate-p2').innerHTML = t.modals.gateP2;
+            document.getElementById('m-gate-p3').innerHTML = t.modals.gateP3;
+            document.getElementById('m-gate-p4').innerHTML = t.modals.gateP4;
+
+            // Food
+            document.getElementById('m-food-h').innerText = t.modals.foodH;
+            const tp = t.plan;
+            document.getElementById('plan-building').textContent = tp.building;
+            document.getElementById('plan-parking').textContent = tp.parking;
+            document.getElementById('plan-bins').textContent = tp.bins;
+            document.getElementById('plan-hint-text').textContent = tp.hint;
+            document.getElementById('m-food-sub').innerText = t.modals.foodSubText;
+            document.getElementById('m-food-hint').innerText = t.modals.foodHint;
+            document.getElementById('m-guide-hint').innerText = t.modals.guideHint;
+            document.getElementById('m-contact-whats').innerHTML = t.modals.contactWhats;
+            document.getElementById('m-food-addr').innerHTML = t.modals.foodAddr;
+            document.getElementById('m-food-shop').innerHTML = t.modals.foodShop;
+            document.getElementById('m-food-nearby').innerHTML = t.modals.foodNearby;
+            document.getElementById('m-food-center').innerHTML = t.modals.foodCenter;
+            document.getElementById('m-food-rec').innerHTML = t.modals.foodRec;
+            document.getElementById('m-food-fast').innerHTML = t.modals.foodFast;
+
+            // Rules
+            document.getElementById('m-rules-h').innerText = t.modals.rulesH;
+            document.getElementById('m-rules-video-link').innerHTML = t.modals.rulesVideo;
+            document.getElementById('m-video-h').innerText = t.modals.videoModalH;
+            document.getElementById('m-video-sub').innerText = t.modals.videoModalSub;
+            document.getElementById('m-rules-time').innerHTML = t.modals.rulesTime;
+            document.getElementById('m-rules-heat').innerHTML = t.modals.rulesHeat;
+            document.getElementById('m-rules-trash').innerHTML = t.modals.rulesTrash;
+            document.getElementById('m-rules-fees').innerHTML = t.modals.rulesFees;
+            document.getElementById('m-rules-pets').innerHTML = t.modals.rulesPets;
+            document.getElementById('m-rules-smoke').innerHTML = t.modals.rulesSmoke;
+
+            // Guide
+            document.getElementById('m-guide-h').innerText = t.modals.guideH;
+            document.getElementById('tab-guide-btn').innerText = t.modals.tabGuide;
+            document.getElementById('tab-map-btn').innerText = t.modals.tabMap;
+            document.getElementById('m-map-sub').innerText = t.modals.mapSub;
+            document.getElementById('m-guide-bus').innerHTML = t.modals.guideBus;
+            document.getElementById('m-guide-park').innerHTML = t.modals.guidePark;
+            document.getElementById('m-guide-view').innerHTML = t.modals.guideView;
+            document.getElementById('m-guide-market').innerHTML = t.modals.guideMarket;
+            document.getElementById('m-guide-wawel').innerHTML = t.modals.guideWawel;
+            document.getElementById('m-guide-wieliczka').innerHTML = t.modals.guideWieliczka;
+            document.getElementById('m-guide-energylandia').innerHTML = t.modals.guideEnergylandia;
+
+            // Contact
+            document.getElementById('m-contact-h').innerText = t.modals.contactH;
+            document.getElementById('m-contact-p1').innerHTML = t.modals.contactP1;
+            document.getElementById('m-contact-p2').innerHTML = t.modals.contactP2;
+            document.getElementById('m-contact-emerg').innerText = t.modals.contactEmerg;
+            document.getElementById('m-contact-emerg-list').innerHTML = t.modals.contactEmergList;
+            document.getElementById('m-contact-rides').innerText = t.modals.contactRides;
+            
+            // Zachowanie ikon Uber i Bolt przy tłumaczeniu wiersza przewozowego
+            const ridesListEl = document.getElementById('m-contact-rides-list');
+            if (ridesListEl) {
+                const iconsHtml = `
+                    <span>${t.modals.contactRidesList}</span>
+                    <div style="display: flex; gap: 8px;">
+                        <span style="background: rgba(0,0,0,0.3); padding: 4px 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); font-weight: 700; display: inline-flex; align-items: center; gap: 4px;">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg> Uber
+                        </span>
+                        <span style="background: rgba(16,185,129,0.15); padding: 4px 10px; border-radius: 8px; border: 1px solid rgba(74,222,128,0.2); font-weight: 700; display: inline-flex; align-items: center; gap: 4px; color: #34d399;">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M11 2L2 13h9l-1 9 11-11h-9l1-9z"/></svg> Bolt
+                        </span>
+                    </div>`;
+                ridesListEl.innerHTML = iconsHtml;
+            }
+
+            document.getElementById('m-contact-taxi').innerText = t.modals.contactTaxi;
+            document.getElementById('m-contact-taxi-list').innerHTML = t.modals.contactTaxiList;
+            document.getElementById('m-contact-review').innerHTML = t.modals.contactReview;
+            document.getElementById('m-about-text').innerHTML = t.modals.aboutText;
+
+            // Księga gości
+            if (typeof applyGuestbookLang === 'function') applyGuestbookLang();
+        }
+
+        function showLanguageSelect() {
+            document.getElementById('lang-select-screen').style.display = 'flex';
+        }
+
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'flex';
+            if (modalId === 'modal-video-player') {
+                const doorVideo = document.getElementById('door-video');
+                if (doorVideo && (!doorVideo.src || doorVideo.src === '')) {
+                    doorVideo.src = `door-guide-${currentLang}.mp4`;
+                    doorVideo.load();
+                }
+            }
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+            if (modalId === 'modal-video-player') {
+                const doorVideo = document.getElementById('door-video');
+                if (doorVideo) {
+                    doorVideo.pause();
+                }
+            }
+        }
+
+        function closeModalOnBg(event, modalId) {
+            if (event.target.id === modalId) {
+                closeModal(modalId);
+            }
+        }
+
+        function showQRCode(url, type = 'map') {
+            const modalQR = document.getElementById('modal-qr');
+            const img = document.getElementById('qr-code-img');
+            const titleEl = document.getElementById('m-qr-h');
+            const subEl = document.getElementById('m-qr-sub');
+            const t = dict[currentLang];
+
+            if (type === 'review') {
+                titleEl.innerText = t.qrReviewModal.title;
+                subEl.innerText = t.qrReviewModal.sub;
+            } else if (type === 'whatsapp') {
+                titleEl.innerText = t.qrWhatsModal.title;
+                subEl.innerText = t.qrWhatsModal.sub;
+            } else {
+                titleEl.innerText = t.qrModal.title;
+                subEl.innerText = t.qrModal.sub;
+            }
+
+            img.src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(url)}`;
+            modalQR.style.display = 'flex';
+        }
+
+        // Zegar czasu rzeczywistego
+        function updateClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            document.getElementById('clock').innerText = `${hours}:${minutes}`;
+
+            const options = { weekday: 'long', day: 'numeric', month: 'long' };
+            let dateStr = now.toLocaleDateString(currentLang === 'pl' ? 'pl-PL' : (currentLang === 'en' ? 'en-US' : currentLang), options);
+            document.getElementById('date').innerText = dateStr;
+            document.body.classList.toggle('night', now.getHours() >= 22 || now.getHours() < 6);
+        }
+
+        // Reset kiosku po bezczynności (2 min): zamknij okna, wideo, zoom, rozmiar czcionki i wróć do wyboru języka
+        const IDLE_MS = 120000;
+        let idleTimer = null;
+        function resetKiosk() {
+            document.querySelectorAll('.modal-overlay').forEach(m => { m.style.display = 'none'; });
+            const v = document.getElementById('door-video');
+            if (v) { v.pause(); if (document.fullscreenElement && document.exitFullscreen) document.exitFullscreen(); }
+            resetPlanZoom();
+            switchGuideTab('guide');
+            currentFontSize = 24;
+            document.documentElement.style.fontSize = '24px';
+            if (typeof resetGuestbookForm === 'function') resetGuestbookForm();
+            showLanguageSelect();
+        }
+        function armIdle() { clearTimeout(idleTimer); idleTimer = setTimeout(resetKiosk, IDLE_MS); }
+        ['touchstart', 'pointerdown', 'keydown'].forEach(ev => document.addEventListener(ev, armIdle, { passive: true }));
+        armIdle();
+
+        setInterval(updateClock, 1000);
+        updateClock();
+    </script>
+
+    <!-- KSIĘGA GOŚCI (zapis w IndexedDB przeglądarki) -->
+    <script>
+        (function () {
+            // PIN właściciela do usuwania wpisów (przytrzymaj wpis ok. 1 s)
+            const GB_PIN = '1234';
+
+            const T = {
+                pl: { link: '📖 <b>Księga gości</b><br>Zostaw wpis lub rysunek na pamiątkę', title: '📖 Księga gości', tabView: 'Wpisy', tabAdd: '✍️ Dodaj wpis', name: 'Twoje imię (opcjonalnie)', msg: 'Napisz kilka słów...', draw: '🎨 Narysuj coś na pamiątkę', clear: '🗑️ Wyczyść rysunek', save: '💾 Zapisz wpis', saved: 'Dziękujemy za wpis! 💚', empty: 'Brak wpisów. Bądź pierwszą osobą w księdze!', anon: 'Gość', need: 'Napisz coś lub narysuj, aby zapisać wpis.', err: 'Nie udało się zapisać wpisu.', pin: 'PIN właściciela, aby usunąć wpis:', del: 'Usunąć ten wpis?', hint: 'Wpisy poprzednich gości' },
+                en: { link: '📖 <b>Guestbook</b><br>Leave a message or drawing as a keepsake', title: '📖 Guestbook', tabView: 'Entries', tabAdd: '✍️ Add entry', name: 'Your name (optional)', msg: 'Write a few words...', draw: '🎨 Draw something as a keepsake', clear: '🗑️ Clear drawing', save: '💾 Save entry', saved: 'Thank you for your entry! 💚', empty: 'No entries yet. Be the first one!', anon: 'Guest', need: 'Write something or draw to save an entry.', err: 'Could not save the entry.', pin: 'Owner PIN to delete this entry:', del: 'Delete this entry?', hint: 'Entries from previous guests' },
+                uk: { link: '📖 <b>Книга гостей</b><br>Залиште запис або малюнок на згадку', title: '📖 Книга гостей', tabView: 'Записи', tabAdd: '✍️ Додати запис', name: "Ваше ім'я (необов'язково)", msg: 'Напишіть кілька слів...', draw: '🎨 Намалюйте щось на згадку', clear: '🗑️ Очистити малюнок', save: '💾 Зберегти запис', saved: 'Дякуємо за запис! 💚', empty: 'Записів ще немає. Будьте першими!', anon: 'Гість', need: 'Напишіть щось або намалюйте, щоб зберегти.', err: 'Не вдалося зберегти запис.', pin: 'PIN власника для видалення запису:', del: 'Видалити цей запис?', hint: 'Записи попередніх гостей' },
+                de: { link: '📖 <b>Gästebuch</b><br>Hinterlassen Sie einen Eintrag oder eine Zeichnung', title: '📖 Gästebuch', tabView: 'Einträge', tabAdd: '✍️ Eintrag hinzufügen', name: 'Ihr Name (optional)', msg: 'Schreiben Sie ein paar Worte...', draw: '🎨 Zeichnen Sie etwas als Erinnerung', clear: '🗑️ Zeichnung löschen', save: '💾 Eintrag speichern', saved: 'Vielen Dank für Ihren Eintrag! 💚', empty: 'Noch keine Einträge. Seien Sie der Erste!', anon: 'Gast', need: 'Schreiben oder zeichnen Sie etwas, um zu speichern.', err: 'Eintrag konnte nicht gespeichert werden.', pin: 'Gastgeber-PIN zum Löschen:', del: 'Diesen Eintrag löschen?', hint: 'Einträge früherer Gäste' },
+                it: { link: '📖 <b>Libro degli ospiti</b><br>Lascia un messaggio o un disegno come ricordo', title: '📖 Libro degli ospiti', tabView: 'Messaggi', tabAdd: '✍️ Aggiungi', name: 'Il tuo nome (facoltativo)', msg: 'Scrivi qualche parola...', draw: '🎨 Disegna qualcosa come ricordo', clear: '🗑️ Cancella disegno', save: '💾 Salva messaggio', saved: 'Grazie per il tuo messaggio! 💚', empty: 'Nessun messaggio. Sii il primo!', anon: 'Ospite', need: 'Scrivi o disegna qualcosa per salvare.', err: 'Impossibile salvare il messaggio.', pin: 'PIN del proprietario per eliminare:', del: 'Eliminare questo messaggio?', hint: 'Messaggi degli ospiti precedenti' },
+                es: { link: '📖 <b>Libro de visitas</b><br>Deje un mensaje o dibujo como recuerdo', title: '📖 Libro de visitas', tabView: 'Mensajes', tabAdd: '✍️ Añadir', name: 'Su nombre (opcional)', msg: 'Escriba unas palabras...', draw: '🎨 Dibuje algo como recuerdo', clear: '🗑️ Borrar dibujo', save: '💾 Guardar mensaje', saved: '¡Gracias por su mensaje! 💚', empty: 'Aún no hay mensajes. ¡Sea el primero!', anon: 'Huésped', need: 'Escriba o dibuje algo para guardar.', err: 'No se pudo guardar el mensaje.', pin: 'PIN del propietario para eliminar:', del: '¿Eliminar este mensaje?', hint: 'Mensajes de huéspedes anteriores' }
+            };
+            const tr = () => T[currentLang] || T.pl;
+            const $ = id => document.getElementById(id);
+
+            /* ---------- Pamięć (IndexedDB) ---------- */
+            const dbP = new Promise((res, rej) => {
+                const r = indexedDB.open('matylda-guestbook', 1);
+                r.onupgradeneeded = () => r.result.createObjectStore('entries', { keyPath: 'id' });
+                r.onsuccess = () => res(r.result);
+                r.onerror = () => rej(r.error);
+            });
+            function tx(mode, fn) {
+                return dbP.then(db => new Promise((res, rej) => {
+                    const t = db.transaction('entries', mode);
+                    const req = fn(t.objectStore('entries'));
+                    t.oncomplete = () => res(req && req.result);
+                    t.onerror = t.onabort = () => rej(t.error);
+                }));
+            }
+            if (navigator.storage && navigator.storage.persist) navigator.storage.persist();
+
+            /* ---------- Tłumaczenia ---------- */
+            const HERO = { pl: '📖 Księga gości', en: '📖 Guestbook', uk: '📖 Книга гостей', de: '📖 Gästebuch', it: '📖 Libro degli ospiti', es: '📖 Libro de visitas' };
+            function applyLang() {
+                const t = tr();
+                $('hero-guestbook-btn').textContent = HERO[currentLang] || HERO.pl;
+                $('m-contact-guestbook').innerHTML = t.link;
+                $('gb-title').textContent = t.title;
+                $('gb-tab-view').textContent = t.tabView;
+                $('gb-tab-add').textContent = t.tabAdd;
+                $('gb-name').placeholder = t.name;
+                $('gb-text').placeholder = t.msg;
+                $('gb-draw-label').textContent = t.draw;
+                $('gb-clear').textContent = t.clear;
+                $('gb-save').textContent = t.save;
+                $('gb-hint').textContent = t.hint;
+            }
+
+            /* ---------- Rysowanie ---------- */
+            const PAPER = '#fffdf7';
+            const COLORS = ['#111111', '#ef4444', '#f59e0b', '#10b981', '#3b82f6', '#8b5cf6', '#ec4899'];
+            const SIZES = [3, 7, 14];
+            let color = COLORS[0], size = SIZES[1], drawn = false, drawing = false;
+            const cv = $('gb-canvas'), ctx = cv.getContext('2d');
+
+            function clearCanvas() { ctx.fillStyle = PAPER; ctx.fillRect(0, 0, cv.width, cv.height); drawn = false; }
+            function pos(e) {
+                const r = cv.getBoundingClientRect();
+                return { x: (e.clientX - r.left) * cv.width / r.width, y: (e.clientY - r.top) * cv.height / r.height };
+            }
+            function setStyle() { ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.strokeStyle = color; ctx.lineWidth = size; }
+
+            cv.addEventListener('pointerdown', e => {
+                e.preventDefault(); cv.setPointerCapture(e.pointerId);
+                drawing = true; drawn = true; setStyle();
+                const p = pos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(p.x + 0.01, p.y); ctx.stroke();
+            });
+            cv.addEventListener('pointermove', e => {
+                if (typeof armIdle === 'function') armIdle();
+                if (!drawing) return;
+                e.preventDefault();
+                const p = pos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); ctx.beginPath(); ctx.moveTo(p.x, p.y);
+            });
+            ['pointerup', 'pointercancel', 'pointerleave'].forEach(ev => cv.addEventListener(ev, () => { drawing = false; }));
+
+            // paleta narzędzi
+            const tools = $('gb-tools');
+            COLORS.forEach((c, i) => {
+                const b = document.createElement('button');
+                b.className = 'gb-sw' + (i === 0 ? ' active' : ''); b.style.background = c;
+                b.onclick = () => selectSwatch(b, c); tools.appendChild(b);
+            });
+            const er = document.createElement('button');
+            er.className = 'gb-sw gb-sw-eraser'; er.textContent = '🧽'; er.onclick = () => selectSwatch(er, PAPER); tools.appendChild(er);
+            function selectSwatch(btn, c) {
+                color = c; tools.querySelectorAll('.gb-sw').forEach(x => x.classList.remove('active')); btn.classList.add('active');
+            }
+            SIZES.forEach((s, i) => {
+                const b = document.createElement('button');
+                b.className = 'gb-size' + (i === 1 ? ' active' : '');
+                b.innerHTML = '<i style="width:' + (s + 4) + 'px;height:' + (s + 4) + 'px"></i>';
+                b.onclick = () => { size = s; tools.querySelectorAll('.gb-size').forEach(x => x.classList.remove('active')); b.classList.add('active'); };
+                tools.appendChild(b);
+            });
+
+            /* ---------- Lista wpisów ---------- */
+            async function render() {
+                const list = $('gb-list'); list.textContent = '';
+                let items = [];
+                try { items = (await tx('readonly', s => s.getAll())) || []; } catch (e) {}
+                items.sort((a, b) => b.ts - a.ts);
+                const t = tr();
+                if (!items.length) {
+                    const p = document.createElement('div'); p.className = 'pill-info'; p.style.textAlign = 'center'; p.textContent = t.empty;
+                    list.appendChild(p); return;
+                }
+                const locale = currentLang === 'en' ? 'en-GB' : currentLang;
+                items.forEach(en => {
+                    const d = document.createElement('div'); d.className = 'gb-entry';
+                    const h = document.createElement('div'); h.className = 'gb-entry-head';
+                    const n = document.createElement('b'); n.textContent = en.name || t.anon;
+                    const dt = document.createElement('span'); dt.textContent = new Date(en.ts).toLocaleDateString(locale);
+                    h.append(n, dt); d.appendChild(h);
+                    if (en.text) { const p = document.createElement('div'); p.className = 'gb-entry-text'; p.textContent = en.text; d.appendChild(p); }
+                    if (en.img) { const im = document.createElement('img'); im.src = en.img; im.alt = ''; d.appendChild(im); }
+                    // przytrzymanie = usuwanie (PIN właściciela)
+                    let timer = null;
+                    const stop = () => clearTimeout(timer);
+                    d.addEventListener('pointerdown', () => {
+                        timer = setTimeout(async () => {
+                            if (prompt(t.pin) === GB_PIN && confirm(t.del)) { await tx('readwrite', s => s.delete(en.id)); render(); }
+                        }, 1000);
+                    });
+                    ['pointerup', 'pointerleave', 'pointercancel', 'pointermove'].forEach(ev => d.addEventListener(ev, stop));
+                    list.appendChild(d);
+                });
+            }
+
+            /* ---------- Akcje ---------- */
+            function toast(msg) {
+                const el = $('gb-toast'); el.textContent = msg; el.style.display = 'block';
+                setTimeout(() => { el.style.display = 'none'; }, 3000);
+            }
+            window.gbTab = function (tab) {
+                $('gb-view').style.display = tab === 'view' ? 'block' : 'none';
+                $('gb-add').style.display = tab === 'add' ? 'block' : 'none';
+                $('gb-tab-view').classList.toggle('active', tab === 'view');
+                $('gb-tab-add').classList.toggle('active', tab === 'add');
+                if (tab === 'view') render();
+            };
+            window.openGuestbook = function () { applyLang(); clearCanvas(); gbTab('view'); openModal('modal-guestbook'); };
+            window.gbClear = clearCanvas;
+            window.gbSave = async function () {
+                const t = tr();
+                const name = $('gb-name').value.trim().slice(0, 40);
+                const text = $('gb-text').value.trim().slice(0, 500);
+                if (!text && !drawn) { toast(t.need); return; }
+                const entry = {
+                    id: Date.now() + '-' + Math.random().toString(36).slice(2, 7),
+                    name, text, ts: Date.now(), lang: currentLang,
+                    img: drawn ? cv.toDataURL('image/jpeg', 0.8) : null
+                };
+                try {
+                    await tx('readwrite', s => s.put(entry));
+                    $('gb-name').value = ''; $('gb-text').value = ''; clearCanvas();
+                    gbTab('view'); toast(t.saved);
+                } catch (e) { toast(t.err); }
+            };
+
+            // Podpięcie pod setLanguage() i resetKiosk() z głównego skryptu
+            window.applyGuestbookLang = applyLang;
+            window.resetGuestbookForm = function () {
+                $('gb-name').value = ''; $('gb-text').value = ''; clearCanvas(); gbTab('view');
+            };
+
+            clearCanvas(); applyLang();
+        })();
+    </script>
+</body>
+</html>

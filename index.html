@@ -607,7 +607,8 @@
 
     <!-- LOGO ORAZ POWITANIE -->
     <div class="hero">
-        <img src="logo.png" alt="Matylda House Logo" class="logo-img" onclick="openModal('modal-about')" onerror="this.style.display='none'; document.getElementById('alt-logo').style.display='block';">
+        <!-- ZMIANA: animowane logo (GIF z przezroczystym tłem). Gdyby logo.gif się nie wczytało, strona próbuje jeszcze logo.png, a potem pokazuje napis MATYLDA HOUSE. -->
+        <img src="logo.gif" alt="Matylda House Logo" class="logo-img" onclick="openModal('modal-about')" onerror="if(!this.dataset.fb){this.dataset.fb='1'; this.src='logo.png';} else {this.style.display='none'; document.getElementById('alt-logo').style.display='block';}">
         <div id="alt-logo" style="display:none; font-size:1.8rem; font-weight:800; color:var(--primary-green); margin-bottom:8px;">
             MATYLDA HOUSE
         </div>
